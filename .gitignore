@@ -1,0 +1,76 @@
+# ============================================================================
+# PortalDTE - Git Ignore
+# ============================================================================
+
+# Variables de entorno (NUNCA subir credenciales)
+.env
+*.env.local
+*.env.production
+
+# Archivos de backup
+*.bak
+*.backup
+*.old
+*~
+
+# Logs
+*.log
+logs/
+
+# Cache y temporales
+cache/
+tmp/
+temp/
+
+# Archivos de sistema
+Thumbs.db
+.DS_Store
+*.swp
+*.swo
+
+# IDE
+.idea/
+.vscode/
+*.sublime-*
+nbproject/
+
+# Dependencias (si se usan en el futuro)
+vendor/
+node_modules/
+
+# Certificados digitales (sensibles)
+*.pfx
+*.p12
+*.pem
+*.key
+*.crt
+certs/
+
+# Archivos de clientes (datos sensibles)
+clie_elec/
+
+# Documentos temporales generados
+*.tmp
+*.temp
+
+# Archivos de sesion PHP
+sess_*
+
+# Uploads de usuarios
+uploads/
+
+# Archivos grandes y comprimidos (exceden limite GitHub)
+# No son codigo fuente, son backups o versiones descargables
+*.rar
+*.zip
+*.tgz
+*.tar.gz
+*.tar
+*.7z
+
+# Archivos especificos grandes
+img/Ds-Mobile.rar
+informes/WebDTE_*.zip
+informes/grid.tgz
+informes/grid_public_v_dte.zip
+

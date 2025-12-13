@@ -1,0 +1,90 @@
+body {
+    margin: 0;
+    font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
+    background-image: url('../imag/new_background.jpg'); /* Asegúrate de que la ruta sea correcta */
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    height: 100vh;
+    position: relative;
+    color: white;
+}
+
+._new_login-container {
+    max-width: 400px;
+    width: 90%;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 60%; /* Ajusta esta distancia para colocar la caja en la posición correcta */
+    left: 30%;
+    transform: translate(-50%, -50%);
+}
+
+form .form-control {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+form .btn {
+    background-color: #F60;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form .btn:hover {
+    background-color: #e55d00;
+}
+
+p {
+    font-size: 14px;
+}
+
+a {
+    color: #00fef5;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    ._new_login-container {
+        width: 80%;
+        padding: 15px;
+        top: 45%;
+    }
+}
+
+@media (max-width: 576px) {
+    ._new_login-container {
+        width: 95%;
+        padding: 10px;
+        top: 50%;
+    }
+
+    form .form-control {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    form .btn {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    p {
+        font-size: 12px;
+    }
+}
+

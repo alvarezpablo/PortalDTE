@@ -1,0 +1,11 @@
+.scMenuTTable { background-color: #283B5B; background-repeat: repeat-x; border-collapse: collapse }
+.scMenuTTableM { margin: 10px 2px 10px 2px }
+.scMenuIframe { background-color: #F0F2F8; background-image: url(../../img/scriptcase__NM__v5BluebgPage.png); background-repeat: repeat-x; border-width: 0; width: 100%; height: 100% }
+.scMenuTHeader { background-color: #426196; background-image: url(../../img/scriptcase__NM__v5BluebgMenuHeader.png); background-repeat: no-repeat; border-collapse: collapse }
+.scMenuTHeaderFont { color: #B2BEE1; font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; padding: 0; text-decoration: none }
+.scMenuTFooter { background-image: url(../../img/scriptcase__NM__v5BlueBgFooter.png); border-collapse: collapse }
+.scMenuTFooterFont { color: #999999; font-family: Arial; font-size: 11px; text-decoration: none }
+.scMenuTItems { font-family: Arial, Arial, sans-serif; font-size: 11px; color: #FFFFFF; font-weight: bold; font-style: normal; text-decoration: none; white-space: nowrap }
+.scMenuTItem { font-family: Arial, Arial; font-size: 11px; color: #FFFFFF; font-style: normal; text-decoration: none; white-space: nowrap }
+.scMenuTItemDisabled { color: #C0C0C0 }
+.scMenuTSubItemDisabled { color: #C0C0C0 }

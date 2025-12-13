@@ -1,0 +1,15 @@
+.scMenuToolbar { background-color: #EEEEEE; padding: 2px; margin: 0 }
+.scMenuToolbarPadding { padding: 2px }
+.scMenuIframe { background-color: #FFFFFF; width: 100%; height: 100% }
+.scMenuHTable { background-color: #8ba3b9 }
+.scMenuHTableCss { background-color: #8ba3b9 }
+.scMenuHHeader { background-color: #8ba3b9 }
+.scMenuHHeaderFont { color: #FFFFFF; font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; text-decoration: none }
+.scMenuHFooter { background-color: #8ba3b9 }
+.scMenuHFooterFont { color: #ffffff; font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; text-decoration: none }
+.scMenuHItem { background-color: #8ba3b9; font-family: Arial, Arial, sans-serif; font-size: 12px; color: #f4f4f4; padding: 3px 10px 3px 3px;; text-decoration: none; font-style: normal }
+.scMenuHItemDisabled { background-color: #8ba3b9; font-family: Arial, Arial, sans-serif; font-size: 12px; color: #C0C0C0; padding: 3px 10px 3px 3px;; text-decoration: none; font-style: normal }
+.scMenuHItemOver { background-color: #f4f4f4; font-family: Arial, Arial, sans-serif; font-size: 12px; color: #8ba3b9; padding: 3px 10px 3px 3px;; text-decoration: none; font-style: normal }
+.scMenuHSubItem { background-color: #8ba3b9; font-family: Arial, Arial, sans-serif; font-size: 12px; color: #FFFFFF; padding: 3px 10px 3px 3px; text-decoration: none; font-style: normal }
+.scMenuHSubItemDisabled { background-color: #8ba3b9; font-family: Arial, Arial, sans-serif; font-size: 12px; color: #C0C0C0; padding: 3px 10px 3px 3px; text-decoration: none; font-style: normal }
+.scMenuHSubItemOver { background-color: #f4f4f4; font-family: Arial, Arial, sans-serif; font-size: 12px; color: #8ba3b9; padding: 3px 10px 3px 3px; text-decoration: none; font-style: normal }

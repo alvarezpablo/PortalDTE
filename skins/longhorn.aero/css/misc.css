@@ -1,0 +1,30 @@
+#fldset-admin_info {
+  width: 414px;
+}
+
+#fldset-power {
+  margin-left: 444px;
+}
+
+html>body #contexthelp {
+  height: 100px;
+}
+
+tbody.showVisibility tr,
+.visibilityAdminMode tbody.adminOnlyVisibility tr,
+.visibilityControlMode tbody.customizableControl tr {
+  display: table-row;
+}
+
+.hideVisibility tr,
+.hideByDefault tr,
+.adminOnlyVisibility tr {
+  display: none;
+}
+
+tbody.hideVisibility,
+tbody.hideByDefault,
+tbody.adminOnlyVisibility {
+  display: table-row-group;
+}
+

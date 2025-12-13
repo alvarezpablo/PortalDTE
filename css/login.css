@@ -1,0 +1,178 @@
+@charset "utf-8";
+/* CSS login OpenDTE */
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:11px;
+	margin:0px;
+	padding:0px;
+}
+
+a {
+	outline:none;
+}
+
+/* #####################################################################
+contenedor */
+#contenedor {
+	width:908px;
+	margin:10px auto;
+	padding:0 0 31px 0;
+	border: solid 1px #CCC;
+}
+/*
+header en general */
+#header1,
+header2 {
+	background-image: url(../imag/fondo_header.jpg);
+	background-repeat: no-repeat;
+	background-position: left top;
+}
+/* #####################################################################
+header1 */
+#header1 {
+	height:47px;
+	margin:0px;
+	padding:36px 36px 0 19px;
+}
+#header1 .head1_imag1 {
+	margin:20px  0 0 28px;
+}
+#header1 .head1_imag2 {
+	margin:16px 0 0 41px;
+}
+#header1 .head1_imag3 {
+	margin:10px 10px 0 0;
+}
+/* #####################################################################
+header2 */
+#header2 {
+}
+
+/* #####################################################################
+inicio */
+#inicio {
+	
+	height:337px;
+	clear:both;
+	margin:0 36px 0 19px;
+	padding:11px 0 0 0;
+	border-top:solid 1px #43AFD6;
+}
+/* #####################################################################
+info */
+#info {
+	font-size: 10px;
+	color:#1A1E64;
+	width:111px;
+	margin:0px 10px 0 16px;
+	float:left;
+}
+#info h1 {
+	font-size:14px;
+	font-weight:bold;
+	color:#0066CC;
+	margin:3px 0 8px 0;
+}
+#info p {
+	margin:0 0 8px 0;
+	line-height: 10px;
+}
+#info .info_color {
+	color:#43AFD6;
+}
+#info .info_text-size {
+	font-size:11px;
+}
+#info .info_imagen {
+	margin-top:22px;
+}
+/* #####################################################################
+login */
+#login {
+	font-size:12px;
+	color:#1A1E64;
+	background-image: url(../imag/fondo_form.jpg);
+	background-repeat: no-repeat;
+	background-position: right bottom;
+	width:183px;
+	height:320px;
+	margin:0px;
+	padding:0 0 0 9px;
+	float:left;
+	border:solid 1px #43AFD6;
+	/* Do rounding (native in Firefox and Safari) */
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-khtml-border-radius: 10px;
+}
+#login br {
+	clear:both;
+}
+#login form {
+	margin:17px 0 0 0;
+	padding:0px;
+}
+
+#login label,
+#login input {
+	float:left;
+}
+#login label {
+	text-align:right;
+	width:43px;
+	margin: 0 5px 0 0;
+}
+#login input {
+	font-family: Candara, Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#666;
+	width:117px;
+	margin:0 0 14px 0;
+	padding: 2px 0px;
+	border: solid 1px #CCC;
+}
+#login #boton {
+	width:45px;
+	height:14px;
+	margin:0 0 0 117px;
+	clear:both;
+	border:none;
+	cursor: pointer;
+}
+#login .log_textospan {
+	margin:0px;
+}
+#login .log_textochico {
+	font-size:9px;
+	color:#43AFD6;
+}
+/* #####################################################################
+contenedor */
+
+/* #####################################################################
+contenedor */
+
+/* #####################################################################
+marcas */
+#marcas {
+	margin:0px 33px;
+}
+#marcas .mark_imag1 {
+	margin-right:8px;
+}
+#marcas .mark_imag2 {
+	margin-right:7px;
+}
+#marcas .mark_imag3 {
+	margin-right:24px;
+}
+/* especiales */
+.fondo1 {
+	background-image: url(../imag/fondo_contenedor.jpg);
+	background-repeat: no-repeat;
+	background-position: right bottom;
+}
+.fondo2 {
+}

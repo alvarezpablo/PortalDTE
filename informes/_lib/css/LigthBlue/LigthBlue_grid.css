@@ -1,0 +1,42 @@
+.scGridPage { background-color: #FFFFFF; background-image: url(../../img/scriptcase__NM__bgmiolo.gif); color: #000000; font-family: Arial, sans-serif; font-size: 12px }
+.scGridBorder { padding: 3px }
+.scGridPageLink { color: #8ba3b9; text-decoration: none }
+.scGridToolbarNav { color: #000; font-family: Arial, sans-serif; font-size: 12px; text-decoration: none; padding: 2px 4px 2px 4px }
+.scGridToolbarNavOpen { background-color: #86a4c0; color: #fff; font-family: Arial, sans-serif; font-size: 12px; text-decoration: none; border-color: #86a4c0; border-style: solid; border-width: 1px; padding: 2px 4px 2px 4px; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px }
+.scGridToolbar { background-color: #e5e5e5; background-image: url(../../img/scriptcase__NM__BgToolsGray.gif); color: #333; font-family: Arial; font-size: 11px; text-decoration: none; padding: 2px }
+.scGridToolbarPadding { padding: 2px }
+.css_toolbar_obj { border-color: #8ba3b9; border-style: solid; border-width: 1px; color: #333; font-family: Arial; font-size: 11px; text-decoration: none }
+.scGridHeader { background-color: #8ba3b9 }
+.scGridHeaderFont { color: #ffffff; font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; text-decoration: none }
+.scGridFooter { background-color: #8ba3b9 }
+.scGridFooterFont { color: #FFFFFF; font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; text-decoration: none }
+.scGridObjectOdd { background-color: #ffffff; border-color: #8ba3b9; border-style: solid; border-width: 1px; color: #333333; font-family: Arial, sans-serif; font-size: 11px; text-decoration: none }
+.scGridBlockBg { background-color: #a6bdd3; border-width: 0; border-style: solid; border-top-color: #a6bdd3; border-bottom-color: #a6bdd3; border-left-color: #a6bdd3 }
+.scGridBlockLineBg { background-color: #a6bdd3; border-color: #a6bdd3; border-width: 0; border-style: solid }
+.scGridBlockSpaceBg { background-color: #a6bdd3; border-width: 0; border-style: solid; border-left-color: #a6bdd3; border-right-color: #a6bdd3 }
+.scGridBlock { background-color: #a6bdd3; border-width: 0; border-style: solid; color: #333; font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; text-decoration: none }
+.scGridBlockFont { color: #333; font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; text-decoration: none }
+.scGridBlockLink { color: #333; text-decoration: underline }
+.scGridBlockAlign { color: #333; font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; text-decoration: none }
+.scGridTotal { background-color: #8ba3b9; border-style: solid; border-width: 0 }
+.scGridTotalFont { color: #ffffff; font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; text-decoration: none }
+.scGridSubtotal { background-color: #e0e4e4; border-style: solid; border-width: 0 }
+.scGridSubtotalFont { color: #000000; font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; text-decoration: none }
+.scGridFieldEven { background-color: #e9f2f5 }
+.scGridFieldEvenFont { color: #333333; font-family: Arial, sans-serif; font-size: 12px; padding: 4px; text-decoration: none; border-style: solid; border-width: 0 }
+.scGridFieldEvenVert { background-color: #e9f2f5; border-style: solid; border-width: 0; color: #333333; font-family: Arial, sans-serif; font-size: 12px; padding: 4px; text-decoration: none }
+.scGridFieldEvenLink { color: #8ba3b9; text-decoration: none }
+.scGridFieldOdd { background-color: #FFFFFF }
+.scGridFieldOddFont { color: #000; font-family: Arial, sans-serif; font-size: 12px; padding: 4px; text-decoration: none; border-style: solid; border-width: 0 }
+.scGridFieldOddVert { background-color: #FFFFFF; border-style: solid; border-width: 0; color: #000; font-family: Arial, sans-serif; font-size: 12px; padding: 4px; text-decoration: none }
+.scGridFieldOddLink { color: #8ba3b9; text-decoration: none }
+.scGridFieldClick { background-color: #e5e5e5; border-style: solid; border-width: 0 }
+.scGridFieldOver { background-color: #dfe5f6 }
+.scGridLabel { background-color: #86a4c0 }
+.scGridLabelVert { background-color: #86a4c0; border-style: solid; border-width: 0; color: #FFFFFF; font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; padding: 4px; text-decoration: none }
+.scGridLabelFont { color: #FFFFFF; font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; padding: 4px; text-decoration: none; border-style: solid; border-width: 0 }
+.scGridLabelLink { color: #FFFFFF; font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; text-decoration: none }
+.scGridTabela { border-collapse: collapse }
+.scGridTabelaTd { padding: 3px }
+.TB_overlayBG { background-color: #6e6e6e }
+#TB_window { border-color: #dfdfdf; border-style: inset; border-width: 2px 2px 3px 2px }

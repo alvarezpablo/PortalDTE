@@ -1,0 +1,11 @@
+.scAppCalendarPage { background-color: #F0F2F8; background-image: url(../../img/scriptcase__NM__v6blueshow.png); background-repeat: repeat-x }
+.fc-header-title { color: #000000; font-family: Arial, sans-serif }
+.fc-sun { background-color: #DFECFD; color: #333; font-family: Arial, sans-serif }
+.fc-mon { background-color: #DFECFD; color: #333; font-family: Arial, sans-serif }
+.fc-tue { background-color: #DFECFD; color: #333; font-family: Arial, sans-serif }
+.fc-wed { background-color: #DFECFD; color: #333; font-family: Arial, sans-serif }
+.fc-thu { background-color: #DFECFD; color: #333; font-family: Arial, sans-serif }
+.fc-fri { background-color: #DFECFD; color: #333; font-family: Arial, sans-serif }
+.fc-sat { background-color: #DFECFD; color: #333; font-family: Arial, sans-serif }
+.fc-axis { background-color: #FFF; color: #000; font-family: Arial, sans-serif; font-size: 12px }
+.fc-not-today { color: #000; font-family: Arial, sans-serif; font-size: 12px }

@@ -1,0 +1,34 @@
+html,body,div,span,h1,h2,h3,h4,h5,h6,p,ol,ul,li,form,label,legend,caption,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary{border:0;outline:0;font-weight:inherit;font-style:inherit;font-size:100%;font-family:inherit;vertical-align:baseline;margin:0;padding:0;}
+ol,ul{list-style:none;}
+a img{border:none;}
+body{font-family:Verdana, Geneva, sans-serif;font-size:12px;color:#666666;background-color:#fff;}
+.texto{font-family:Verdana,Arial,Helvetica,sans-serif;font-size:12px;font-style:normal;color:#666666;vertical-align:middle;}
+.texto_mini{font-family:Verdana,Arial,Helvetica,sans-serif;font-size:10px;font-style:normal;color:#666666;}
+.ttitulo_mini_o{font-family:Verdana,Arial,Helvetica,sans-serif;font-size:18px;color:#006699;font-weight:bold;vertical-align:middle;}
+.ttitulo_mini_b{font-family:Verdana,Arial,Helvetica,sans-serif;font-size:18px;color:#666666;font-weight:bold;vertical-align:middle;}
+.nota{font-family:Verdana,Arial,Helvetica,sans-serif;font-size:10px;font-style:normal;color:#cc0000;}
+.nota2{font-family:Verdana,Arial,Helvetica,sans-serif;font-size:10px;font-style:normal;color:#666666;}
+.titulo_menu{font-family:Verdana,Arial,Helvetica,sans-serif;font-size:12px;font-style:normal;color:#666666;font-weight:bold;vertical-align:middle;text-align:left;}
+a{color:#f90;text-decoration:none;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:10px;cursor:hand;}
+a:link{color:#f90;text-decoration:none;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:10px;cursor:hand;}
+a:visited{color:#f90;text-decoration:none;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:10px;cursor:hand;}
+a:hover{color:#f90;text-decoration:underline;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:10px;cursor:hand;}
+.boton{cursor:hand;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:12px;font-style:normal;color:#000000;width:100px;}
+.cab_campo{background-color:#006699;color:#FFF;font-family:Verdana, Geneva, sans-serif;font-size:12px;text-indent:2px;vertical-align:middle;white-space:nowrap;padding-right:5px;}
+.cab_campo2{color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;vertical-align:middle;white-space:nowrap;}
+.cab_campo21{color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;vertical-align:middle;white-space:nowrap;background-color:#609700;}
+.cab_campo22{color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;vertical-align:middle;white-space:nowrap;background-color:#0fb0fb;}
+.cab_campo23{color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;vertical-align:middle;white-space:nowrap;background-color:#473d85;}
+.cab_campo24{color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;vertical-align:middle;white-space:nowrap;background-color:#9b074b;}
+.cab_campo25{color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;vertical-align:middle;white-space:nowrap;background-color:#006699;}
+.texto2{background-color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-style:normal;color:#333;vertical-align:middle;vertical-align:middle;}
+.campo{font-family:Verdana, Geneva, sans-serif;font-size:12px;}
+.ttitulo{font-family:Verdana,Arial,Helvetica,sans-serif;font-size:18px;color:#006699;font-weight:bold;vertical-align:middle;}
+.current{font-weight:bold;}
+.activo{background:no-repeat center center url("data:image/gif;base64,R0lGODlhDQANAKIAADOZAH+/X8zlv0CfEIC/YP///wAAAAAAACH5BAEHAAUALAAAAAANAA0AAAMpWCoxMEGoSYC9gFDMteCgUIEY4ZDXiaarNYwr8bUSDGqKfeGT6LwSRQIAOw==");}
+.bloqueado{background:no-repeat center center url("data:image/gif;base64,R0lGODlhDQANAKIAAP8AAP9gYP+/v/8QEP///wAAAAAAAAAAACH5BAEHAAQALAAAAAANAA0AAAMmSCoxMEGoGYC9IFDMteAgA3bOeJXmmVrQmn2rVJmaMnfT0jzRlAAAOw==");}
+.fs{text-decoration:none;border:1px solid #999999;background-color:#DDDDDE;text-align:center;width:100px;vertical-align:top}
+.da{border:1px solid #999999;background-color:#FEF7A5;text-align:center;width:100px;vertical-align:top}
+.campo_cal{font-family:Verdana, Geneva, sans-serif;font-size:12px;border:1px solid #999999;background-color:#f3f3f3;}
+.tdlista{border-bottom: 1px solid black;}
+.texto_n{font-family:Verdana,Arial,Helvetica,sans-serif;font-size:12px;font-style:normal;color:#006699;vertical-align:middle;}

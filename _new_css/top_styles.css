@@ -1,0 +1,30 @@
+.top-frame {$1}
+
+.menu-lower {
+    background: white;
+    width: 100%;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.top-frame .logo {
+    display: flex;
+    align-items: center;
+    margin-right: 1.5rem;
+}
+
+.top-frame .logo img {
+    max-height: 50px;
+    margin-right: 1rem;
+}
+
+.top-frame .user-info {
+    text-align: left;
+    margin-left: auto; padding-right: 2rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.top-frame .user-info span {
+    display: block;
+}

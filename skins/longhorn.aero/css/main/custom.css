@@ -1,0 +1,292 @@
+@import url(buttons.css);
+@import url(tabs.css);
+
+
+body {
+  background: #ffffff;
+} 
+/* ---------- list  --------- */
+
+.list {
+}
+
+.list th, .list td {
+}
+
+th {
+  text-align: left;
+  background: url(../../images/th_bg_na.gif) #e7f2ff bottom left repeat-x;
+  border-right: 1px solid #ffffff;
+  border-bottom: 1px solid #ffffff;
+  border-top:1px solid #90ade9;
+  
+}
+
+th a:link, th a:visited, th a:active {
+  color: #000000;
+  text-decoration: none;
+}
+
+th a:hover {
+  text-decoration: underline;
+}
+
+.sort {
+  background-color: #e7f2ff; 
+}
+
+.evenrowbg {
+  background-color: #f1f6ff; 
+}
+
+.oddrowbg {
+  background-color: #fcfdff;
+}
+
+/* ---------- form  --------- */
+
+.footnote {
+  padding-top: 2px;
+  padding-left: 12px;
+  text-align: left;
+  color: #666666;
+}
+
+legend {
+  color: #194b9f;
+  font-weight:bold;
+}
+
+.formFields td {
+  text-align: left;
+}
+
+.name,
+.nameError {
+  font-weight: bold;
+  color: #444444;
+}
+
+.error {
+  background: #ffd9d9;
+}
+
+.error .name {
+  color: #cc0000;
+  background: transparent;
+}
+
+.error .hint {
+  color: #333333;
+}
+
+.required {
+  color: #cc0000;
+}
+
+.formFields td.unlimited {
+  border-left: none;
+}
+
+.formFields td.limit {
+  border-right: none;
+}
+
+.hint {
+  color: #555555;
+}
+
+.formButtons {
+  padding-top: 5px;
+}
+
+
+/* ---------- misc elements --------- */
+
+.pathbar {
+  background: url(../../images/pathbar_bg.gif) #d07325 top left repeat-x;
+  color: #ffffff;
+}
+
+.pathbar a:link,
+.pathbar a:visited {
+  color: #ffffff;
+}
+
+.screenTitle {
+  background: url(../../images/screentitle_bg.gif) #dc932e top left repeat-x;
+}
+
+.screenTitle td {
+  font-size: 18px;
+  font-family: "Franklin Gothic Medium", Verdana, Geneva, Arial, Helvetica, sans-serif;
+  color: #ffffff;
+}
+
+.screenTitle .name,
+.screenTitle b {
+  font-weight: normal; 
+  color: #ffffff;
+}
+
+.specific {
+  font-weight: bold;
+}
+
+.reportIndex a:link,
+.reportIndex a:visited {
+  color: #333333;
+}
+
+.reportSection {
+  border-top: 1px solid #cccccc;
+}
+
+a.mailalias:link,
+a.mailalias:visited {
+  color: #555555; 
+}
+
+.notdelitems {
+	color: #444444;
+}
+
+code {
+	font-family: Courier, mono;
+	font-size: 10px;
+	color: #444444;
+}
+
+.code {
+	font-family: Courier, mono;
+	font-size: 10px;
+}
+
+hr {
+  color: #90ade9;
+  background-color: #90ade9;
+  height: 1px;
+}
+
+/* ---------- gauge elements --------- */
+
+td.barOverFilled {
+  background: url(../../icons/gauge/fill-over.gif);
+}
+
+td.barFilled {
+  background: url(../../icons/gauge/fill.gif);
+}
+
+td.barEmpty {
+  background: url(../../icons/gauge/empty.gif);
+}
+
+
+/* ---------- common buttons --------- */
+
+.commonButton button,
+.commonButton {
+  font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  color: #17439c;
+  background-color: transparent;
+}
+
+.commonButton button {
+  background-image: url(../../images/btn_bg.gif);
+  border: 0 solid white;
+  background-repeat: no-repeat;
+}
+
+.commonButton button[disabled] {
+  background-image: url(../../images/btn_bg-disabled.gif); 
+  color: #999999;
+}  
+
+/* ---------- big icon buttons  --------- */
+.toolsArea .commonButton {
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  padding: 32px 0 0 0;
+  width: 111px;
+  height: 27px;
+  margin: 0;
+  cursor: pointer;
+  text-align: center;
+  float: left;
+  text-decoration: underline;
+  background-image: url(../../images/bth_default-button_bg.gif);
+  height: expression((window.screenButtonHeight)?window.screenButtonHeight: '27px');
+  bottom: expression((this.clientHeight>27)?(window.screenButtonHeight='42px'):0);
+}
+
+.toolsArea span.commonButton {
+  cursor: default;
+  color: #999999;
+  text-decoration: none;
+}
+
+.toolsArea button {
+  display: none;
+}
+
+.formArea .toolsArea .commonButton span {
+  display: inline;
+}
+
+.toolsArea .screenButtons .commonButton span {
+  background: none;
+}
+
+/* ---------- small icon buttons  --------- */
+
+.controlVisibilityToolbar .misc .commonButton,
+.buttons .commonButton,
+.reportTools .commonButton,
+.uplevel .commonButton {
+  background: none;
+}
+
+.controlVisibilityToolbar .misc .commonButton button,
+.listArea .buttons .commonButton button,
+.reportTools .commonButton button,
+.uplevel .commonButton button {
+	display: none;
+}
+
+.controlVisibilityToolbar .misc .commonButton span,
+.buttons .commonButton span,
+.reportTools .commonButton span,
+.uplevel .commonButton span {
+  background-position: 0 1px;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  padding-left: 20px;
+  text-decoration: underline;
+  cursor: hand;
+  cursor: pointer;
+  padding-top: 1px;
+  padding-bottom: 4px;
+}
+
+.uplevel span {
+  color:#ffffff;
+}
+
+
+/* buttons as buttons */
+.formArea .commonButton span,
+.formButtons .commonButton span,
+.paging .commonButton span {
+  display: none;
+}
+
+.formButtons button,
+.formArea button,
+.paging .commonButton button {
+  width: 91px;
+  height: 21px;
+  text-align: center;
+}

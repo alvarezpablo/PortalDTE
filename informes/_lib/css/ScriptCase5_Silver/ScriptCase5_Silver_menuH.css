@@ -1,0 +1,15 @@
+.scMenuToolbar { background-color: #F0F2F8; padding: 2px; margin: 0 }
+.scMenuToolbarPadding { padding: 2px }
+.scMenuIframe { background-color: #F0F2F8; background-image: url(../../img/scriptcase__NM__v5BluebgPage.png); border-width: 0; width: 100%; height: 100% }
+.scMenuHTable { background-color: #37476A; background-image: url(../../img/scriptcase__NM__v5BluebgMenuBar.png); background-repeat: repeat-x }
+.scMenuHTableCss { background-color: #37476A; background-image: url(../../img/scriptcase__NM__v5BluebgMenuBar.png); background-repeat: repeat-x }
+.scMenuHHeader { background-color: #426196; background-image: url(../../img/scriptcase__NM__v5BluebgMenuHeader.png); background-repeat: no-repeat }
+.scMenuHHeaderFont { color: #B2BEE1; font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; padding: 0; text-decoration: none }
+.scMenuHFooter { background-image: url(../../img/scriptcase__NM__v5BlueBgFooter.png) }
+.scMenuHFooterFont { color: #999999; font-family: Arial, sans-serif; font-size: 11px; text-decoration: none }
+.scMenuHItem { font-family: Arial, Arial, sans-serif; font-size: 12px; color: #f4f4f4; padding: 3px 10px 3px 3px;; text-decoration: none; font-weight: bold; font-style: normal }
+.scMenuHItemDisabled { font-family: Arial, Arial, sans-serif; font-size: 12px; color: #C0C0C0; padding: 3px 10px 3px 3px;; text-decoration: none; font-weight: bold; font-style: normal }
+.scMenuHItemOver { background-color: #FFFFFF; font-family: Arial, Arial, sans-serif; font-size: 12px; color: #384D76; padding: 3px 10px 3px 3px;; text-decoration: none; font-weight: bold; font-style: normal }
+.scMenuHSubItem { background-color: #FFFFFF; font-family: Arial, Arial, sans-serif; font-size: 12px; color: #384D76; padding: 3px 10px 3px 3px; text-decoration: none; font-style: normal }
+.scMenuHSubItemDisabled { background-color: #FFFFFF; font-family: Arial, Arial, sans-serif; font-size: 12px; color: #C0C0C0; padding: 3px 10px 3px 3px; text-decoration: none; font-style: normal }
+.scMenuHSubItemOver { background-color: #F3F7FB; font-family: Arial, Arial, sans-serif; font-size: 12px; color: #333333; padding: 3px 10px 3px 3px; text-decoration: none; font-style: normal }

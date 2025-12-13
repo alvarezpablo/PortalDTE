@@ -1,0 +1,19 @@
+body {
+  background-color: #ffffff;
+  background-image:  url(../../images/top_bg.gif);
+  background-position: right;
+  background-repeat: no-repeat;  
+}
+
+.body {
+  background-image:  url(../../images/top_body_bg.jpg);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  margin: 0;
+}
+
+#topLogin .body {
+  background-image:  none;
+}
+
+

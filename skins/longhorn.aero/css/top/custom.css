@@ -1,0 +1,15 @@
+body {
+  background-color: #72b2f2;
+  background-image:  url(../../images/top_bg.jpg);
+  background-position: left top;
+  background-repeat: repeat-x;  
+}
+
+.body {
+  background-image:  url(../../images/top_body_bg.jpg);
+  background-position: top right;
+  background-repeat: no-repeat;  
+  margin: 0;
+}
+
+
