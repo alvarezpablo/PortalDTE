@@ -45,7 +45,7 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
         if ($codRol == "1") {
             $segItems[] = ['link' => 'empresa/listempre.php', 'text' => 'Empresas', 'icon' => 'bi-building'];
             $segItems[] = ['link' => 'usuario/list_user.php', 'text' => 'Usuarios', 'icon' => 'bi-people'];
-            $segItems[] = ['link' => 'reenvio/reenvio.php', 'text' => 'Reenvío Masivo', 'icon' => 'bi-arrow-repeat'];
+            $segItems[] = ['link' => 'reenvio/reenvio.php', 'text' => 'Reenv&iacute;o Masivo', 'icon' => 'bi-arrow-repeat'];
         }
         $segItems[] = ['link' => 'empresa/certificado.php', 'text' => 'Certificado Empresa', 'icon' => 'bi-shield-check'];
         $segItems[] = ['link' => 'empresa/licencia.php', 'text' => 'Licencia Empresa', 'icon' => 'bi-key'];
@@ -82,8 +82,8 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
                 ['link' => 'emitir/emitir.php?t=33', 'text' => 'Factura Electr&oacute;nica', 'icon' => 'bi-receipt'],
                 ['link' => 'emitir/emitir.php?t=34', 'text' => 'Factura Exenta', 'icon' => 'bi-receipt'],
                 ['link' => 'emitir/emitir.php?t=39', 'text' => 'Boleta Electr&oacute;nica', 'icon' => 'bi-receipt-cutoff'],
-                ['link' => 'emitir/emitir.php?t=56', 'text' => 'Nota de Débito', 'icon' => 'bi-file-minus'],
-                ['link' => 'emitir/emitir.php?t=61', 'text' => 'Nota de Crédito', 'icon' => 'bi-file-plus'],
+                ['link' => 'emitir/emitir.php?t=56', 'text' => 'Nota de D&eacute;bito', 'icon' => 'bi-file-minus'],
+                ['link' => 'emitir/emitir.php?t=61', 'text' => 'Nota de Cr&eacute;dito', 'icon' => 'bi-file-plus'],
                 ['link' => 'emitir/emitir.php?t=52', 'text' => 'Guía de Despacho', 'icon' => 'bi-truck']
             ]
         ];
@@ -107,7 +107,7 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
     $librosItems = [
         ['link' => 'libros/list_libro.php?sTipo=COMPRA', 'text' => 'Libros Compras', 'icon' => 'bi-journal-arrow-down'],
         ['link' => 'libros/list_libro.php?sTipo=VENTA', 'text' => 'Libros Ventas', 'icon' => 'bi-journal-arrow-up'],
-        ['link' => 'libros/list_libro.php?sTipo=GUIA', 'text' => 'Libros Guía', 'icon' => 'bi-journal-text']
+        ['link' => 'libros/list_libro.php?sTipo=GUIA', 'text' => 'Libros Gu&iacute;a', 'icon' => 'bi-journal-text']
     ];
     if ($codRol == "1" || $codRol == "3") {
         $librosItems[] = ['link' => 'libros/form_libro.php', 'text' => 'Cargar Libros', 'icon' => 'bi-upload'];
