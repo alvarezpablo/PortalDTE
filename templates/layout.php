@@ -91,7 +91,8 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
     
     // DTE Emitidos
     $dteItems = [
-        ['link' => 'dte/list_dte_v2.php', 'text' => 'DTE Listado', 'icon' => 'bi-list-ul']
+        ['link' => 'dte/list_dte_v2.php', 'text' => 'DTE Listado', 'icon' => 'bi-list-ul'],
+        ['link' => 'dte/list_dte_v3.php', 'text' => 'DTE Listado V3 (Beta)', 'icon' => 'bi-list-stars']
     ];
     if ($codRol == "1" || $codRol == "3") {
         $dteItems[] = ['link' => 'exportXML/consulta_xml_exportado.php', 'text' => 'Descarga XML', 'icon' => 'bi-download'];
