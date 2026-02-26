@@ -380,20 +380,20 @@ function limpiar() {
                 <!-- Fecha Emision -->
                 <div class="col-md-3">
                     <label class="form-label">Fecha Emisi&oacute;n Desde</label>
-                    <input type="text" name="fecha1" id="fecha1" class="form-control form-control-sm datepicker" placeholder="YYYY-MM-DD" value="<?php echo $fecha1; ?>">
+                    <input type="text" name="fecha1" id="fecha1" class="form-control form-control-sm datepicker" placeholder="YYYY-MM-DD" autocomplete="off" value="<?php echo $fecha1; ?>">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Fecha Emisi&oacute;n Hasta</label>
-                    <input type="text" name="fecha2" id="fecha2" class="form-control form-control-sm datepicker" placeholder="YYYY-MM-DD" value="<?php echo $fecha2; ?>">
+                    <input type="text" name="fecha2" id="fecha2" class="form-control form-control-sm datepicker" placeholder="YYYY-MM-DD" autocomplete="off" value="<?php echo $fecha2; ?>">
                 </div>
                 <!-- Fecha Carga -->
                 <div class="col-md-3">
                     <label class="form-label">Fecha Carga Desde</label>
-                    <input type="text" name="fechac1" id="fechac1" class="form-control form-control-sm datepicker" placeholder="YYYY-MM-DD" value="<?php echo $fechac1; ?>">
+                    <input type="text" name="fechac1" id="fechac1" class="form-control form-control-sm datepicker" placeholder="YYYY-MM-DD" autocomplete="off" value="<?php echo $fechac1; ?>">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Fecha Carga Hasta</label>
-                    <input type="text" name="fechac2" id="fechac2" class="form-control form-control-sm datepicker" placeholder="YYYY-MM-DD" value="<?php echo $fechac2; ?>">
+                    <input type="text" name="fechac2" id="fechac2" class="form-control form-control-sm datepicker" placeholder="YYYY-MM-DD" autocomplete="off" value="<?php echo $fechac2; ?>">
                 </div>
             </div>
 
