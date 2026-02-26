@@ -177,6 +177,7 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
         $mantItems[] = ['link' => 'mantencion/list_tip_doc.php', 'text' => 'Tipo Documentos', 'icon' => 'bi-file-text'];
         $mantItems[] = ['link' => 'mantencion/list_estado.php', 'text' => 'Estado Documentos', 'icon' => 'bi-clipboard-check'];
         $mantItems[] = ['link' => 'mantencion/list_estado_boleta.php', 'text' => 'Estado Boletas', 'icon' => 'bi-clipboard-data'];
+        $mantItems[] = ['link' => 'mantencion/menu_rules.php', 'text' => 'Reglas de Men&uacute;', 'icon' => 'bi-shield-lock'];
     }
     $mantItems[] = ['link' => 'sel_emp.php', 'text' => 'Cambiar Empresa', 'icon' => 'bi-arrow-left-right'];
     $mantItems[] = ['link' => 'mantencion/form_user_sii.php', 'text' => 'Act. Contacto SII', 'icon' => 'bi-person-badge'];
