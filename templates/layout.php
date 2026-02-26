@@ -62,9 +62,10 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
     // CAF
     $cafItems = [];
     if ($codRol == "1" || $codRol == "3") {
-        $cafItems[] = ['link' => 'caf/form_caf.php', 'text' => 'Cargar CAF', 'icon' => 'bi-upload'];
+        $cafItems[] = ['link' => 'caf/form_caf_v2.php', 'text' => 'Cargar CAF', 'icon' => 'bi-upload'];
     }
-    $cafItems[] = ['link' => 'caf/disp_caf.php', 'text' => 'Consultar CAF', 'icon' => 'bi-search'];
+    $cafItems[] = ['link' => 'caf/disp_caf_v2.php', 'text' => 'Consultar CAF', 'icon' => 'bi-search'];
+    $cafItems[] = ['link' => 'caf/disp_caf.php', 'text' => 'Consultar CAF (Antiguo)', 'icon' => 'bi-search'];
     $menu[] = [
         'id' => 'caf',
         'titulo' => 'CAF',
