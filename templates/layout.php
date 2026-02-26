@@ -24,10 +24,10 @@ $sNomUser = $_SESSION["_ALIAS_USU_SESS"] ?? '';
 $sNomEmp = $_SESSION["_NOM_EMP_USU_SESS"] ?? '';
 $sCodRol = $_SESSION["_COD_ROL_SESS"] ?? '';
 
-// Función para generar el menú
+// Funci&oacute;n para generar el men&uacute;
 function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
     $menu = [];
-    
+
     // Recepci&oacute;n DTE
     $menu[] = [
         'id' => 'recepcion',
@@ -40,7 +40,7 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
             ['link' => 'factura/list_dte_recep_v3.php', 'text' => 'DTE Recibidos V3 (Antiguo)', 'icon' => 'bi-file-earmark-text']
         ]
     ];
-    
+
     // Seguridad (solo roles 1 y 3)
     if ($codRol == "1" || $codRol == "3") {
         $segItems = [];
@@ -52,7 +52,7 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
         $segItems[] = ['link' => 'empresa/certificado.php', 'text' => 'Certificado Empresa', 'icon' => 'bi-shield-check'];
         $segItems[] = ['link' => 'empresa/licencia.php', 'text' => 'Licencia Empresa', 'icon' => 'bi-key'];
         $segItems[] = ['link' => 'empresa/uuid.php', 'text' => 'API Key', 'icon' => 'bi-code-square'];
-        
+
         $menu[] = [
             'id' => 'seguridad',
             'titulo' => 'Seguridad',
@@ -60,7 +60,19 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
             'items' => $segItems
         ];
     }
-    
+
+    // Consorcio (solo empresa 85)
+    if ($codEmp == "85") {
+        $menu[] = [
+            'id' => 'consorcio',
+            'titulo' => 'Consorcio',
+            'icon' => 'bi-building',
+            'items' => [
+                ['link' => 'consorcio/form_excel.php', 'text' => 'Carga Boletas', 'icon' => 'bi-file-earmark-spreadsheet']
+            ]
+        ];
+    }
+
     // CAF
     $cafItems = [];
     if ($codRol == "1" || $codRol == "3") {
@@ -74,7 +86,34 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
         'icon' => 'bi-file-earmark-code',
         'items' => $cafItems
     ];
-    
+
+    // Carga DTE (Grupo Puerto - gpuerto=1 o admin)
+    if ($gpuerto == "1" || $codRol == "1") {
+        $menu[] = [
+            'id' => 'carga_dte',
+            'titulo' => 'Carga DTE',
+            'icon' => 'bi-cloud-upload',
+            'items' => [
+                ['link' => 'laudus/gpuerto.php', 'text' => 'Carga Excel DTE', 'icon' => 'bi-file-earmark-excel'],
+                ['link' => 'laudus/gpuerto_resend.php', 'text' => 'Reenviar DTE', 'icon' => 'bi-arrow-repeat']
+            ]
+        ];
+    }
+
+    // VGM Emite DTE (RUTs espec&iacute;ficos o admin)
+    if ($rutEmp == "77648628" || $rutEmp == "77648624" || $rutEmp == "77239803" || $codRol == "1") {
+        $menu[] = [
+            'id' => 'vgm_emite',
+            'titulo' => 'VGM Emite DTE',
+            'icon' => 'bi-box-seam',
+            'items' => [
+                ['link' => 'vgm/vgm.php', 'text' => 'Carga Excel DTE', 'icon' => 'bi-file-earmark-excel'],
+                ['link' => 'vgm/vgm_excel.php', 'text' => 'Excel Softland', 'icon' => 'bi-file-earmark-spreadsheet'],
+                ['link' => 'vgm/vgm_reenviar.php', 'text' => 'Reenviar Email', 'icon' => 'bi-envelope-arrow-up']
+            ]
+        ];
+    }
+
     // Emitir DTE (si tiene permiso)
     if ($emiteWeb == "1" || $codRol == "1") {
         $menu[] = [
@@ -83,15 +122,16 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
             'icon' => 'bi-plus-circle',
             'items' => [
                 ['link' => 'emitir/emitir.php?t=33', 'text' => 'Factura Electr&oacute;nica', 'icon' => 'bi-receipt'],
-                ['link' => 'emitir/emitir.php?t=34', 'text' => 'Factura Exenta', 'icon' => 'bi-receipt'],
+                ['link' => 'emitir/emitir.php?t=34', 'text' => 'Factura No Afecta o Exenta', 'icon' => 'bi-receipt'],
                 ['link' => 'emitir/emitir.php?t=39', 'text' => 'Boleta Electr&oacute;nica', 'icon' => 'bi-receipt-cutoff'],
+                ['link' => 'emitir/emitir.php?t=41', 'text' => 'Boleta Exenta Electr&oacute;nica', 'icon' => 'bi-receipt-cutoff'],
                 ['link' => 'emitir/emitir.php?t=56', 'text' => 'Nota de D&eacute;bito', 'icon' => 'bi-file-minus'],
                 ['link' => 'emitir/emitir.php?t=61', 'text' => 'Nota de Cr&eacute;dito', 'icon' => 'bi-file-plus'],
-                ['link' => 'emitir/emitir.php?t=52', 'text' => 'Guía de Despacho', 'icon' => 'bi-truck']
+                ['link' => 'emitir/emitir.php?t=52', 'text' => 'Gu&iacute;a de Despacho', 'icon' => 'bi-truck']
             ]
         ];
     }
-    
+
     // DTE Emitidos
     $dteItems = [
         ['link' => 'dte/list_dte_v3.php', 'text' => 'DTE Listado', 'icon' => 'bi-list-ul'],
@@ -100,13 +140,17 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
     if ($codRol == "1" || $codRol == "3") {
         $dteItems[] = ['link' => 'exportXML/consulta_xml_exportado.php', 'text' => 'Descarga XML', 'icon' => 'bi-download'];
     }
+    // DTE No Enviado a SII (empresas espec&iacute;ficas)
+    if (in_array($codEmp, ["72", "73", "70", "74", "151", "318", "71"])) {
+        $dteItems[] = ['link' => 'dte/noenviado.php', 'text' => 'DTE No Enviado a SII', 'icon' => 'bi-exclamation-triangle'];
+    }
     $menu[] = [
         'id' => 'dte_emitidos',
         'titulo' => 'DTE Emitidos',
         'icon' => 'bi-file-earmark-check',
         'items' => $dteItems
     ];
-    
+
     // Libros
     $librosItems = [
         ['link' => 'libros/list_libro.php?sTipo=COMPRA', 'text' => 'Libros Compras', 'icon' => 'bi-journal-arrow-down'],
@@ -122,8 +166,8 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
         'icon' => 'bi-journal-bookmark',
         'items' => $librosItems
     ];
-    
-    // Mantención
+
+    // Mantenci&oacute;n
     $mantItems = [
         ['link' => 'mantencion/list_clie.php', 'text' => 'Clientes', 'icon' => 'bi-person-lines-fill']
     ];
@@ -132,17 +176,19 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
         $mantItems[] = ['link' => 'mantencion/form_cont_elec.php', 'text' => 'Contribuyentes (Antiguo)', 'icon' => 'bi-people'];
         $mantItems[] = ['link' => 'mantencion/list_tip_doc.php', 'text' => 'Tipo Documentos', 'icon' => 'bi-file-text'];
         $mantItems[] = ['link' => 'mantencion/list_estado.php', 'text' => 'Estado Documentos', 'icon' => 'bi-clipboard-check'];
+        $mantItems[] = ['link' => 'mantencion/list_estado_boleta.php', 'text' => 'Estado Boletas', 'icon' => 'bi-clipboard-data'];
     }
     $mantItems[] = ['link' => 'sel_emp.php', 'text' => 'Cambiar Empresa', 'icon' => 'bi-arrow-left-right'];
     $mantItems[] = ['link' => 'mantencion/form_user_sii.php', 'text' => 'Act. Contacto SII', 'icon' => 'bi-person-badge'];
-    
+    $mantItems[] = ['link' => 'logout.php', 'text' => 'Salir', 'icon' => 'bi-box-arrow-right'];
+
     $menu[] = [
         'id' => 'mantencion',
         'titulo' => 'Mantenci&oacute;n',
         'icon' => 'bi-gear',
         'items' => $mantItems
     ];
-    
+
     return $menu;
 }
 
