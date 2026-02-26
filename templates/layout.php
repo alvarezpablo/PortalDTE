@@ -24,6 +24,86 @@ $sNomUser = $_SESSION["_ALIAS_USU_SESS"] ?? '';
 $sNomEmp = $_SESSION["_NOM_EMP_USU_SESS"] ?? '';
 $sCodRol = $_SESSION["_COD_ROL_SESS"] ?? '';
 
+/**
+ * Obtener reglas de men&uacute; desde base de datos
+ */
+function obtenerReglasMenuDB() {
+    $reglas = [];
+    try {
+        $conn = conn();
+        // Verificar si existe la tabla
+        $checkTable = $conn->Execute("SELECT to_regclass('public.menu_reglas') as existe");
+        if ($checkTable && !$checkTable->EOF && $checkTable->fields['existe'] != '') {
+            $sql = "SELECT * FROM menu_reglas WHERE activo = 'S' ORDER BY orden, menu, opcion";
+            $result = $conn->Execute($sql);
+            while (!$result->EOF) {
+                $reglas[] = $result->fields;
+                $result->MoveNext();
+            }
+        }
+    } catch (Exception $e) {
+        // Si hay error, retornar array vac&iacute;o
+    }
+    return $reglas;
+}
+
+/**
+ * Evaluar si una regla se cumple para el usuario actual
+ */
+function evaluarRegla($regla, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
+    // Obtener el valor de la variable a evaluar
+    $valorActual = '';
+    switch ($regla['variable']) {
+        case '_COD_ROL_SESS': $valorActual = $codRol; break;
+        case '_COD_EMP_USU_SESS': $valorActual = $codEmp; break;
+        case 'RUT_EMP': $valorActual = $rutEmp; break;
+        case '_GPUERTO_': $valorActual = $gpuerto; break;
+        case '_EMITE_WEB_': $valorActual = $emiteWeb; break;
+        default: return false;
+    }
+
+    // Evaluar seg&uacute;n operador
+    $valorRegla = trim($regla['valor']);
+    $operador = trim($regla['operador']);
+
+    switch ($operador) {
+        case '==':
+            return $valorActual == $valorRegla;
+        case '!=':
+            return $valorActual != $valorRegla;
+        case 'IN':
+            $valores = array_map('trim', explode(',', $valorRegla));
+            return in_array($valorActual, $valores);
+        case 'NOT IN':
+            $valores = array_map('trim', explode(',', $valorRegla));
+            return !in_array($valorActual, $valores);
+        default:
+            return false;
+    }
+}
+
+/**
+ * Obtener items de men&uacute; din&aacute;micos desde BD para un men&uacute; espec&iacute;fico
+ */
+function obtenerItemsMenuDinamicos($menuNombre, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
+    $items = [];
+    $reglas = obtenerReglasMenuDB();
+
+    foreach ($reglas as $regla) {
+        if ($regla['menu'] == $menuNombre) {
+            // Administradores siempre ven todo
+            if ($codRol == "1" || evaluarRegla($regla, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb)) {
+                $items[] = [
+                    'link' => $regla['link'],
+                    'text' => $regla['opcion'],
+                    'icon' => $regla['icono'] ?: 'bi-circle'
+                ];
+            }
+        }
+    }
+    return $items;
+}
+
 // Funci&oacute;n para generar el men&uacute;
 function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
     $menu = [];
@@ -189,6 +269,50 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
         'icon' => 'bi-gear',
         'items' => $mantItems
     ];
+
+    // Agregar men&uacute;s din&aacute;micos desde BD
+    $reglasBD = obtenerReglasMenuDB();
+    $menusDinamicos = [];
+
+    foreach ($reglasBD as $regla) {
+        $menuNombre = $regla['menu'];
+        // Solo procesar si el usuario cumple la regla o es admin
+        if ($codRol == "1" || evaluarRegla($regla, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb)) {
+            if (!isset($menusDinamicos[$menuNombre])) {
+                $menusDinamicos[$menuNombre] = [];
+            }
+            $menusDinamicos[$menuNombre][] = [
+                'link' => $regla['link'],
+                'text' => $regla['opcion'],
+                'icon' => $regla['icono'] ?: 'bi-circle'
+            ];
+        }
+    }
+
+    // Agregar men&uacute;s din&aacute;micos al array principal (si no existen ya)
+    foreach ($menusDinamicos as $menuNombre => $items) {
+        // Verificar si el men&uacute; ya existe
+        $existe = false;
+        foreach ($menu as &$m) {
+            if ($m['titulo'] == $menuNombre) {
+                // Agregar items al men&uacute; existente
+                $m['items'] = array_merge($m['items'], $items);
+                $existe = true;
+                break;
+            }
+        }
+        unset($m);
+
+        // Si no existe, crear nuevo men&uacute;
+        if (!$existe && count($items) > 0) {
+            $menu[] = [
+                'id' => 'dinamico_' . strtolower(str_replace(' ', '_', $menuNombre)),
+                'titulo' => $menuNombre,
+                'icon' => 'bi-grid',
+                'items' => $items
+            ];
+        }
+    }
 
     return $menu;
 }
