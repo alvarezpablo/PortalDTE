@@ -60,15 +60,41 @@
 
 **Archivo principal:** `include/security_lib.php`
 
-### 🟠 FASE 2: ACTUALIZACIÓN DE LIBRERÍAS (4-6 semanas)
+### � FASE 2A: SEGURIDAD CRÍTICA RESTANTE (1-2 semanas) ⏳ PENDIENTE
+
+| Tarea | Descripción | Archivo(s) | Estado |
+|-------|-------------|------------|--------|
+| 2A.1 | **Hash contraseñas al crear usuarios** | `usuario/pro_usu.php` líneas 35-36 | ⏳ |
+| 2A.2 | **Hash contraseñas al modificar usuarios** | `usuario/pro_usu.php` líneas 92-93 | ⏳ |
+| 2A.3 | **Usar escapeSQL()** en vez de `str_replace("'","''")` | `usuario/pro_usu.php`, `mantencion/pro_clie.php`, `empresa/pro_emp.php` | ⏳ |
+| 2A.4 | **Validar variables GET** con `intval()` | `dte/list_dte_v2.php`, `emitir/emitir.php` | ⏳ |
+| 2A.5 | **Agregar CSRF a formularios legacy** | `usuario/form_user.php`, `mantencion/form_clie.php` | ⏳ |
+| 2A.6 | **SQL injection en DELETE** | `usuario/pro_usu.php` líneas 127-130 | ⏳ |
+
+#### 📁 ARCHIVOS CRÍTICOS A CORREGIR (Top 10)
+
+| # | Archivo | Problemas | Prioridad |
+|---|---------|-----------|-----------|
+| 1 | `usuario/pro_usu.php` | Contraseñas sin hash, SQL injection | 🔴 Crítica |
+| 2 | `mantencion/pro_clie.php` | SQL injection con str_replace | 🔴 Crítica |
+| 3 | `empresa/pro_emp.php` | SQL injection | 🟠 Alta |
+| 4 | `dte/list_dte_v2.php` | Variables GET sin validar | 🟠 Alta |
+| 5 | `emitir/emitir.php` | Variables sin sanitizar | 🟠 Alta |
+| 6 | `factura/list_dte_recep_v2.php` | SQL injection potencial | 🟠 Alta |
+| 7 | `libros/pro_libro.php` | Sin validación de entrada | 🟡 Media |
+| 8 | `caf/pro_caf.php` | Upload sin validación segura | 🟡 Media |
+| 9 | `empresa/certificado.php` | Upload de certificados | 🟡 Media |
+| 10 | `reenvio/reenvio.php` | Sin autenticación robusta | 🟡 Media |
+
+### �🟠 FASE 2B: ACTUALIZACIÓN DE LIBRERÍAS (4-6 semanas)
 
 | Tarea | Descripción | Complejidad |
 |-------|-------------|-------------|
-| 2.1 | **PHPExcel → PhpSpreadsheet** - Migración completa | Alta |
-| 2.2 | **FPDF → mPDF/TCPDF** - Actualizar generación de PDFs | Media |
-| 2.3 | **PHPMailer moderno** - Actualizar a PHPMailer 6.x | Baja |
-| 2.4 | **Composer** - Centralizar dependencias con autoload | Media |
-| 2.5 | **PHP 8.x** - Asegurar compatibilidad con PHP 8.1+ | Alta |
+| 2B.1 | **PHPExcel → PhpSpreadsheet** - Migración completa | Alta |
+| 2B.2 | **FPDF → mPDF/TCPDF** - Actualizar generación de PDFs | Media |
+| 2B.3 | **PHPMailer moderno** - Actualizar a PHPMailer 6.x | Baja |
+| 2B.4 | **Composer** - Centralizar dependencias con autoload | Media |
+| 2B.5 | **PHP 8.x** - Asegurar compatibilidad con PHP 8.1+ | Alta |
 
 ### 🟡 FASE 3: MODERNIZACIÓN FRONTEND ✅ COMPLETADA (2025-11-29)
 
@@ -216,6 +242,7 @@ if (password_verify($input_password, $stored_hash)) {
 | 2025-11-29 | 1.0 | Creación inicial del plan de actualización |
 | 2025-11-29 | 1.1 | **FASE 3 COMPLETADA** - Modernización Frontend |
 | 2025-11-29 | 1.2 | **FASE 1 COMPLETADA** - Seguridad Crítica |
+| 2026-02-26 | 1.3 | **Análisis completo** - Identificación de archivos críticos y Fase 2A |
 
 ---
 
