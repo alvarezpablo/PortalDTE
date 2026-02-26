@@ -28,16 +28,16 @@ $sCodRol = $_SESSION["_COD_ROL_SESS"] ?? '';
 function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
     $menu = [];
     
-    // Recepción DTE
+    // Recepci&oacute;n DTE
     $menu[] = [
         'id' => 'recepcion',
         'titulo' => 'Recepci&oacute;n DTE',
         'icon' => 'bi-inbox',
         'items' => [
-            ['link' => 'factura/list_dte_recep_v3.php', 'text' => 'DTE Recibidos', 'icon' => 'bi-file-earmark-text'],
+            ['link' => 'factura/list_dte_recep_v4.php', 'text' => 'DTE Recibidos', 'icon' => 'bi-file-earmark-text'],
             ['link' => 'factura/list_dte_recep_v3.php', 'text' => 'DTE Recibidos V3 (Beta)', 'icon' => 'bi-file-earmark-text'],
-            ['link' => 'factura/list_dte_recep_v2.php', 'text' => 'DTE Recibidos V2', 'icon' => 'bi-file-earmark-text'],
-            ['link' => 'factura/list_dte_recep_v2_back.php', 'text' => 'DTE Recibidos (Antiguo)', 'icon' => 'bi-file-earmark-text']
+            ['link' => 'factura/list_dte_recep_v2.php', 'text' => 'DTE Recibidos V2 (Antiguo)', 'icon' => 'bi-file-earmark-text'],
+            ['link' => 'factura/list_dte_recep_v3.php', 'text' => 'DTE Recibidos V3 (Antiguo)', 'icon' => 'bi-file-earmark-text']
         ]
     ];
     
