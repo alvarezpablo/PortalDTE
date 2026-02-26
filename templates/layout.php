@@ -35,9 +35,9 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
         'icon' => 'bi-inbox',
         'items' => [
             ['link' => 'factura/list_dte_recep_v3.php', 'text' => 'DTE Recibidos', 'icon' => 'bi-file-earmark-text'],
-            ['link' => 'factura/list_dte_recep_v2.php', 'text' => 'DTE Recibidos V2', 'icon' => 'bi-file-earmark-text'],
             ['link' => 'factura/list_dte_recep_v3.php', 'text' => 'DTE Recibidos V3 (Beta)', 'icon' => 'bi-file-earmark-text'],
-            ['link' => 'factura/list_dte_recep_v2.php', 'text' => 'DTE Recibidos (Antiguo)', 'icon' => 'bi-file-earmark-text']
+            ['link' => 'factura/list_dte_recep_v2.php', 'text' => 'DTE Recibidos V2', 'icon' => 'bi-file-earmark-text'],
+            ['link' => 'factura/list_dte_recep_v2_back.php', 'text' => 'DTE Recibidos (Antiguo)', 'icon' => 'bi-file-earmark-text']
         ]
     ];
     
