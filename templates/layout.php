@@ -31,7 +31,7 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
     // Recepción DTE
     $menu[] = [
         'id' => 'recepcion',
-        'titulo' => 'Recepci&oacute;n DTE',
+        'titulo' => 'Recepción DTE',
         'icon' => 'bi-inbox',
         'items' => [
             ['link' => 'factura/list_dte_recep_v2.php', 'text' => 'DTE Recibidos', 'icon' => 'bi-file-earmark-text'],
@@ -79,9 +79,9 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
             'titulo' => 'Emitir DTE',
             'icon' => 'bi-plus-circle',
             'items' => [
-                ['link' => 'emitir/emitir.php?t=33', 'text' => 'Factura Electr&oacute;nica', 'icon' => 'bi-receipt'],
+                ['link' => 'emitir/emitir.php?t=33', 'text' => 'Factura Electrónica', 'icon' => 'bi-receipt'],
                 ['link' => 'emitir/emitir.php?t=34', 'text' => 'Factura Exenta', 'icon' => 'bi-receipt'],
-                ['link' => 'emitir/emitir.php?t=39', 'text' => 'Boleta Electr&oacute;nica', 'icon' => 'bi-receipt-cutoff'],
+                ['link' => 'emitir/emitir.php?t=39', 'text' => 'Boleta Electrónica', 'icon' => 'bi-receipt-cutoff'],
                 ['link' => 'emitir/emitir.php?t=56', 'text' => 'Nota de Débito', 'icon' => 'bi-file-minus'],
                 ['link' => 'emitir/emitir.php?t=61', 'text' => 'Nota de Crédito', 'icon' => 'bi-file-plus'],
                 ['link' => 'emitir/emitir.php?t=52', 'text' => 'Guía de Despacho', 'icon' => 'bi-truck']
@@ -124,7 +124,7 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
         ['link' => 'mantencion/list_clie.php', 'text' => 'Clientes', 'icon' => 'bi-person-lines-fill']
     ];
     if ($codRol == "1") {
-        $mantItems[] = ['link' => 'mantencion/form_cont_elec.php', 'text' => 'Contribuyentes Electr&oacute;nicos', 'icon' => 'bi-people'];
+        $mantItems[] = ['link' => 'mantencion/form_cont_elec.php', 'text' => 'Contribuyentes Electrónicos', 'icon' => 'bi-people'];
         $mantItems[] = ['link' => 'mantencion/list_tip_doc.php', 'text' => 'Tipo Documentos', 'icon' => 'bi-file-text'];
         $mantItems[] = ['link' => 'mantencion/list_estado.php', 'text' => 'Estado Documentos', 'icon' => 'bi-clipboard-check'];
     }
@@ -133,7 +133,7 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
     
     $menu[] = [
         'id' => 'mantencion',
-        'titulo' => 'Mantenci&oacute;n',
+        'titulo' => 'Mantención',
         'icon' => 'bi-gear',
         'items' => $mantItems
     ];
@@ -198,7 +198,7 @@ $defaultPage = 'main.php';
                 <!-- Logout -->
                 <div class="menu-category">
                     <a href="logout.php" class="menu-category-title text-danger">
-                        <span><i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesi&oacute;n</span>
+                        <span><i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión</span>
                     </a>
                 </div>
             </nav>
@@ -212,7 +212,7 @@ $defaultPage = 'main.php';
                     <button class="toggle-sidebar" onclick="toggleSidebar()">
                         <i class="bi bi-list"></i>
                     </button>
-                    <h5 class="header-title d-none d-md-block">Portal de Facturaci&oacute;n Electr&oacute;nica</h5>
+                    <h5 class="header-title d-none d-md-block">Portal de Facturación Electrónica</h5>
                 </div>
                 <div class="header-right">
                     <div class="user-info">
