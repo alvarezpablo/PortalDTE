@@ -1,6 +1,6 @@
 <?php 
 /**
- * PortalDTE - Selección de Empresa Modernizado
+ * PortalDTE - Seleccion de Empresa Modernizado
  * Versión con Bootstrap 5
  */
 
@@ -13,7 +13,7 @@ $sMsgJs = $_GET["sMsgJs"] ?? '';
 
 session_start();
 if(trim($_SESSION["_COD_USU_SESS"]) == "" || trim($_SESSION["_COD_ROL_SESS"]) == "") {
-    header("location:login_new.php?sMsgJs=Sesión expirada");
+    header("location:login_new.php?sMsgJs=Sesion expirada");
     exit;
 }
 
@@ -119,9 +119,17 @@ if(trim($_SESSION["_COD_ROL_SESS"]) != "1") {
             </div>
         </div>
         <div class="card-body-custom">
-            <?php if($sMsgJs): ?>
+            <?php if($sMsgJs):
+                // Traducir mensajes JS a texto legible
+                $mensajes = [
+                    '_MSG_EMP_ADM' => 'Debe seleccionar una empresa con la cual trabajar',
+                    '_MSG_SEL_EMP_ING' => 'Seleccione la empresa que desea usar',
+                    '_MSG_USER_SIN_EMP' => 'Usted no puede ingresar porque no tiene empresa asociada'
+                ];
+                $msgTexto = $mensajes[$sMsgJs] ?? $sMsgJs;
+            ?>
             <div class="alert alert-warning">
-                <i class="bi bi-exclamation-triangle me-2"></i><?= htmlspecialchars($sMsgJs) ?>
+                <i class="bi bi-exclamation-triangle me-2"></i><?= htmlspecialchars($msgTexto) ?>
             </div>
             <?php endif; ?>
             
@@ -153,7 +161,7 @@ if(trim($_SESSION["_COD_ROL_SESS"]) != "1") {
                         <i class="bi bi-check-circle me-2"></i>Continuar
                     </button>
                     <a href="logout.php" class="btn btn-outline-secondary">
-                        <i class="bi bi-box-arrow-left me-2"></i>Cerrar Sesión
+                        <i class="bi bi-box-arrow-left me-2"></i>Cerrar Sesi&oacute;n
                     </a>
                 </div>
             </form>
