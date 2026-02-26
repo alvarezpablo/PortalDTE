@@ -840,12 +840,28 @@ function limpiar() {
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Inicializar Flatpickr en campos de fecha
-    flatpickr(".datepicker", {
+    // Configuracion comun de Flatpickr
+    var fpConfig = {
         dateFormat: "Y-m-d",
         locale: "es",
-        allowInput: true
-    });
+        allowInput: true,
+        disableMobile: true,
+        clickOpens: true
+    };
+
+    // Inicializar cada campo individualmente para evitar duplicados
+    if (document.getElementById('fecha1') && !document.getElementById('fecha1')._flatpickr) {
+        flatpickr("#fecha1", fpConfig);
+    }
+    if (document.getElementById('fecha2') && !document.getElementById('fecha2')._flatpickr) {
+        flatpickr("#fecha2", fpConfig);
+    }
+    if (document.getElementById('fechac1') && !document.getElementById('fechac1')._flatpickr) {
+        flatpickr("#fechac1", fpConfig);
+    }
+    if (document.getElementById('fechac2') && !document.getElementById('fechac2')._flatpickr) {
+        flatpickr("#fechac2", fpConfig);
+    }
 
     // Inicializar tooltips de Bootstrap
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[title]'));
