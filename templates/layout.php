@@ -125,7 +125,8 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
         ['link' => 'mantencion/list_clie.php', 'text' => 'Clientes', 'icon' => 'bi-person-lines-fill']
     ];
     if ($codRol == "1") {
-        $mantItems[] = ['link' => 'mantencion/form_cont_elec.php', 'text' => 'Contribuyentes Electr&oacute;nicos', 'icon' => 'bi-people'];
+        $mantItems[] = ['link' => 'mantencion/form_cont_elec_v2.php', 'text' => 'Contribuyentes Electr&oacute;nicos', 'icon' => 'bi-people'];
+        $mantItems[] = ['link' => 'mantencion/form_cont_elec.php', 'text' => 'Contribuyentes (Antiguo)', 'icon' => 'bi-people'];
         $mantItems[] = ['link' => 'mantencion/list_tip_doc.php', 'text' => 'Tipo Documentos', 'icon' => 'bi-file-text'];
         $mantItems[] = ['link' => 'mantencion/list_estado.php', 'text' => 'Estado Documentos', 'icon' => 'bi-clipboard-check'];
     }
