@@ -19,6 +19,9 @@ if (!empty($_SESSION["_COD_USU_SESS"])) {
     exit;
 }
 
+// Establecer encoding ISO-8859-1
+header('Content-Type: text/html; charset=ISO-8859-1');
+
 // Obtener token CSRF
 $csrfToken = getCSRFToken();
 
@@ -177,7 +180,7 @@ $lastUser = isset($_GET['sUser']) ? e($_GET['sUser']) : '';
         <div class="login-header">
             <i class="bi bi-file-earmark-text logo-icon"></i>
             <h2>OpenDTE</h2>
-            <p>Sistema de Facturación Electrónica</p>
+            <p>Sistema de Facturaci&oacute;n Electr&oacute;nica</p>
         </div>
         
         <div class="login-body">
@@ -217,17 +220,18 @@ $lastUser = isset($_GET['sUser']) ? e($_GET['sUser']) : '';
         <div class="login-footer">
             <p class="mb-0">
                 <i class="bi bi-envelope me-1"></i>
-                ¿Necesitas ayuda? <a href="mailto:soporte@opendte.com">Contáctanos</a>
+                &iquest;Necesitas ayuda? <a href="mailto:soporte@opendte.com">Cont&aacute;ctanos</a>
             </p>
         </div>
     </div>
 
     <div class="version-info">
-        OpenDTE v2.0 - Portal de Facturación Electrónica
+        OpenDTE v2.0 - Portal de Facturaci&oacute;n Electr&oacute;nica
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
 
