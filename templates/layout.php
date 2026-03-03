@@ -259,9 +259,9 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
         $mantItems[] = ['link' => 'mantencion/list_estado_boleta.php', 'text' => 'Estado Boletas', 'icon' => 'bi-clipboard-data'];
         $mantItems[] = ['link' => 'mantencion/menu_rules.php', 'text' => 'Reglas de Men&uacute;', 'icon' => 'bi-shield-lock'];
     }
-    $mantItems[] = ['link' => 'sel_emp.php', 'text' => 'Cambiar Empresa', 'icon' => 'bi-arrow-left-right'];
+    $mantItems[] = ['link' => 'sel_emp.php', 'text' => 'Cambiar Empresa', 'icon' => 'bi-arrow-left-right', 'target' => '_top'];
     $mantItems[] = ['link' => 'mantencion/form_user_sii.php', 'text' => 'Act. Contacto SII', 'icon' => 'bi-person-badge'];
-    $mantItems[] = ['link' => 'logout.php', 'text' => 'Salir', 'icon' => 'bi-box-arrow-right'];
+    $mantItems[] = ['link' => 'logout.php', 'text' => 'Salir', 'icon' => 'bi-box-arrow-right', 'target' => '_top'];
 
     $menu[] = [
         'id' => 'mantencion',
@@ -359,12 +359,21 @@ $defaultPage = 'main.php';
                         <i class="bi bi-chevron-right arrow"></i>
                     </div>
                     <ul class="menu-items">
-                        <?php foreach ($category['items'] as $item): ?>
+                        <?php foreach ($category['items'] as $item):
+                            $hasTarget = isset($item['target']) && $item['target'] == '_top';
+                        ?>
                         <li>
+                            <?php if ($hasTarget): ?>
+                            <a href="<?= $item['link'] ?>" target="_top">
+                                <i class="bi <?= $item['icon'] ?>"></i>
+                                <?= $item['text'] ?>
+                            </a>
+                            <?php else: ?>
                             <a href="<?= $item['link'] ?>" onclick="loadPage('<?= $item['link'] ?>'); return false;">
                                 <i class="bi <?= $item['icon'] ?>"></i>
                                 <?= $item['text'] ?>
                             </a>
+                            <?php endif; ?>
                         </li>
                         <?php endforeach; ?>
                     </ul>
@@ -373,7 +382,7 @@ $defaultPage = 'main.php';
 
                 <!-- Logout -->
                 <div class="menu-category">
-                    <a href="logout.php" class="menu-category-title text-danger">
+                    <a href="logout.php" class="menu-category-title text-danger" target="_top">
                         <span><i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesi&oacute;n</span>
                     </a>
                 </div>
@@ -395,7 +404,7 @@ $defaultPage = 'main.php';
                         <div class="user-name"><i class="bi bi-person-circle me-1"></i><?= htmlspecialchars($sNomUser) ?></div>
                         <div class="company-name"><i class="bi bi-building me-1"></i><?= htmlspecialchars($sNomEmp) ?></div>
                     </div>
-                    <a href="logout.php" class="btn btn-logout d-none d-md-inline-block">
+                    <a href="logout.php" class="btn btn-logout d-none d-md-inline-block" target="_top">
                         <i class="bi bi-box-arrow-right me-1"></i>Salir
                     </a>
                 </div>
