@@ -5,10 +5,13 @@
 	ini_set('memory_limit', '100024M'); // or you could use 1G    
 
 	include("../include/config.php");
-	include("../include/db_lib.php");  
+	include("../include/db_lib.php");
 	include("../include/ver_aut.php");
-    include("../include/ver_emp_adm.php"); 
-	require_once '../dte/PHPExcel-1.8/PHPExcel.php';
+    include("../include/ver_emp_adm.php");
+	// PhpSpreadsheet (reemplaza PHPExcel obsoleto)
+	require_once dirname(__DIR__) . '/vendor/autoload.php';
+	use PhpOffice\PhpSpreadsheet\Spreadsheet;
+	use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 	$tipo = trim($_GET["tipo"]);
 	$folio = trim($_GET["folio"]);
@@ -72,7 +75,7 @@
 			$sEstadoDte = "Con Reparo Aceptado por Cliente";
 			break; 
 			case 1181:
-			$sEstadoDte = "Rechazado Automáticamente";
+			$sEstadoDte = "Rechazado Automï¿½ticamente";
 			break; 
 			case 1437:
 			$sEstadoDte = "Rechazado Comercialmente";
@@ -131,22 +134,22 @@
 
 	if($_GET){
 
-		// Se crea el objeto PHPExcel
-		$objPHPExcel = new PHPExcel();
+		// Se crea el objeto Spreadsheet (PhpSpreadsheet)
+		$objPHPExcel = new Spreadsheet();
 		// Se asignan las propiedades del libro
 		$objPHPExcel->getProperties()->setCreator("OpenB") // Nombre del autor
-			->setLastModifiedBy("OpenB") //Ultimo usuario que lo modificó
+			->setLastModifiedBy("OpenB") //Ultimo usuario que lo modificï¿½
 			->setTitle("Reporte Excel DTE Recibidos") // Titulo
 			->setSubject("Reporte Excel DTE Recibidos") //Asunto
-			->setDescription("Reporte Excel DTE Recibidos") //Descripción
+			->setDescription("Reporte Excel DTE Recibidos") //Descripciï¿½n
 			->setKeywords("Reporte Excel DTE Recibidos") //Etiquetas
 			->setCategory("Reporte Excel DTE Recibidos"); //Categoria
 
 		$tituloReporte = "Reporte Excel DTE Recibidos " . date("Y-m-d");
-//		$titulosColumnas = array('Tipo', 'Folio', 'F.Emisión','F.Recepcion', 'Exento', 'Neto', 'IVA', 'Total', 'Rut', 'Receptor', 'Dirección', 'Comuna','Acuse','Comercial','Mercadería');
-		$titulosColumnas = array('Tipo', 'Folio', 'F.Emisión','F.Recepcion', 'Exento', 'Neto', 'IVA', 'Total', 'Rut', 'Receptor', 'Dirección', 'Comuna','Acuse','Comercial','Mercadería','Msg.ERP');
+//		$titulosColumnas = array('Tipo', 'Folio', 'F.Emisiï¿½n','F.Recepcion', 'Exento', 'Neto', 'IVA', 'Total', 'Rut', 'Receptor', 'Direcciï¿½n', 'Comuna','Acuse','Comercial','Mercaderï¿½a');
+		$titulosColumnas = array('Tipo', 'Folio', 'F.Emisiï¿½n','F.Recepcion', 'Exento', 'Neto', 'IVA', 'Total', 'Rut', 'Receptor', 'Direcciï¿½n', 'Comuna','Acuse','Comercial','Mercaderï¿½a','Msg.ERP');
 
-		// Se combinan las celdas A1 hasta D1, para colocar ahí el titulo del reporte
+		// Se combinan las celdas A1 hasta D1, para colocar ahï¿½ el titulo del reporte
 		$objPHPExcel->setActiveSheetIndex(0)->mergeCells('A1:D1');
 		// Se agregan los titulos del reporte
 		$objPHPExcel->setActiveSheetIndex(0)
@@ -320,14 +323,14 @@
 		// Se activa la hoja para que sea la que se muestre cuando el archivo se abre
 		$objPHPExcel->setActiveSheetIndex(0);		 
 		// Inmovilizar paneles
-		//$objPHPExcel->getActiveSheet(0)->freezePane('A4');
-		$objPHPExcel->getActiveSheet(0)->freezePaneByColumnAndRow(0,4);
+		//$objPHPExcel->getActiveSheet()->freezePane('A4');
+		$objPHPExcel->getActiveSheet()->freezePane('A4');
 		// Se manda el archivo al navegador web, con el nombre que se indica, en formato 2007
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 		header('Content-Disposition: attachment;filename="DTERecibidos' . date("Y-m-d H:i:s") . '.xlsx"');
 		header('Cache-Control: max-age=0');
-		 
-		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+
+		$objWriter = new Xlsx($objPHPExcel);
 		$objWriter->save('php://output');
 		exit;
 	}

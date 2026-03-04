@@ -7,10 +7,13 @@
  ini_set('memory_limit', '1G'); // or you could use 1G    
 
 	include("../include/config.php");
-	include("../include/db_lib.php");  
+	include("../include/db_lib.php");
 	include("../include/ver_aut.php");
-    include("../include/ver_emp_adm.php"); 
-	require_once 'PHPExcel-1.8/PHPExcel.php';
+    include("../include/ver_emp_adm.php");
+	// PhpSpreadsheet (reemplaza PHPExcel obsoleto)
+	require_once dirname(__DIR__) . '/vendor/autoload.php';
+	use PhpOffice\PhpSpreadsheet\Spreadsheet;
+	use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 	$tipo = trim($_GET["tipo"]);
 	$folio = trim($_GET["folio"]);
@@ -144,8 +147,8 @@
 
 	if($_GET){
 
-		// Se crea el objeto PHPExcel
-		$objPHPExcel = new PHPExcel();
+		// Se crea el objeto Spreadsheet (PhpSpreadsheet)
+		$objPHPExcel = new Spreadsheet();
 		// Se asignan las propiedades del libro
 		$objPHPExcel->getProperties()->setCreator("OpenB") // Nombre del autor
 			->setLastModifiedBy("OpenB") //Ultimo usuario que lo modificó
@@ -324,16 +327,16 @@
 		// Se activa la hoja para que sea la que se muestre cuando el archivo se abre
 		$objPHPExcel->setActiveSheetIndex(0);		 
 		// Inmovilizar paneles
-		//$objPHPExcel->getActiveSheet(0)->freezePane('A4');
-		$objPHPExcel->getActiveSheet(0)->freezePaneByColumnAndRow(0,4);
+		//$objPHPExcel->getActiveSheet()->freezePane('A4');
+		$objPHPExcel->getActiveSheet()->freezePane('A4');
 		// Se manda el archivo al navegador web, con el nombre que se indica, en formato 2007
 
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 		header('Content-Disposition: attachment;filename="DTEEmitidos' . date("Y-m-d H:i:s") . '.xlsx"');
 		header('Cache-Control: max-age=0');
 //		header('Content-Type: text/html; charset=UTF-8');
-		 
-		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+
+		$objWriter = new Xlsx($objPHPExcel);
 		$objWriter->save('php://output');
 		exit;
 	}

@@ -203,6 +203,41 @@ cp asig_emp.php.bak asig_emp.php
 | Fecha | Autor | Descripción |
 |-------|-------|-------------|
 | 2025-11-29 | OpenDTE | Implementación inicial Fase 1 y 3 |
+| 2026-03-04 | OpenDTE | Migración PHPExcel a PhpSpreadsheet |
+
+---
+
+## 📦 MIGRACIÓN PHPEXCEL A PHPSPREADSHEET
+
+### Archivos Migrados:
+| Archivo | Función |
+|---------|---------|
+| `dte/excel_dte_v2.php` | Exportar DTEs emitidos a Excel |
+| `factura/excel_dte_recep_v2.php` | Exportar DTEs recibidos a Excel |
+| `factura/excel_dte_recep_v3.php` | Exportar DTEs recibidos a Excel |
+| `laudus/gpuerto.php` | Importar DTEs desde Excel |
+| `vgm/vgm.php` | Importar DTEs VGM desde Excel |
+| `consorcio/generar.php` | Procesar boletas desde Excel |
+
+### Pasos para Instalar en Servidor:
+
+```bash
+# 1. Ir al directorio del proyecto
+cd /opt/opendte/httpdocs
+
+# 2. Hacer git pull
+git pull
+
+# 3. Instalar dependencias con Composer
+composer install --no-dev
+
+# 4. Verificar que existe vendor/autoload.php
+ls -la vendor/autoload.php
+```
+
+### Archivos Nuevos:
+- `composer.json` - Configuración de Composer
+- `include/excel_helper.php` - Helper opcional para PhpSpreadsheet
 
 ---
 
@@ -211,4 +246,5 @@ cp asig_emp.php.bak asig_emp.php
 - `Plan.md` - Plan completo de actualización
 - `include/security_lib.php` - Documentación de funciones de seguridad
 - `include/frontend_config.php` - Configuración del frontend
+- `include/excel_helper.php` - Helper para operaciones Excel
 

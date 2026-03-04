@@ -27,7 +27,7 @@ exit();*/
 		
 		try {
 			$client = new SoapClient($service, $aParam);
-			$result = $client->reenviaEmailDTE($aParam);	// llamamos al métdo de reenviar PDF
+			$result = $client->reenviaEmailDTE($aParam);	// llamamos al mï¿½tdo de reenviar PDF
 		}
 		catch (Exception $e) {
 //			echo "Email no enviado: $sEmisor, $nFolio, $nTipoDTE, $nTipoEnvio, $sDestinatario.";
@@ -45,7 +45,9 @@ exit();*/
 		//return "envio realizado...";
 	}
 
-  require_once("PHPExcel-1.8/Classes/PHPExcel/IOFactory.php");
+  // PhpSpreadsheet (reemplaza PHPExcel obsoleto)
+  require_once dirname(__DIR__) . '/vendor/autoload.php';
+  use PhpOffice\PhpSpreadsheet\IOFactory;
   require_once('nusoap-0.9.5/lib/nusoap.php');
 
   $conn = conn();
@@ -76,8 +78,8 @@ if($fileError==0 && $file != "") {
 //	date_default_timezone_set('PRC');
 	//  Read excel file 
 	try {
-	    $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
-	    $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+	    $inputFileType = IOFactory::identify($inputFileName);
+	    $objReader = IOFactory::createReader($inputFileType);
 		$objPHPExcel = $objReader->load($inputFileName);
 	} catch(Exception $e) {
 		echo $e->getMessage();
@@ -130,7 +132,7 @@ if($fileError==0 && $file != "") {
 								echo "<tr><td bgcolor='#FCA7B2' colspan='3'>Error al crear registro, no se puede procesar rut emisor $rutEmisor y folio " . $folioDTE . "</td></tr>";
 							}
 							else{
-								$conn->completeTrans();	// completa transacción
+								$conn->completeTrans();	// completa transacciï¿½n
 								if($sResp["estadoLaudus"] == "1"){
 									echo "<tr><td bgcolor='#88FC71'>" . $sResp["glosa"] . " </td><td bgcolor='#88FC71'> <a href='" .$sResp["pdf"] ."' target='_blank'>Ver PDF</a></td>";
 									echo "<td bgcolor='#88FC71'>" . $sResp["msgLaudus"] . " </td></tr>";
@@ -205,7 +207,7 @@ if($fileError==0 && $file != "") {
 				echo "<tr><td bgcolor='#FCA7B2' colspan='3'>Error registro ya existente, no se puede procesar rut emisor $rutEmisor y folio " . $folioDTE . "</td></tr>";
 			} 
 			else{
-				$conn->startTrans();	// Comienza transacción
+				$conn->startTrans();	// Comienza transacciï¿½n
 
 				$sql = "insert into gpuerto_enc(tipo_docu, rut_emisor, dv_emisor, folio_dte, folio_erp, fecha_dte, fecha_genera, rut_recep, nom_clie, dir_clie, comu_clie, giro_clie, email_clie, for_pago, neto, exento, iva, tasa, total, xml, resp_openb, estado, pdf, json_laudus, resp_laudus) 
 				values(
@@ -499,7 +501,7 @@ if($fileError==0 && $file != "") {
 						echo "<tr><td bgcolor='#FCA7B2' colspan='3'>Error al crear registro, no se puede procesar rut emisor $rutEmisor y folio " . $folioDTE . "</td></tr>";
 					}
 					else{
-						$conn->completeTrans();	// completa transacción
+						$conn->completeTrans();	// completa transacciï¿½n
 						if($sResp["estadoLaudus"] == "1"){
 							echo "<tr><td bgcolor='#88FC71'>" . $sResp["glosa"] . " </td><td bgcolor='#88FC71'> <a href='" .$sResp["pdf"] ."' target='_blank'>Ver PDF</a></td>";
 							echo "<td bgcolor='#88FC71'>" . $sResp["msgLaudus"] . " </td></tr>";
@@ -681,8 +683,8 @@ $wsdlLocal = "/opt/opendte/httpdocs/FirmaDTE.wsdl";
 	'encoding' => 'ISO-8859-1',
         'trace' => true, // Habilitar el registro de la solicitud y la respuesta SOAP
         'exceptions' => true, // Habilitar el manejo de excepciones SOAP
-        'connection_timeout' => 180, // Tiempo de espera de conexión en segundos
-//        'location' => $_LINK_BASE_WS . 'OpenDTEWS/services/FirmaDTE.FirmaDTEHttpEndpoint/', // Ubicación  del endpoint
+        'connection_timeout' => 180, // Tiempo de espera de conexiï¿½n en segundos
+//        'location' => $_LINK_BASE_WS . 'OpenDTEWS/services/FirmaDTE.FirmaDTEHttpEndpoint/', // Ubicaciï¿½n  del endpoint
 	    'uri' => 'http://ws.opendte.cl',
 		'stream_context' => $context,
         'cache_wsdl' => WSDL_CACHE_NONE
@@ -863,9 +865,9 @@ catch (Exception $e) {
 //		echo "<br><br>";
 
 	} catch (Exception $e) {
-//		echo 'Excepción capturada: ',  $e->getMessage(), "\n";
-//		return array(0,"Error Excepción capturada al procesar folio " $folio . " " . $e->getMessage() );
-		return array('estado' => 0, "glosa" => "Error Excepción capturada al procesar rut emisor $rutEmpr y folio " . $folio . " " . $e->getMessage());
+//		echo 'Excepciï¿½n capturada: ',  $e->getMessage(), "\n";
+//		return array(0,"Error Excepciï¿½n capturada al procesar folio " $folio . " " . $e->getMessage() );
+		return array('estado' => 0, "glosa" => "Error Excepciï¿½n capturada al procesar rut emisor $rutEmpr y folio " . $folio . " " . $e->getMessage());
 	}
   }
 
@@ -875,7 +877,7 @@ if($file=="") {
 <html lang="en">
  <head>
   <meta charset="UTF-8">
-  <meta name="Generator" content="EditPlus®">
+  <meta name="Generator" content="EditPlusï¿½">
   <meta name="Author" content="">
   <meta name="Keywords" content="">
   <meta name="Description" content="">

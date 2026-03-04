@@ -11,13 +11,14 @@ if( ! ini_get('date.timezone') )
     date_default_timezone_set('GMT');
 }
 
-include("../include/config.php");  
-include("../include/ver_aut.php");      
-include("../include/ver_emp_adm.php"); 
-include("../include/tables.php");  
+include("../include/config.php");
+include("../include/ver_aut.php");
+include("../include/ver_emp_adm.php");
+include("../include/tables.php");
 
-/** Include PHPExcel */
-require_once dirname(__FILE__) . '/Classes/PHPExcel.php';
+/** PhpSpreadsheet (reemplaza PHPExcel obsoleto) */
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+use PhpOffice\PhpSpreadsheet\IOFactory;
 $msjGlobal = "";
 $RUTEmisor = "99555660-K";
 $RUTEmisorSinDV="99555660";
@@ -40,8 +41,8 @@ if($rutaExcel == ""){
 function validaBoleta($rutaExcel){
 	global $RUTEmisorSinDV,$DVRutEmisor, $WSDL, $msjGlobal;
 //	$rutaExcel = "/opt/opendte/httpdocs/consorcio/Boleta2015.xls";
-	$XLFileType = PHPExcel_IOFactory::identify($rutaExcel);
-	$objReader = PHPExcel_IOFactory::createReader($XLFileType);
+	$XLFileType = IOFactory::identify($rutaExcel);
+	$objReader = IOFactory::createReader($XLFileType);
 	$objReader->setReadDataOnly(true);
 	$objPHPExcel = $objReader->load($rutaExcel);
 	//$objWorksheet = $objPHPExcel->setActiveSheetIndex(0);
@@ -49,7 +50,7 @@ function validaBoleta($rutaExcel){
 	//$objWorksheet = $objPHPExcel->getActiveSheet();
 
 	// encabezado excel
-	//Cuenta;Fecha Facturación; Rut Completo ; RUT ; DV ;Nombre;Neto;IVA;Total;Dirección;Comuna;Ciudad;Periodo;Monto en palabras
+	//Cuenta;Fecha Facturaciï¿½n; Rut Completo ; RUT ; DV ;Nombre;Neto;IVA;Total;Direcciï¿½n;Comuna;Ciudad;Periodo;Monto en palabras
 
 	$i=0;
 	$error=0;
@@ -133,8 +134,8 @@ function validaBoleta($rutaExcel){
 function generaBoleta($rutaExcel){
 	global $RUTEmisorSinDV,$DVRutEmisor, $WSDL;
 //	$rutaExcel = "/opt/opendte/httpdocs/consorcio/Boleta2015.xls";
-	$XLFileType = PHPExcel_IOFactory::identify($rutaExcel);
-	$objReader = PHPExcel_IOFactory::createReader($XLFileType);
+	$XLFileType = IOFactory::identify($rutaExcel);
+	$objReader = IOFactory::createReader($XLFileType);
 	$objReader->setReadDataOnly(true);
 	$objPHPExcel = $objReader->load($rutaExcel);
 	//$objWorksheet = $objPHPExcel->setActiveSheetIndex(0);
@@ -142,7 +143,7 @@ function generaBoleta($rutaExcel){
 	//$objWorksheet = $objPHPExcel->getActiveSheet();
 
 	// encabezado excel
-	//Cuenta;Fecha Facturación; Rut Completo ; RUT ; DV ;Nombre;Neto;IVA;Total;Dirección;Comuna;Ciudad;Periodo;Monto en palabras
+	//Cuenta;Fecha Facturaciï¿½n; Rut Completo ; RUT ; DV ;Nombre;Neto;IVA;Total;Direcciï¿½n;Comuna;Ciudad;Periodo;Monto en palabras
 
 	validaBoleta($rutaExcel);		// valida que no tenga errores.
 
@@ -257,7 +258,7 @@ function armaXML($i, $fechaFactura,$rutCliente,$dvCliente,$nombreCliente,$neto,$
   }
 
   if(vacio_sm($dirCliente) == false){
-	$msjGlobal = "Error: Dirección Cliente en Blanco"; 
+	$msjGlobal = "Error: Direcciï¿½n Cliente en Blanco"; 
 	return "";
   }
 
@@ -287,7 +288,7 @@ function armaXML($i, $fechaFactura,$rutCliente,$dvCliente,$nombreCliente,$neto,$
   } 
  
  $tasaIva = 19;
- $glosa = "Comisiones Tarjeta de Crédito " . $aFecha[1] . "-" . $aFecha[2];
+ $glosa = "Comisiones Tarjeta de Crï¿½dito " . $aFecha[1] . "-" . $aFecha[2];
  $TmstFirma = date("Y-m-d") . "T" . date("H:i:s");
 
 $xmlFull = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>

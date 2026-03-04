@@ -35,8 +35,8 @@ exit();*/
 			'encoding' => 'ISO-8859-1',
 				'trace' => true, // Habilitar el registro de la solicitud y la respuesta SOAP
 				'exceptions' => true, // Habilitar el manejo de excepciones SOAP
-				'connection_timeout' => 180, // Tiempo de espera de conexión en segundos
-				'location' => $_LINK_BASE_WS . 'OpenDTEWS/services/ReenviaEmailDTE.ReenviaEmailDTEHttpSoap11Endpoint/', // Ubicación  del endpoint
+				'connection_timeout' => 180, // Tiempo de espera de conexiï¿½n en segundos
+				'location' => $_LINK_BASE_WS . 'OpenDTEWS/services/ReenviaEmailDTE.ReenviaEmailDTEHttpSoap11Endpoint/', // Ubicaciï¿½n  del endpoint
 			'uri' => 'http://ws.opendte.cl',
 			];
 
@@ -83,8 +83,8 @@ exit();*/
 				'encoding' => 'ISO-8859-1',
 					'trace' => true, // Habilitar el registro de la solicitud y la respuesta SOAP
 					'exceptions' => true, // Habilitar el manejo de excepciones SOAP
-					'connection_timeout' => 180, // Tiempo de espera de conexión en segundos
-					'location' => $service . '.ReenviaEmailDTEHttpSoap11Endpoint/', // Ubicación  del endpoint
+					'connection_timeout' => 180, // Tiempo de espera de conexiï¿½n en segundos
+					'location' => $service . '.ReenviaEmailDTEHttpSoap11Endpoint/', // Ubicaciï¿½n  del endpoint
 				'uri' => 'http://ws.opendte.cl',
 				];			
 
@@ -188,7 +188,9 @@ function convertUTF8($valor) {
 //		reenviarXML("99999999-9", "290", "33", "PDF", "mauricio.escobar.a@gmail.com");
 //		exit;
 
-  require_once("PHPExcel-1.8/Classes/PHPExcel/IOFactory.php");
+  // PhpSpreadsheet (reemplaza PHPExcel obsoleto)
+  require_once dirname(__DIR__) . '/vendor/autoload.php';
+  use PhpOffice\PhpSpreadsheet\IOFactory;
   require_once('nusoap-0.9.5/lib/nusoap.php');
 
   $conn = conn();
@@ -221,9 +223,8 @@ if($fileError==0 && $file != "") {
 //	date_default_timezone_set('PRC');
 	//  Read excel file 
 	try {
-	    $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
-	    $objReader = PHPExcel_IOFactory::createReader($inputFileType);
-	//	PHPExcel_Settings::setZipClass(PHPExcel_Settings::PCLZIP);
+	    $inputFileType = IOFactory::identify($inputFileName);
+	    $objReader = IOFactory::createReader($inputFileType);
 
 		$objPHPExcel = $objReader->load($inputFileName);
 
@@ -852,8 +853,8 @@ try {
 	'encoding' => 'ISO-8859-1',
         'trace' => true, // Habilitar el registro de la solicitud y la respuesta SOAP
         'exceptions' => true, // Habilitar el manejo de excepciones SOAP
-        'connection_timeout' => 180, // Tiempo de espera de conexión en segundos
-        'location' => 'http://cloud-ws.opendte.cl:8080/OpenDTEWS/services/FirmaDTE.FirmaDTEHttpSoap11Endpoint/', // Ubicación  del endpoint
+        'connection_timeout' => 180, // Tiempo de espera de conexiï¿½n en segundos
+        'location' => 'http://cloud-ws.opendte.cl:8080/OpenDTEWS/services/FirmaDTE.FirmaDTEHttpSoap11Endpoint/', // Ubicaciï¿½n  del endpoint
 	'uri' => 'http://ws.opendte.cl',
     ];
 $soapClient = new SoapClient($WSDLFirmaDTE."?wsdl" , $options);
