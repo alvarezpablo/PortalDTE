@@ -3,8 +3,13 @@
     include("../include/ver_aut.php");      
     include("../include/ver_emp_adm.php");        
     include("../include/ver_aut_adm_super.php");        
-    include("../include/tables.php");  
-    $sMsgJs = trim($_GET["sMsgJs"]);  
+    include("../include/tables.php");
+
+    function jsq($value) {
+        return str_replace(array("\\", "'", "\r", "\n"), array("\\\\", "\\'", "", "\\n"), (string)$value);
+    }
+
+    $sMsgJs = isset($_GET["sMsgJs"]) ? trim($_GET["sMsgJs"]) : "";
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -46,7 +51,7 @@
 <body class="p-3">
 
 <?php if($sMsgJs != ""): ?>
-<script>alert('<?php echo addslashes($sMsgJs); ?>');</script>
+<script>alert('<?php echo jsq($sMsgJs); ?>');</script>
 <?php endif; ?>
 
 <div class="card">

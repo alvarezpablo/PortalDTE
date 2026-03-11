@@ -1,103 +1,30 @@
-<?php 
-  include("../include/config.php");  
-  include("../include/ver_aut.php");      
-//  include("../include/ver_aut_adm.php");      
-  include("../include/tables.php");  
+<?php
+include("../include/config.php");
+include("../include/ver_aut.php");
+include("../include/tables.php");
+
+function h($value){ return htmlspecialchars((string)$value, ENT_QUOTES, 'ISO-8859-1'); }
+
+$returnHref = "mantencion/form_cont_elec.php";
 ?>
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-<html>
-	
-	<head>
-		<link rel="shortcut icon" href="/favicon.ico">
-		<title>OpenB</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<base href="<?php echo $_LINK_BASE; ?>" />
-		<script language="javascript" type="text/javascript" src="javascript/common.js"></script>
-		
-		<link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/general.css">
-		<link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/main/custom.css">
-		<link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/main/layout.css">
-		<link rel="stylesheet" type="text/nonsense" href="skins/<?php echo $_SKINS; ?>/css/misc.css">
-
-
-<script type="text/javascript">
-<!--
-
-
-function _body_onload()
-{
-	loff();
-	SetContext('cl_ed');
-		
-}
-
-function _body_onunload()
-{
-	lon();
-	
-}
-
-//-->
-		</script>
-	</head>
-
-	<body onLoad="_body_onload();" onUnload="_body_onunload();" id="mainCP" class="visibilityAdminMode">
-	
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<link rel="shortcut icon" href="/favicon.ico">
+	<title>Contribuyentes Electronicos - Portal DTE</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<base href="<?php echo h($_LINK_BASE); ?>" />
+	<script type="text/javascript" src="javascript/common.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+	<style>body{background:#eef2f7;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:#1f2937}.page-shell{max-width:820px;margin:0 auto;padding:1rem}.confirm-card{border:0;border-radius:18px;box-shadow:0 18px 40px rgba(15,23,42,.12);overflow:hidden}.confirm-body{padding:2rem 1.5rem;background:#fff}.icon-wrap{width:74px;height:74px;border-radius:22px;background:linear-gradient(135deg,#0d6efd 0%,#20c997 100%);color:#fff;display:flex;align-items:center;justify-content:center;font-size:2rem}#loaderContainer{position:fixed;inset:0;background:rgba(15,23,42,.3);z-index:1050}#loaderContainerWH{vertical-align:middle;text-align:center}#loader{display:inline-block;background:#fff;border-radius:14px;padding:1rem 1.25rem;box-shadow:0 12px 28px rgba(15,23,42,.18)}</style>
+	<script type="text/javascript">function _body_onload(){ try{loff();}catch(e){} } function _body_onunload(){ try{lon();}catch(e){} } var opt_no_frames=false,opt_integrated_mode=false;</script>
+</head>
+<body onload="_body_onload();" onunload="_body_onunload();" id="mainCP">
 	<a href="#" name="top" id="top"></a>
-	<table border="0" cellspacing="0" cellpadding="0" id="loaderContainer" onClick="return false;"><tr><td id="loaderContainerWH"><div id="loader"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><p><img src="skins/<?php echo $_SKINS; ?>/icons/loading.gif" height="32" width="32" alt=""/><strong>Por favor espere.<br>Cargando ...</strong></p></td></tr></table></div></td></tr></table>
-
-	<table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td id="screenWH">
-	<div class="screenTitle">
-		<table width="100%" cellspacing="0">
-		<tr>
-			<td>Contribuyentes Electr&oacute;nico</td>
-			<td class="uplevel"><div class="commonButton" id="bid-up-level" title="Subir nivel"><button name="bname_up_level">Subir nivel</button><span>Subir nivel</span></div></td>
-		</tr>
-		</table>
-	</div>
-	<div id="screenSubTitle"></div>
-	<div id="screenTabs">
-		<div id="tabs">
-			
-		</div>
-
-	</div>
-	<div class="screenBody" id="">
-		
-
-
-	<div class="formArea">
-		<fieldset>
-			<legend>Datos Ingresados </legend>
-				<table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td align="center">
-<br>	<br>	<br>
-					<div class="commonButton" id="bid-ok" title="Aceptar" onClick="location.href='<?php echo $_LINK_BASE; ?>mantencion/form_cont_elec.php';" onMouseOver="" onMouseOut=""><button name="bname_ok">Aceptar</button><span>Aceptar</span></div>
-	<br>				<br>	<br>
-				</td></tr></table>
-		</fieldset>
-
-	</div>
-	
-	<div class="formArea">
-		<table width="100%" class="buttons" cellspacing="0" cellpadding="0"><tr>
-			<td class="main" width="0"></td>
-		</tr></table>
-
-
-	</div>
-
-</form>
-
-	</div>
-	</td></tr></table>
-	</body>
-
-	<script type="text/javascript">
-		try {
-			lsetup();
-		} catch (e) {
-		}
-	</script>
+	<table border="0" cellspacing="0" cellpadding="0" id="loaderContainer" onclick="return false;"><tr><td id="loaderContainerWH"><div id="loader"><p class="mb-0"><img src="skins/<?php echo h($_SKINS); ?>/icons/loading.gif" height="32" width="32" alt="" class="me-2"/><strong>Por favor espere.<br>Cargando ...</strong></p></div></td></tr></table>
+	<div class="page-shell"><div class="confirm-card card mt-4"><div class="confirm-body text-center"><div class="icon-wrap mx-auto mb-3"><i class="bi bi-people"></i></div><h1 class="h3 mb-2">Contribuyentes Electronicos</h1><p class="text-secondary mb-4">La carga finalizo correctamente y el retorno del flujo legacy se mantiene intacto.</p><div class="alert alert-success border-0 shadow-sm mb-4"><strong>Operacion completada.</strong> Se moderniza solo la presentacion final, sin tocar el procesador asociado.</div><div class="d-flex flex-column flex-sm-row gap-2 justify-content-center"><a href="<?php echo h($returnHref); ?>" class="btn btn-primary"><i class="bi bi-arrow-left-circle me-2"></i>Volver al formulario</a><a href="main.php" class="btn btn-outline-secondary"><i class="bi bi-house-door me-2"></i>Ir al inicio</a></div></div></div></div>
+	<script type="text/javascript">try{lsetup();}catch(e){}</script>
+</body>
 </html>

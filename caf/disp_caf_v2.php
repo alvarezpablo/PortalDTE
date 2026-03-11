@@ -4,6 +4,10 @@
     include("../include/ver_emp_adm.php");        
     include("../include/db_lib.php"); 
 
+    function h($value) {
+        return htmlspecialchars((string)$value, ENT_QUOTES, 'ISO-8859-1');
+    }
+
     $conn = conn();  
 ?>
 <!DOCTYPE html>
@@ -82,7 +86,7 @@
         if ($pctUsado > 95) $badgeClass = "bg-danger";
 ?>
                     <tr>
-                        <td><i class="bi bi-file-earmark-text me-2"></i><?php echo htmlspecialchars($sTipDoc); ?></td>
+                        <td><i class="bi bi-file-earmark-text me-2"></i><?php echo h($sTipDoc); ?></td>
                         <td class="text-end"><?php echo number_format($nNumIni, 0, '', '.'); ?></td>
                         <td class="text-end"><?php echo number_format($nNumFin, 0, '', '.'); ?></td>
                         <td class="text-end"><?php echo number_format($nNumAct, 0, '', '.'); ?></td>
@@ -150,7 +154,7 @@
         $sTipDoc = trim($result->fields["desc_tipo_docu"]);
 ?>
                     <tr class="table-danger">
-                        <td><i class="bi bi-file-earmark-x me-2"></i><?php echo htmlspecialchars($sTipDoc); ?></td>
+                        <td><i class="bi bi-file-earmark-x me-2"></i><?php echo h($sTipDoc); ?></td>
                         <td class="text-end"><?php echo number_format($nNumIni, 0, '', '.'); ?></td>
                         <td class="text-end"><?php echo number_format($nNumFin, 0, '', '.'); ?></td>
                         <td class="text-end"><span class="badge bg-danger">Vencido</span></td>

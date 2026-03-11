@@ -111,6 +111,7 @@ $est_erp = trim($_GET["est_erp"]);
 	$qrsFech = $qrstring . "&orden=2&orni=" . $descAscFech;
 	$qrsRut = $qrstring . "&orden=3&orni=" . $descAscRut;
 	$qrsTotal = $qrstring . "&orden=4&orni=" . $descAscTotal;
+		$url = "list_dte_recep_v2.php";
 
 	 function cambiarEstado($nCodCorrel, $nTipDte){
 			echo "<select name='cambia' onChange='confirmCambio(\"" . $nCodCorrel . "\",
@@ -169,106 +170,40 @@ $est_erp = trim($_GET["est_erp"]);
 		return $sEstadoDte;
 	}
 ?>
-<!doctype html>
-<html lang="en">
- <head>
-  <meta charset="latin1">
-  <meta name="Generator" content="EditPlus®">
-  <meta name="Author" content="">
-  <meta name="Keywords" content="">
-  <meta name="Description" content="">
-  <title>Busqueda</title>
+	<!doctype html>
+	<html lang="es">
+	 <head>
+	  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+	  <meta name="viewport" content="width=device-width, initial-scale=1" />
+	  <meta name="Generator" content="EditPlus">
+	  <meta name="Author" content="">
+	  <meta name="Keywords" content="">
+	  <meta name="Description" content="">
+	  <title>DTE Recibidos V2 - Portal DTE</title>
+	  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
-  <style>
- .datagrid table { border-collapse: collapse; text-align: left; width: 100%;} 
- .datagrid {font: normal 12px/150% Arial, Helvetica, sans-serif; background: #fff; overflow: hidden; border: 1px solid #006699; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }
- .datagrid table td, .datagrid table th { padding: 3px 10px; }
- .datagrid table thead th {background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; color:#FFFFFF; font-size: 15px; font-weight: bold; border-left: 1px solid #0070A8; } 
- .datagrid table thead th:first-child { border: none; }
- .datagrid table tbody td { color: #00557F; border-left: 1px solid #E1EEF4;font-size: 12px;font-weight: normal; }
- .datagrid table tbody .alt td { background: #E1EEf4; color: #00557F; }
- .datagrid table tbody td:first-child { border-left: none; }
- .datagrid table tbody tr:last-child td { border-bottom: none; }
- .datagrid table tfoot td div { border-top: 1px solid #006699;background: #E1EEf4;} 
- .datagrid table tfoot td { padding: 0; font-size: 12px } 
- .datagrid table tfoot td div{ padding: 2px; }
- .datagrid table tfoot td ul { margin: 0; padding:0; list-style: none; text-align: left; }
- .datagrid table tfoot  li { display: inline; }
- .datagrid table tfoot li a { text-decoration: none; display: inline-block;  padding: 2px 8px; margin: 1px;color: #FFFFFF;border: 1px solid #006699;-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; }
- .datagrid table tfoot ul.active, .datagrid table tfoot ul a:hover { text-decoration: none;border-color: #00557F; color: #FFFFFF; background: none; background-color:#006699;}div.dhtmlx_window_active, div.dhx_modal_cover_dv { position: fixed !important; } 
+	  <style>
+	body.fondo{margin:0;background:linear-gradient(180deg,#eef4fb 0%,#f8fafc 100%);color:#1f2937;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+	.page-shell{max-width:1600px;margin:0 auto;padding:1.25rem}
+	.page-hero{background:linear-gradient(135deg,#0f3f75 0%,#2563eb 100%);color:#fff;border-radius:22px;padding:1.5rem;box-shadow:0 18px 40px rgba(37,99,235,.22);margin-bottom:1.25rem}
+	.hero-icon{width:62px;height:62px;border-radius:18px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;font-size:1.55rem}
+	.hero-pills{display:flex;flex-wrap:wrap;gap:.65rem;justify-content:flex-end}.hero-pill{display:inline-flex;align-items:center;gap:.4rem;border-radius:999px;font-size:.82rem;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);padding:.45rem .8rem}
+	.content-card{background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:20px;box-shadow:0 12px 28px rgba(15,23,42,.08);overflow:hidden;margin-bottom:1.2rem}.content-card-header{padding:1rem 1.15rem;background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%);border-bottom:1px solid #dbeafe}.content-card-header h2{margin:0;font-size:1.18rem;font-weight:700;color:#0f172a}.content-card-header p{margin:.35rem 0 0;color:#475569;font-size:.88rem}.content-card-body{padding:1.15rem}
+	table.datagrid,table.container{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid #d7e3f4;border-radius:18px;overflow:hidden}table.datagrid th,table.datagrid td,table.container th,table.container td{padding:.75rem .9rem;border-bottom:1px solid #e2e8f0;vertical-align:top;font-size:.84rem;color:#1f2937}table.datagrid tr:last-child td,table.container tbody tr:last-child td{border-bottom:none}
+	.filter-card>.content-card-body>form>table.datagrid{border:none;box-shadow:none}.filter-card>.content-card-body>form>table.datagrid>tbody>tr>th{width:240px;background:#eff6ff;color:#1e3a8a;font-weight:700;border-bottom:1px solid #dbeafe}.filter-card>.content-card-body>form>table.datagrid>tbody>tr>td{background:#fff}.datagrid-inner{border:none !important;box-shadow:none !important}.filter-table{border:none !important;box-shadow:none !important}
+	table.datagrid table,table.container table{width:auto;border-collapse:collapse;border:none;background:transparent}table.datagrid table th,table.datagrid table td,table.container table th,table.container table td{padding:.25rem .35rem;border:none;background:transparent;color:inherit;font-size:inherit}
+	table.datagrid input[type="text"],table.datagrid select{min-height:40px;border:1px solid #cbd5e1;border-radius:12px;padding:.45rem .75rem;background:#fff;color:#1f2937;max-width:100%}table.datagrid input[type="checkbox"]{margin-right:.35rem}
+	.myButton{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;border-radius:999px;padding:.7rem 1.1rem;border:1px solid transparent;background:#2563eb;color:#fff;text-decoration:none;font-weight:600;line-height:1;box-shadow:0 8px 18px rgba(37,99,235,.2);cursor:pointer}.myButton:hover{background:#1d4ed8;color:#fff}.myButton:active{position:relative;top:1px}.myButton-muted{background:#64748b;box-shadow:0 8px 18px rgba(100,116,139,.2)}.myButton-muted:hover{background:#475569}
+	#tooltip{position:absolute;visibility:hidden;z-index:30003;background:#0f172a;color:#fff;padding:.45rem .65rem;border-radius:10px;font-size:.78rem;box-shadow:0 10px 24px rgba(15,23,42,.2)}
+	.summary-chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}.summary-chip{display:inline-flex;align-items:center;gap:.35rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:999px;padding:.42rem .8rem;font-size:.8rem;color:#1d4ed8}.filter-actions{padding-top:1rem !important;text-align:center !important}.filter-actions .myButton{margin:.2rem .35rem}
+	.results-toolbar{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;justify-content:space-between;padding:1rem 1.15rem;border-bottom:1px solid #e2e8f0;background:#fff}.results-toolbar h2{margin:0;font-size:1.08rem;font-weight:700;color:#0f172a}.results-toolbar p{margin:.2rem 0 0;font-size:.84rem;color:#64748b}.table-responsive-shell{overflow-x:auto;padding:0 1rem 1rem}table.container.results-table{min-width:1380px;border:none;border-radius:0;box-shadow:none}table.container.results-table thead th{background:#0f3f75;color:#fff;font-size:.82rem;white-space:nowrap}table.container.results-table thead th a,.alink{color:#fff;text-decoration:none;font-weight:700}table.container.results-table thead th a:hover,.alink:hover{color:#dbeafe}table.container.results-table tbody tr.alt td{background:#f8fbff}table.container.results-table tbody td{font-size:.82rem;vertical-align:middle}.results-table table.datagrid,.op-grid{width:auto;border:none !important;box-shadow:none !important}.results-table table.datagrid td,.op-grid td{padding:.22rem .28rem;border:none;background:transparent}
+	.no-results{padding:3.5rem 1rem !important;text-align:center !important;font-size:1rem !important;color:#64748b !important}.no-results i{display:block;font-size:2.6rem;margin-bottom:.6rem;color:#94a3b8}
+	#paging{padding:.95rem 1rem 0}#paging ul{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;list-style:none;padding:0;margin:0}#paging li{display:inline-flex}#paging a,#paging span{display:inline-flex;align-items:center;justify-content:center;min-width:2.2rem;height:2.2rem;padding:0 .9rem;border:1px solid #cbd5e1;border-radius:999px;background:#fff;color:#0f172a;text-decoration:none;font-size:.84rem}#paging a:hover{background:#eff6ff;border-color:#93c5fd;color:#1d4ed8}.page-current{background:#2563eb !important;border-color:#2563eb !important;color:#fff !important;font-weight:700}
+	div.dhtmlx_window_active,div.dhx_modal_cover_dv{position:fixed !important}
+	@media (max-width:991.98px){.page-shell{padding:.85rem}.page-hero{padding:1.15rem}.hero-pills{justify-content:flex-start}.filter-card>.content-card-body>form>table.datagrid>tbody>tr>th,.filter-card>.content-card-body>form>table.datagrid>tbody>tr>td{display:block;width:100%}.results-toolbar{align-items:flex-start}table.container.results-table{min-width:1200px}}
 
- .container {
-	width: 30em;
-	overflow-x: auto;
-	white-space: nowrap;
-	border-collapse: collapse; text-align: left; width: 100%;
-	font: normal 12px/150% Arial, Helvetica, sans-serif; background: #fff; overflow: hidden; border: 1px solid #006699; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; 
-}
- .container td, .container th { padding: 3px 10px; }
- .container thead th {background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; color:#FFFFFF; font-size: 12px; font-weight: bold; border-left: 1px solid #0070A8; } 
- .container thead th:first-child { border: none; }
- .container tbody td { color: #00557F; border-left: 1px solid #E1EEF4;font-size: 10px;font-weight: normal; }
- .alink {background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; color:#FFFFFF; font-size: 12px; font-weight: bold; border-left: 1px solid #0070A8; } 
- .container tbody .alt td { background: #E1EEf4; color: #00557F; }
- .container tbody td:first-child { border-left: none; }
- .container tbody tr:last-child td { border-bottom: none; }
- .container tfoot td div { border-top: 1px solid #006699;background: #E1EEf4;} 
- .container tfoot td { padding: 0; font-size: 12px } 
- .container tfoot td div{ padding: 2px; }
- .container tfoot td ul { margin: 0; padding:0; list-style: none; text-align: left; }
- .container tfoot  li { display: inline; }
- .container tfoot li a { text-decoration: none; display: inline-block;  padding: 2px 8px; margin: 1px;color: #FFFFFF;border: 1px solid #006699;-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; }
- .container tfoot ul.active, .container tfoot ul a:hover { text-decoration: none;border-color: #00557F; color: #FFFFFF; background: none; background-color:#006699;}div.dhtmlx_window_active, div.dhx_modal_cover_dv { position: fixed !important; } 
-
-
-.myButton {
-	-moz-box-shadow:inset 0px 1px 0px 0px #dcecfb;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #dcecfb;
-	box-shadow:inset 0px 1px 0px 0px #dcecfb;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #bddbfa), color-stop(1, #80b5ea));
-	background:-moz-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
-	background:-webkit-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
-	background:-o-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
-	background:-ms-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
-	background:linear-gradient(to bottom, #bddbfa 5%, #80b5ea 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#bddbfa', endColorstr='#80b5ea',GradientType=0);
-	background-color:#bddbfa;
-	-moz-border-radius:6px;
-	-webkit-border-radius:6px;
-	border-radius:6px;
-	border:1px solid #84bbf3;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:6px 24px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #528ecc;
-}
-.myButton:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #80b5ea), color-stop(1, #bddbfa));
-	background:-moz-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
-	background:-webkit-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
-	background:-o-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
-	background:-ms-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
-	background:linear-gradient(to bottom, #80b5ea 5%, #bddbfa 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#80b5ea', endColorstr='#bddbfa',GradientType=0);
-	background-color:#80b5ea;
-}
-.myButton:active {
-	position:relative;
-	top:1px;
-}
-
-.fondo{
-	background-color: #FBFCFC; 
-	background-image: url("../skins/aqua/images/main_bg.gif"); 
-	background-repeat: repeat-y;
-}
-
-  </style>
+	  </style>
 <script type="text/javascript">
 <!--
 
@@ -303,7 +238,7 @@ function Reenviar(nFolioDte,nTipDoc) {
 		}
 		// recibo de mercaderia
 		if(F.CRM.checked == false && F.SRM.checked == false){
-			alert("Se debe seleccionar a lo menos un estado del Recibo de Mercadería");
+			alert("Se debe seleccionar a lo menos un estado del Recibo de Mercaderï¿½a");
 			return false;
 		}
 		return true;
@@ -312,7 +247,7 @@ function Reenviar(nFolioDte,nTipDoc) {
 	function bajarExcel(){
 		var F = document._BUSCA;
 
-		if(confirm("Bajar a Excel el resultado de la busqueda?. Se descargan un máximo de 10.000 registros.")){
+		if(confirm("Bajar a Excel el resultado de la busqueda?. Se descargan un mï¿½ximo de 10.000 registros.")){
 			document._BUSCA.action = "excel_dte_recep_v2.php";
 			document._BUSCA.target = "_blank";
 			document._BUSCA.submit();
@@ -431,9 +366,32 @@ function Reenviar(nFolioDte,nTipDoc) {
 		  <script type="text/javascript" src="../javascript/calendar-setup.js"></script>
 		  <!-- calendar fin -->
 
- </head>
- <body class="fondo">
-  <form name="_FENV" method="post" action="pro_newcambiar.php" >
+	 </head>
+	 <body class="fondo" id="cuerpo">
+	<div id="tooltip"></div>
+	<div class="page-shell">
+		<div class="page-hero">
+			<div class="row g-3 align-items-center">
+				<div class="col-lg-8">
+					<div class="d-flex align-items-start gap-3">
+						<div class="hero-icon"><i class="bi bi-receipt"></i></div>
+						<div>
+							<h1 class="h3 mb-2">DTE recibidos desde compras V2</h1>
+							<p class="mb-0 opacity-75">Se conserva la b&uacute;squeda legacy, el cambio de estado, la exportaci&oacute;n Excel y los accesos PDF/XML del m&oacute;dulo original.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<div class="hero-pills">
+						<span class="hero-pill"><i class="bi bi-funnel"></i>Filtros por tipo, folio, fecha y RUT</span>
+						<span class="hero-pill"><i class="bi bi-database-check"></i>Estado de ingreso ERP</span>
+						<span class="hero-pill"><i class="bi bi-file-earmark-spreadsheet"></i>Excel, XML y PDF</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	  <form name="_FENV" method="post" action="pro_newcambiar.php" >
                 <INPUT TYPE="hidden" name="nCodCorr" value="">
                 <INPUT TYPE="hidden" name="sEstado" value="">
                 <INPUT TYPE="hidden" name="sTipFac" value="">
@@ -445,26 +403,37 @@ function Reenviar(nFolioDte,nTipDoc) {
                 <INPUT TYPE="hidden" name="sRespuesta" value="">
                 <INPUT TYPE="hidden" name="sGlosa" value="">
   </form> 
-<form name="_BUSCA" method="get" action="">
-<table class="datagrid" align="center">
+		<div class="content-card filter-card">
+			<div class="content-card-header">
+				<h2><i class="bi bi-search me-2"></i>B&uacute;squeda y filtros</h2>
+				<p>Se conservan los mismos campos GET, calendario legacy y validaciones del listado original.</p>
+			</div>
+			<div class="content-card-body">
+				<div class="summary-chips">
+					<span class="summary-chip"><i class="bi bi-calendar-range"></i>Rango por emisi&oacute;n y recepci&oacute;n</span>
+					<span class="summary-chip"><i class="bi bi-building"></i>Filtro por RUT emisor</span>
+					<span class="summary-chip"><i class="bi bi-diagram-3"></i>Estado ERP y documentos recepcionados</span>
+				</div>
+	<form name="_BUSCA" method="get" action="">
+	<table class="datagrid filter-table" align="center">
 <tr>
 	<td>
-	<table class="datagrid">
+		<table class="datagrid datagrid-inner">
 	<tr>
 		<th>Tipo DTE</th>
 		<td><select name="tipo">
-			<option value="33" selected>Factura Electrónica</option>
-			<option value="34">Factura No Afecta o Exenta Electrónica</option>
-			<option value="39">Boleta Electrónica</option>
-			<option value="41">Boleta Exenta Electrónica</option>
-			<option value="43">Liquidación Factura Electrónica</option>
-			<option value="46">Factura de Compra Electrónica</option>
-			<option value="52">Guía de Despacho Electrónica</option>
-			<option value="56">Nota de Débito Electrónica</option>
-			<option value="61">Nota de Crédito Electrónica</option>
-			<option value="110">Factura de Exportación Electrónica</option>
-			<option value="111">Nota de Débito de Exportación Electrónica</option>
-			<option value="112">Nota de Crédito de Exportación Electrónica</option>
+			<option value="33" selected>Factura Electrï¿½nica</option>
+			<option value="34">Factura No Afecta o Exenta Electrï¿½nica</option>
+			<option value="39">Boleta Electrï¿½nica</option>
+			<option value="41">Boleta Exenta Electrï¿½nica</option>
+			<option value="43">Liquidaciï¿½n Factura Electrï¿½nica</option>
+			<option value="46">Factura de Compra Electrï¿½nica</option>
+			<option value="52">Guï¿½a de Despacho Electrï¿½nica</option>
+			<option value="56">Nota de Dï¿½bito Electrï¿½nica</option>
+			<option value="61">Nota de Crï¿½dito Electrï¿½nica</option>
+			<option value="110">Factura de Exportaciï¿½n Electrï¿½nica</option>
+			<option value="111">Nota de Dï¿½bito de Exportaciï¿½n Electrï¿½nica</option>
+			<option value="112">Nota de Crï¿½dito de Exportaciï¿½n Electrï¿½nica</option>
 			<option value="">Todos</option>
 		</select>
 		<?php 	if($_GET){ ?>
@@ -477,7 +446,7 @@ function Reenviar(nFolioDte,nTipDoc) {
 		<td><input type="text" name="folio" maxlength="18" value="<?php echo $folio; ?>"></td>
 	</tr>
 	<tr>
-		<th>Fecha Emisión</th>
+		<th>Fecha Emisiï¿½n</th>
 		<td>
 			<table>
 				<tr>
@@ -511,7 +480,7 @@ function Reenviar(nFolioDte,nTipDoc) {
 		</td>
 	</tr>
 	<tr>
-		<th>Fecha Recepción</th>
+		<th>Fecha Recepciï¿½n</th>
 		<td>
 			<table border="0" width="100%">
 				<tr>
@@ -576,7 +545,7 @@ function Reenviar(nFolioDte,nTipDoc) {
 				<th>Respuesta Comercial</th>
 			</tr>
 			<tr>
-				<th>Recibo de Mercadería</th>
+				<th>Recibo de Mercaderï¿½a</th>
 			</tr>
 			</table>
 		</th>
@@ -612,8 +581,11 @@ function Reenviar(nFolioDte,nTipDoc) {
 
 <tr>
 	<td align="center" colspan="2">
-		<input type="button" class="myButton" text="Listar" Value="Listar" onclick="listar();"> &nbsp; &nbsp; &nbsp; <input type="button" class="myButton" text="Excel" Value="Excel" onclick="bajarExcel();">
-		&nbsp; &nbsp; &nbsp; <input type="button" onclick="location.href='list_dte_v2.php';" class="myButton" text="Limpiar" Value="Limpiar">
+			<div class="d-flex flex-wrap justify-content-center gap-2">
+				<input type="button" class="myButton" text="Listar" Value="Listar" onclick="listar();">
+				<input type="button" class="myButton" text="Excel" Value="Excel" onclick="bajarExcel();">
+				<input type="button" onclick="location.href='list_dte_v2.php';" class="myButton myButton-muted" text="Limpiar" Value="Limpiar">
+			</div>
 	</td>
 </tr>
 </table>
@@ -621,31 +593,44 @@ function Reenviar(nFolioDte,nTipDoc) {
 </tr>
 </table>
 </form>
+			</div>
+		</div>
 <br><br>
 <?php
 	if($_GET){
 ?>
+	<div class="content-card">
 <form name="_FDEL" method="post" action="pro_dte.php">
 <!-- <form name="_FDEL" method="post" action="dte/pro_dte.php"> -->
 	<input type="hidden" name="sAccion" value="E">
 
-<input type="button" class="myButton" name="bname_remove_selected" onclick="chDelEmp();" value="X">
+	<div class="results-toolbar">
+		<div>
+			<h2><i class="bi bi-table me-2"></i>Resultados de DTE recibidos</h2>
+			<p>Se mantiene la grilla original con cambio de estado, enlaces PDF/XML y columna de mensaje ERP.</p>
+		</div>
+		<div class="d-flex flex-wrap align-items-center gap-2">
+			<span class="summary-chip"><i class="bi bi-list-ol"></i>Paginaci&oacute;n manual preservada</span>
+			<input type="button" class="myButton myButton-muted" name="bname_remove_selected" onclick="chDelEmp();" value="X">
+		</div>
+	</div>
 
-	<table class="container">
+		<div class="table-responsive-shell">
+		<table class="container results-table">
 		<thead>
 			<tr>
 				<th>Operaciones</th>
 				<th>Tipo</th>
 				<th><table border="0" style="border-collapse: collapse;"><tr style="padding: 0px;line-height:0"><td style="padding: 0px;line-height:0"><a class="alink" href="list_dte_recep_v2.php?a=1<?php echo $qrsFolio; ?>">Folio</a></td><td style="padding: 0px;line-height:0"><?php echo $fleFolio; ?></td></tr></table></th>
-				<th><table border="0" style="border-collapse: collapse;"><tr style="padding: 0px;line-height:0"><td style="padding: 0px;line-height:0"><a class="alink" href="list_dte_recep_v2.php?a=1<?php echo $qrsFech; ?>">F.Emisión</a></td><td style="padding: 0px;line-height:0"><?php echo $fleFech; ?></td></tr></table></th>
-				<th><table border="0" style="border-collapse: collapse;"><tr style="padding: 0px;line-height:0"><td style="padding: 0px;line-height:0"><a class="alink" href="list_dte_recep_v2.php?a=1<?php echo $qrsCarga; ?>">F.Recepción</a></td><td style="padding: 0px;line-height:0"><?php echo $fleCarga; ?></td></tr></table></th>
+				<th><table border="0" style="border-collapse: collapse;"><tr style="padding: 0px;line-height:0"><td style="padding: 0px;line-height:0"><a class="alink" href="list_dte_recep_v2.php?a=1<?php echo $qrsFech; ?>">F.Emisiï¿½n</a></td><td style="padding: 0px;line-height:0"><?php echo $fleFech; ?></td></tr></table></th>
+				<th><table border="0" style="border-collapse: collapse;"><tr style="padding: 0px;line-height:0"><td style="padding: 0px;line-height:0"><a class="alink" href="list_dte_recep_v2.php?a=1<?php echo $qrsCarga; ?>">F.Recepciï¿½n</a></td><td style="padding: 0px;line-height:0"><?php echo $fleCarga; ?></td></tr></table></th>
 				<th>Exento</th>
 				<th>Neto</th>
 				<th>IVA</th>
 				<th><table border="0" style="border-collapse: collapse;"><tr style="padding: 0px;line-height:0"><td style="padding: 0px;line-height:0"><a class="alink" href="list_dte_recep_v2.php?a=1<?php echo $qrsTotal; ?>">Total</a></td><td style="padding: 0px;line-height:0"><?php echo $fleTotal; ?></td></tr></table></th>
 				<th><table border="0" style="border-collapse: collapse;"><tr style="padding: 0px;line-height:0"><td style="padding: 0px;line-height:0"><a class="alink" href="list_dte_recep_v2.php?a=1<?php echo $qrsRut; ?>">Rut.Emisor</a></td><td style="padding: 0px;line-height:0"><?php echo $fleRut; ?></td></tr></table></th>
 				<th>Emisor</th>
-				<th>Dirección</th>
+				<th>Direcciï¿½n</th>
 				<th>Comuna</th>
 <?php 
 if (1 == 1){ //if($_SESSION["_IS_RECEP_ERP_"] == "1" || trim($_SESSION["_COD_ROL_SESS"]) == "1"){
@@ -872,8 +857,8 @@ $sql .="						and c.codi_empr = '" . str_replace("'","''",$_SESSION["_COD_EMP_US
 
 
 	//			number_format($nMntNeto,0,',','.');
-				$linkMerca = "<a href=\"javascript:alert('Recibo de Mercadería No Recepcionado');\" onMouseover=\"nm_mostra_hint(this, event, 'Recibo de Mercadería No Generado')\" onMouseOut=\"nm_apaga_hint()\"><img src='../img/rm_no.png' alt='Recibo No Recepcionado'></a>";
-				if($sReciboMerca != "")	$linkMerca = "<a href=\"../dte/view_xml_compras.php?c=" . trim($_SESSION["_COD_EMP_USU_SESS"]) . "&f=" . $folio_dte . "&t=" . $tipo_docu . "&r=".$rut_rec_dte."-".$dig_rec_dte."&x=RM\" target='_blank' onMouseover=\"nm_mostra_hint(this, event, 'Recibo de Mercadería OK')\" onMouseOut=\"nm_apaga_hint()\"><img src='../img/rm_ok.png' alt='Recibo Mercadería OK'></a>";
+				$linkMerca = "<a href=\"javascript:alert('Recibo de Mercaderï¿½a No Recepcionado');\" onMouseover=\"nm_mostra_hint(this, event, 'Recibo de Mercaderï¿½a No Generado')\" onMouseOut=\"nm_apaga_hint()\"><img src='../img/rm_no.png' alt='Recibo No Recepcionado'></a>";
+				if($sReciboMerca != "")	$linkMerca = "<a href=\"../dte/view_xml_compras.php?c=" . trim($_SESSION["_COD_EMP_USU_SESS"]) . "&f=" . $folio_dte . "&t=" . $tipo_docu . "&r=".$rut_rec_dte."-".$dig_rec_dte."&x=RM\" target='_blank' onMouseover=\"nm_mostra_hint(this, event, 'Recibo de Mercaderï¿½a OK')\" onMouseOut=\"nm_apaga_hint()\"><img src='../img/rm_ok.png' alt='Recibo Mercaderï¿½a OK'></a>";
 
 				$linkAcuse = "<a href=\"javascript:alert('Acuse de Recibo No Recepcionado');\" onMouseover=\"nm_mostra_hint(this, event, 'Acuse de Recibo No Generado')\" onMouseOut=\"nm_apaga_hint()\"><img src='../img/ar_no.png' alt='Acuse de Recibo No Recepcionado'></a>";
 				if($sAcuseRecibo != "")	
@@ -905,7 +890,7 @@ $sql .="						and c.codi_empr = '" . str_replace("'","''",$_SESSION["_COD_EMP_US
 
 				<tr class="<?php echo $sClassRow; ?>">
 					<td>
-						<table class="datagrid">
+							<table class="op-grid">
 							<tr>
 								<td><?php echo $linkPDF; ?></td>
 								<td><?php echo $linkXML; ?></td>
@@ -955,7 +940,7 @@ $sql .="						and c.codi_empr = '" . str_replace("'","''",$_SESSION["_COD_EMP_US
 		}
 		else{
 ?>
-			<tr><td colspan="16"><h2>No hay resultados para su busqueda</h2></td></tr>
+				<tr><td colspan="16" class="no-results"><i class="bi bi-inbox"></i><strong>No hay resultados para su busqueda</strong><br>Pruebe ajustando los filtros o limpie la consulta para volver a listar.</td></tr>
 <?php
 		}
 ?>
@@ -967,10 +952,12 @@ $sql .="						and c.codi_empr = '" . str_replace("'","''",$_SESSION["_COD_EMP_US
 					<div id="paging">
 						<ul>
 <?php 
-	//calculo el total de páginas
+	//calculo el total de pï¿½ginas
 	$total_paginas = ceil($totalFilas / $TAMANO_PAGINA);
 
 	$paginasLista = $total_paginas;
+	if($paginasLista < 1)
+		$paginasLista = 1;
 if($paginasLista > 20)
 	$paginasLista = 20;
 
@@ -988,18 +975,18 @@ if($paginasLista > 20)
 
 if ($paginasLista > 1) { 
    if ($pagina > 20)
-      echo '<li><span><a href="'.$url.'?pagina='.($inicio-1). $qrstring.'">Previous</a></span></a>';
+	      echo '<li><a href="'.$url.'?pagina='.($inicio-1). $qrstring.'">Previous</a></li>';
       for ($i=$inicio;$i<=($paginasLista + $inicio - 1);$i++) {
          if ($pagina == $i)
-            //si muestro el índice de la página actual, no coloco enlace
-            echo $pagina;
+            //si muestro el ï¿½ndice de la pï¿½gina actual, no coloco enlace
+	            echo '<li><span class="page-current">'.$pagina.'</span></li>';
          else
-            //si el índice no corresponde con la página mostrada actualmente,
-            //coloco el enlace para ir a esa página
-            echo '  <li><span><a href="'.$url.'?pagina='.$i.$qrstring.'">'.$i.'</a></span></a>  ';
+            //si el ï¿½ndice no corresponde con la pï¿½gina mostrada actualmente,
+            //coloco el enlace para ir a esa pï¿½gina
+	            echo '<li><a href="'.$url.'?pagina='.$i.$qrstring.'">'.$i.'</a></li>';
       }
       if ($total_paginas > $paginasLista)
-         echo '<li><span><a href="'.$url.'?pagina='.($i).$qrstring.'">Next</span></a></li>';
+	         echo '<li><a href="'.$url.'?pagina='.($i).$qrstring.'">Next</a></li>';
 }
 ?>
 
@@ -1021,13 +1008,17 @@ if ($paginasLista > 1) {
 			</tr>
 		</tfoot>
 
-	</table>
+		</table>
+		</div>
 
 </form>
+	</div>
 <br><br><br>
 <?php
 	}
 ?>
+
+	</div>
 
 
 

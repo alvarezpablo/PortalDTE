@@ -33,7 +33,7 @@
       $sMsgJs = "";
       for($i=0; $i < sizeof($arrayTmp); $i++)
         $sMsgJs .= $arrayTmp[$i] . "\n";
-      header("location:form_caf.php?sMsgJs=" . $sMsgJs);
+      header("location:form_caf_v2.php?sMsgJs=" . urlencode($sMsgJs));
       exit;        
     }
     else{
@@ -61,7 +61,7 @@ function convertirAUTF8($archivo) {
     // Leer el contenido del archivo
     $contenido = file_get_contents($archivo);
 
-    // Detectar la codificación del archivo
+    // Detectar la codificaciï¿½n del archivo
     $encoding = mb_detect_encoding($contenido, ['UTF-8', 'ISO-8859-1', 'ASCII', 'WINDOWS-1252'], true);
 
     // Si no es UTF-8, convertirlo a UTF-8

@@ -7,6 +7,7 @@
 	include("../include/db_lib.php");  
 	include("../include/ver_aut.php");
     include("../include/ver_emp_adm.php"); 
+	function h($value){ return htmlspecialchars((string)$value, ENT_QUOTES, 'ISO-8859-1'); }
 
 	$orden = trim($_GET["orden"]);	// orden campo
 	$descAsc = trim($_GET["orni"]); // orden nivel
@@ -60,6 +61,7 @@
 	$qrstring .= "&CRM=" . $CRM;
 	$qrstring .= "&RRM=" . $RRM;	
 	$qrstring .= "&SRM=" . $SRM;	
+	$url = "list_dte_recep_v3.php";
 
 	$fleCarga = "";
 	$fleFolio = "";
@@ -221,103 +223,39 @@ echo $fech_update_sii4 . "<br>";
 
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="es">
  <head>
-  <meta charset="latin1">
-  <meta name="Generator" content="EditPlus®">
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="Generator" content="EditPlus">
   <meta name="Author" content="">
   <meta name="Keywords" content="">
   <meta name="Description" content="">
-  <title>Busqueda</title>
+  <title>DTE Recibidos V3 - Portal DTE</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
   <style>
- .datagrid table { border-collapse: collapse; text-align: left; width: 100%;} 
- .datagrid {font: normal 12px/150% Arial, Helvetica, sans-serif; background: #fff; overflow: hidden; border: 1px solid #006699; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }
- .datagrid table td, .datagrid table th { padding: 3px 10px; }
- .datagrid table thead th {background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; color:#FFFFFF; font-size: 15px; font-weight: bold; border-left: 1px solid #0070A8; } 
- .datagrid table thead th:first-child { border: none; }
- .datagrid table tbody td { color: #00557F; border-left: 1px solid #E1EEF4;font-size: 12px;font-weight: normal; }
- .datagrid table tbody .alt td { background: #E1EEf4; color: #00557F; }
- .datagrid table tbody td:first-child { border-left: none; }
- .datagrid table tbody tr:last-child td { border-bottom: none; }
- .datagrid table tfoot td div { border-top: 1px solid #006699;background: #E1EEf4;} 
- .datagrid table tfoot td { padding: 0; font-size: 12px } 
- .datagrid table tfoot td div{ padding: 2px; }
- .datagrid table tfoot td ul { margin: 0; padding:0; list-style: none; text-align: left; }
- .datagrid table tfoot  li { display: inline; }
- .datagrid table tfoot li a { text-decoration: none; display: inline-block;  padding: 2px 8px; margin: 1px;color: #FFFFFF;border: 1px solid #006699;-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; }
- .datagrid table tfoot ul.active, .datagrid table tfoot ul a:hover { text-decoration: none;border-color: #00557F; color: #FFFFFF; background: none; background-color:#006699;}div.dhtmlx_window_active, div.dhx_modal_cover_dv { position: fixed !important; } 
-
- .container {
-	width: 30em;
-	overflow-x: auto;
-	white-space: nowrap;
-	border-collapse: collapse; text-align: left; width: 100%;
-	font: normal 12px/150% Arial, Helvetica, sans-serif; background: #fff; overflow: hidden; border: 1px solid #006699; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; 
-}
- .container td, .container th { padding: 3px 10px; }
- .container thead th {background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; color:#FFFFFF; font-size: 12px; font-weight: bold; border-left: 1px solid #0070A8; } 
- .container thead th:first-child { border: none; }
- .container tbody td { color: #00557F; border-left: 1px solid #E1EEF4;font-size: 10px;font-weight: normal; }
- .alink {background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; color:#FFFFFF; font-size: 12px; font-weight: bold; border-left: 1px solid #0070A8; } 
- .container tbody .alt td { background: #E1EEf4; color: #00557F; }
- .container tbody td:first-child { border-left: none; }
- .container tbody tr:last-child td { border-bottom: none; }
- .container tfoot td div { border-top: 1px solid #006699;background: #E1EEf4;} 
- .container tfoot td { padding: 0; font-size: 12px } 
- .container tfoot td div{ padding: 2px; }
- .container tfoot td ul { margin: 0; padding:0; list-style: none; text-align: left; }
- .container tfoot  li { display: inline; }
- .container tfoot li a { text-decoration: none; display: inline-block;  padding: 2px 8px; margin: 1px;color: #FFFFFF;border: 1px solid #006699;-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; }
- .container tfoot ul.active, .container tfoot ul a:hover { text-decoration: none;border-color: #00557F; color: #FFFFFF; background: none; background-color:#006699;}div.dhtmlx_window_active, div.dhx_modal_cover_dv { position: fixed !important; } 
-
-
-.myButton {
-	-moz-box-shadow:inset 0px 1px 0px 0px #dcecfb;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #dcecfb;
-	box-shadow:inset 0px 1px 0px 0px #dcecfb;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #bddbfa), color-stop(1, #80b5ea));
-	background:-moz-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
-	background:-webkit-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
-	background:-o-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
-	background:-ms-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
-	background:linear-gradient(to bottom, #bddbfa 5%, #80b5ea 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#bddbfa', endColorstr='#80b5ea',GradientType=0);
-	background-color:#bddbfa;
-	-moz-border-radius:6px;
-	-webkit-border-radius:6px;
-	border-radius:6px;
-	border:1px solid #84bbf3;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:6px 24px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #528ecc;
-}
-.myButton:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #80b5ea), color-stop(1, #bddbfa));
-	background:-moz-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
-	background:-webkit-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
-	background:-o-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
-	background:-ms-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
-	background:linear-gradient(to bottom, #80b5ea 5%, #bddbfa 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#80b5ea', endColorstr='#bddbfa',GradientType=0);
-	background-color:#80b5ea;
-}
-.myButton:active {
-	position:relative;
-	top:1px;
-}
-
-.fondo{
-	background-color: #FBFCFC; 
-	background-image: url("../skins/aqua/images/main_bg.gif"); 
-	background-repeat: repeat-y;
-}
+body.fondo{margin:0;background:linear-gradient(180deg,#eef4fb 0%,#f8fafc 100%);color:#1f2937;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+.page-shell{max-width:1680px;margin:0 auto;padding:1.25rem}
+.page-hero{background:linear-gradient(135deg,#0f3f75 0%,#2563eb 100%);color:#fff;border-radius:22px;padding:1.5rem;box-shadow:0 18px 40px rgba(37,99,235,.22);margin-bottom:1.25rem}
+.hero-icon{width:62px;height:62px;border-radius:18px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;font-size:1.55rem}
+.hero-pills{display:flex;flex-wrap:wrap;gap:.65rem;justify-content:flex-end}.hero-pill{display:inline-flex;align-items:center;gap:.4rem;border-radius:999px;font-size:.82rem;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);padding:.45rem .8rem}
+.content-card{background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:20px;box-shadow:0 12px 28px rgba(15,23,42,.08);overflow:hidden;margin-bottom:1.2rem}.content-card-header{padding:1rem 1.15rem;background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%);border-bottom:1px solid #dbeafe}.content-card-header h2{margin:0;font-size:1.18rem;font-weight:700;color:#0f172a}.content-card-header p{margin:.35rem 0 0;color:#475569;font-size:.88rem}.content-card-body{padding:1.15rem}
+table.datagrid,table.container{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid #d7e3f4;border-radius:18px;overflow:hidden}table.datagrid th,table.datagrid td,table.container th,table.container td{padding:.75rem .9rem;border-bottom:1px solid #e2e8f0;vertical-align:top;font-size:.84rem;color:#1f2937}table.datagrid tr:last-child td,table.container tbody tr:last-child td{border-bottom:none}
+.filter-card>.content-card-body>form>table.datagrid{border:none;box-shadow:none}.filter-card>.content-card-body>form>table.datagrid>tbody>tr>th{width:230px;background:#eff6ff;color:#1e3a8a;font-weight:700;border-bottom:1px solid #dbeafe}.filter-card>.content-card-body>form>table.datagrid>tbody>tr>td{background:#fff}.datagrid-inner{border:none !important;box-shadow:none !important}
+table.datagrid table,table.container table{width:auto;border-collapse:collapse;border:none;background:transparent}table.datagrid table th,table.datagrid table td,table.container table th,table.container table td{padding:.25rem .35rem;border:none;background:transparent;color:inherit;font-size:inherit}
+table.datagrid input[type="text"],table.datagrid select,#_FORMAJAX select,#_FENVACT select{min-height:40px;border:1px solid #cbd5e1;border-radius:12px;padding:.45rem .75rem;background:#fff;color:#1f2937;max-width:100%}table.datagrid input[type="checkbox"]{margin-right:.35rem}
+.myButton{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;border-radius:999px;padding:.7rem 1.1rem;border:1px solid transparent;background:#2563eb;color:#fff;text-decoration:none;font-weight:600;line-height:1;box-shadow:0 8px 18px rgba(37,99,235,.2);cursor:pointer}.myButton:hover{background:#1d4ed8;color:#fff}.myButton:active{position:relative;top:1px}.myButton-success{background:#16a34a;box-shadow:0 8px 18px rgba(22,163,74,.22)}.myButton-success:hover{background:#15803d}.myButton-muted{background:#64748b;box-shadow:0 8px 18px rgba(100,116,139,.2)}.myButton-muted:hover{background:#475569}
+#divLoading{display:none;position:fixed;inset:0;background:rgba(15,23,42,.38);z-index:30001}#divLoading .loading-card{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:18px;padding:1.1rem 1.35rem;box-shadow:0 18px 40px rgba(15,23,42,.24);text-align:center;color:#0f172a}#divLoading .loading-card img{display:block;margin:.6rem auto 0}
+#tooltip{position:absolute;visibility:hidden;z-index:30003;background:#0f172a;color:#fff;padding:.45rem .65rem;border-radius:10px;font-size:.78rem;box-shadow:0 10px 24px rgba(15,23,42,.2)}
+#norecibido.modal,#formActualiza.modal,#_FENVACT.modal{max-width:760px;width:92%;padding:1.2rem 1.25rem;border-radius:20px;box-shadow:0 20px 44px rgba(15,23,42,.24)}#norecibido.modal{max-width:1100px}#formActualiza h2,#_FENVACT h2{font-size:1.25rem;font-weight:700;color:#0f172a;margin-bottom:.75rem}#formActualiza h3{font-size:.95rem;color:#b91c1c;margin-bottom:1rem}#_FENVACT table{width:100%}.jquery-modal.blocker{z-index:30002}a.close-modal{display:none !important}
+.summary-chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}.summary-chip{display:inline-flex;align-items:center;gap:.35rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:999px;padding:.42rem .8rem;font-size:.8rem;color:#1d4ed8}.modal-actions{display:flex;justify-content:flex-end;margin-bottom:.8rem}.modal-actions .myButton{min-width:44px}.filter-actions{padding-top:1rem !important;text-align:center !important}.filter-actions .myButton{margin:.2rem .35rem}.manual-link{color:#1d4ed8;text-decoration:none;font-weight:700}.manual-link:hover{color:#1e40af;text-decoration:underline}
+.results-toolbar{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;justify-content:space-between;padding:1rem 1.15rem;border-bottom:1px solid #e2e8f0;background:#fff}.results-toolbar h2{margin:0;font-size:1.08rem;font-weight:700;color:#0f172a}.results-toolbar p{margin:.2rem 0 0;font-size:.84rem;color:#64748b}.table-responsive-shell{overflow-x:auto;padding:0 1rem 1rem}table.container.results-table{min-width:1480px;border:none;border-radius:0;box-shadow:none}table.container.results-table thead th{background:#0f3f75;color:#fff;font-size:.82rem;white-space:nowrap}table.container.results-table thead th a,.alink{color:#fff;text-decoration:none;font-weight:700}table.container.results-table thead th a:hover,.alink:hover{color:#dbeafe}table.container.results-table tbody tr.alt td{background:#f8fbff}table.container.results-table tbody td{font-size:.82rem;vertical-align:middle}.results-table table.datagrid,.op-grid{width:auto;border:none !important;box-shadow:none !important}.results-table table.datagrid td,.op-grid td{padding:.22rem .28rem;border:none;background:transparent}
+.no-results{padding:3.5rem 1rem !important;text-align:center !important;font-size:1rem !important;color:#64748b !important}.no-results i{display:block;font-size:2.6rem;margin-bottom:.6rem;color:#94a3b8}
+#paging{padding:.95rem 1rem 0}#paging ul{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;list-style:none;padding:0;margin:0}#paging li{display:inline-flex}#paging a,#paging span{display:inline-flex;align-items:center;justify-content:center;min-width:2.2rem;height:2.2rem;padding:0 .9rem;border:1px solid #cbd5e1;border-radius:999px;background:#fff;color:#0f172a;text-decoration:none;font-size:.84rem}#paging a:hover{background:#eff6ff;border-color:#93c5fd;color:#1d4ed8}.page-current{background:#2563eb !important;border-color:#2563eb !important;color:#fff !important;font-weight:700}
+div.dhtmlx_window_active,div.dhx_modal_cover_dv{position:fixed !important}
+@media (max-width:991.98px){.page-shell{padding:.85rem}.page-hero{padding:1.15rem}.hero-pills{justify-content:flex-start}.filter-card>.content-card-body>form>table.datagrid>tbody>tr>th,.filter-card>.content-card-body>form>table.datagrid>tbody>tr>td{display:block;width:100%}.results-toolbar{align-items:flex-start}table.container.results-table{min-width:1280px}}
 
   </style>
 
@@ -359,7 +297,7 @@ function Reenviar(nFolioDte,nTipDoc) {
 		}
 		// recibo de mercaderia		
 		if(F.CRM.checked == false && F.RRM.checked == false && F.SRM.checked == false){
-			alert("Se debe seleccionar a lo menos un estado del Recibo de Mercadería");
+			alert("Se debe seleccionar a lo menos un estado del Recibo de Mercaderï¿½a");
 			return false;
 		}
 		return true;
@@ -368,7 +306,7 @@ function Reenviar(nFolioDte,nTipDoc) {
 	function bajarExcel(){
 		var F = document._BUSCA;
 
-		if(confirm("Bajar a Excel el resultado de la busqueda?. Se descargan un máximo de 10.000 registros.")){
+		if(confirm("Bajar a Excel el resultado de la busqueda?. Se descargan un mï¿½ximo de 10.000 registros.")){
 			document._BUSCA.action = "excel_dte_recep_v3.php";
 			document._BUSCA.target = "_blank";
 			document._BUSCA.submit();
@@ -559,9 +497,9 @@ enctype: 'multipart/form-data',
 					$("#sRespuestaMerca2").show();			
 					$("#sRespuestaMerca3").show();		
 					
-					if(merca_dte == "ERM") $("#sRespuestaMerca3").html("Otorgado Recibo de Mercaderías el " + fech_merca_dte);
-					if(merca_dte == "RFP") $("#sRespuestaMerca3").html("Reclamado por Falta Parcial de Mercaderías el " + fech_merca_dte);
-					if(merca_dte == "RFT") $("#sRespuestaMerca3").html("Reclamodo por Falta Total de Mercaderías el " + fech_merca_dte);
+					if(merca_dte == "ERM") $("#sRespuestaMerca3").html("Otorgado Recibo de Mercaderï¿½as el " + fech_merca_dte);
+					if(merca_dte == "RFP") $("#sRespuestaMerca3").html("Reclamado por Falta Parcial de Mercaderï¿½as el " + fech_merca_dte);
+					if(merca_dte == "RFT") $("#sRespuestaMerca3").html("Reclamodo por Falta Total de Mercaderï¿½as el " + fech_merca_dte);
 				}
 
 
@@ -588,7 +526,7 @@ enctype: 'multipart/form-data',
  		function enviarRespSII(){
 
 			if($("#sRespuesta option:selected").val() == "" && $("#sRespuestaMerca option:selected").val() == "")
-				alert("Debe seleccionar acuse de documento y/o recibo de mercadería para el DTE");
+				alert("Debe seleccionar acuse de documento y/o recibo de mercaderï¿½a para el DTE");
 
 			else{
 
@@ -619,7 +557,7 @@ enctype: 'multipart/form-data',
 								if($("#sRespuesta option:selected").val() != "")	// Genera acuse de documento
 									alert("Resultado de Respuesta a Contenido del Documento: " + obj.glosaAcuse);
 								if($("#sRespuestaMerca option:selected").val() != "")	// Genera acuse de documento
-									alert("Resultado de Respuesta a Recibo de Mercaderías: " + obj.glosaMerca);
+									alert("Resultado de Respuesta a Recibo de Mercaderï¿½as: " + obj.glosaMerca);
 
 //								location.reload();
                             }
@@ -804,27 +742,46 @@ $(document).ready(function() {
  </head>
  <body class="fondo" id="cuerpo">
 
-
-<div id="divLoading" style="margin: 0px; padding: 0px; position: fixed; right: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(102, 102, 102); z-index: 30001; opacity: 0.8;display:none;">
-<p style="position: absolute; color: White; top: 50%; left: 45%;">
-Actualizando, por favor espere...
-<img src="../skins/aqua/icons/loading.gif">
-</p>
+<div id="divLoading">
+	<div class="loading-card">
+		<strong>Actualizando, por favor espere...</strong>
+		<img src="../skins/aqua/icons/loading.gif" alt="Cargando">
+	</div>
 </div>
+<div id="tooltip"></div>
+
+<div class="page-shell">
+	<div class="page-hero">
+		<div class="row g-3 align-items-center">
+			<div class="col-lg-8">
+				<div class="d-flex align-items-start gap-3">
+					<div class="hero-icon"><i class="bi bi-receipt-cutoff"></i></div>
+					<div>
+						<h1 class="h3 mb-2">DTE recibidos desde compras</h1>
+						<p class="mb-0 opacity-75">Se conserva la b&uacute;squeda legacy, la respuesta al SII, la exportaci&oacute;n a Excel y los accesos PDF/XML del m&oacute;dulo original.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="hero-pills">
+					<span class="hero-pill"><i class="bi bi-funnel"></i>Filtros por tipo, folio, fecha y RUT</span>
+					<span class="hero-pill"><i class="bi bi-cloud-arrow-down"></i>Actualizaci&oacute;n SII</span>
+					<span class="hero-pill"><i class="bi bi-file-earmark-spreadsheet"></i>Excel, XML y PDF</span>
+				</div>
+			</div>
+		</div>
+	</div>
 
   <div id="norecibido" class="login_form modal" style="display:none">
-  
-  		<input type="button" class="myButton" text="X" Value="X" onclick="recibido();">
-
-	<div id="norecibidohtml"></div>
+		<div class="modal-actions"><input type="button" class="myButton myButton-muted" text="X" Value="X" onclick="recibido();"></div>
+		<div id="norecibidohtml"></div>
   </div>
 
 <div id="recibido">
 
-  <div id="formActualiza" class="login_form modal" style="display:none">
-	
-	<h2>Actualizar Registro de Compra SII</h2>
-	<h3 style="color:red">Fecha última actualización: <?php echo $fech_update_sii; ?></h3>
+	  <div id="formActualiza" class="login_form modal" style="display:none">
+		<h2>Actualizar Registro de Compra SII</h2>
+		<h3>Fecha &uacute;ltima actualizaci&oacute;n: <?php echo h($fech_update_sii); ?></h3>
 
 	  <form method="post" name="_FORMAJAX" id="_FORMAJAX" action="actualizaSII.php">
 			<?php 
@@ -832,7 +789,8 @@ Actualizando, por favor espere...
 				$mes = date("m");		
 			?>
 
-			<b>Periodo a Actualizar (A&nacute;o-Mes):</b>
+				<div class="fw-semibold mb-3">Periodo a Actualizar (A&ntilde;o-Mes):</div>
+				<div class="d-flex flex-wrap align-items-center gap-2">
 			<select name="sanio" id="sanio">
 				<option value="<?php echo $anio; ?>" selected><?php echo $anio; ?></option>
 			<?php 
@@ -856,15 +814,17 @@ Actualizando, por favor espere...
 				}
 			?>			
 			</select>
+				</div>
 
-	<br><br> 
-	<input type="button" class="myButton" text="Actualizar SII" Value="Actualizar SII" onclick="actualizaRegistro();">
+		<div class="mt-4 d-flex flex-wrap gap-2">
+			<input type="button" class="myButton myButton-success" text="Actualizar SII" Value="Actualizar SII" onclick="actualizaRegistro();">
+		</div>
   </form>
 
   </div>
 
   <form name="_FENVACT" id="_FENVACT" method="post" action="pro_newcambiar2.php" class="login_form modal" style="display:none">
-			<a href="#" class="myButton" rel="modal:close" onclick="recibidox();">X</a>
+			<div class="modal-actions"><a href="#" class="myButton myButton-muted" rel="modal:close" onclick="recibidox();">X</a></div>
 
                 <INPUT TYPE="hidden" name="folio_dte" id="folio_dte" value="">
                 <INPUT TYPE="hidden" name="tipo_docu" id="tipo_docu" value="">
@@ -877,13 +837,13 @@ Actualizando, por favor espere...
 
 
 		<TR id="sRespuestaMerca1">
-			<td width="33%"><label for="fid-cname">Respuesta a Recibo de Mercaderías</label></td>
+			<td width="33%"><label for="fid-cname">Respuesta a Recibo de Mercaderï¿½as</label></td>
 			<td width="33%" nowrap> 
 				<SELECT NAME="sRespuestaMerca" id="sRespuestaMerca">
-					<option value="">Seleccione Respuesta de Mercaderías</option>
-					<option value="ERM">Otorga Recibo de Mercaderías o Servicios</option>
-					<option value="RFP">Reclamo por Falta Parcial de Mercaderías</option>
-					<option value="RFT">Reclamo por Falta Total de Mercaderías</option>
+					<option value="">Seleccione Respuesta de Mercaderï¿½as</option>
+					<option value="ERM">Otorga Recibo de Mercaderï¿½as o Servicios</option>
+					<option value="RFP">Reclamo por Falta Parcial de Mercaderï¿½as</option>
+					<option value="RFT">Reclamo por Falta Total de Mercaderï¿½as</option>
 				</SELECT>
 			</td>
 		</TR>
@@ -908,32 +868,43 @@ Actualizando, por favor espere...
 			<td width="66%" colspan="2"><label for="fid-cname" id="sRespuesta3"></label></td>
 		</TR>
 
-		<Tr><td colspan=2 align="center"><br><INPUT TYPE="button" value="Enviar" id="botonEnvio" onclick="enviarRespSII();"> </td></tr>
+		<Tr><td colspan=2 align="center"><br><INPUT TYPE="button" value="Enviar" id="botonEnvio" class="myButton myButton-success" onclick="enviarRespSII();"> </td></tr>
 	</TABLE>	
   
   </form> 
 
 
+	<div class="content-card filter-card">
+		<div class="content-card-header">
+			<h2><i class="bi bi-search me-2"></i>B&uacute;squeda y filtros</h2>
+			<p>Se conservan los mismos campos GET, calendarios legacy y acciones del listado original.</p>
+		</div>
+		<div class="content-card-body">
+			<div class="summary-chips">
+				<span class="summary-chip"><i class="bi bi-calendar-range"></i>Rango por emisi&oacute;n y recepci&oacute;n</span>
+				<span class="summary-chip"><i class="bi bi-patch-check"></i>Estados de acuse, respuesta y mercader&iacute;a</span>
+				<span class="summary-chip"><i class="bi bi-building"></i>Filtro por RUT emisor</span>
+			</div>
 <form name="_BUSCA" method="get" action="">
-<table class="datagrid" align="center">
+<table class="datagrid filter-table" align="center">
 <tr>
 	<td>
-	<table class="datagrid">
+	<table class="datagrid datagrid-inner">
 	<tr>
 		<th>Tipo DTE</th>
 		<td><select name="tipo">
-			<option value="33" selected>Factura Electrónica</option>
-			<option value="34">Factura No Afecta o Exenta Electrónica</option>
-			<option value="39">Boleta Electrónica</option>
-			<option value="41">Boleta Exenta Electrónica</option>
-			<option value="43">Liquidación Factura Electrónica</option>
-			<option value="46">Factura de Compra Electrónica</option>
-			<option value="52">Guía de Despacho Electrónica</option>
-			<option value="56">Nota de Débito Electrónica</option>
-			<option value="61">Nota de Crédito Electrónica</option>
-			<option value="110">Factura de Exportación Electrónica</option>
-			<option value="111">Nota de Débito de Exportación Electrónica</option>
-			<option value="112">Nota de Crédito de Exportación Electrónica</option>
+			<option value="33" selected>Factura Electrï¿½nica</option>
+			<option value="34">Factura No Afecta o Exenta Electrï¿½nica</option>
+			<option value="39">Boleta Electrï¿½nica</option>
+			<option value="41">Boleta Exenta Electrï¿½nica</option>
+			<option value="43">Liquidaciï¿½n Factura Electrï¿½nica</option>
+			<option value="46">Factura de Compra Electrï¿½nica</option>
+			<option value="52">Guï¿½a de Despacho Electrï¿½nica</option>
+			<option value="56">Nota de Dï¿½bito Electrï¿½nica</option>
+			<option value="61">Nota de Crï¿½dito Electrï¿½nica</option>
+			<option value="110">Factura de Exportaciï¿½n Electrï¿½nica</option>
+			<option value="111">Nota de Dï¿½bito de Exportaciï¿½n Electrï¿½nica</option>
+			<option value="112">Nota de Crï¿½dito de Exportaciï¿½n Electrï¿½nica</option>
 			<option value="">Todos</option>
 		</select>
 		<?php 	if($_GET){ ?>
@@ -946,7 +917,7 @@ Actualizando, por favor espere...
 		<td><input type="text" name="folio" maxlength="18" value="<?php echo $folio; ?>"></td>
 	</tr>
 	<tr>
-		<th>Fecha Emisión</th>
+		<th>Fecha Emisiï¿½n</th>
 		<td>
 			<table>
 				<tr>
@@ -980,7 +951,7 @@ Actualizando, por favor espere...
 		</td>
 	</tr>
 	<tr>
-		<th>Fecha Recepción</th>
+		<th>Fecha Recepciï¿½n</th>
 		<td>
 			<table border="0" width="100%">
 				<tr>
@@ -1027,7 +998,7 @@ Actualizando, por favor espere...
 				<th>Respuesta Comercial</th>
 			</tr>
 			<tr>
-				<th>Recibo de Mercadería</th>
+				<th>Recibo de Mercaderï¿½a</th>
 			</tr>
 			</table>
 		</th>
@@ -1063,18 +1034,20 @@ Actualizando, por favor espere...
 	<?php } ?>
 	</script>
 
-<tr>
-	<td align="center" colspan="2">
-		<input type="button" class="myButton" text="Listar" Value="Listar" onclick="listar();"> &nbsp; &nbsp; &nbsp; <input type="button" class="myButton" text="Excel" Value="Excel" onclick="bajarExcel();">		&nbsp; &nbsp; &nbsp; <input type="button" onclick="location.href='list_dte_recep_v3.php';" class="myButton" text="Limpiar" Value="Limpiar">
-		<br><br>&nbsp; &nbsp; &nbsp; <a class="myButton" href="#formActualiza" rel="modal:open" style="border: #84FD03!important;box-shadow: #84FD03!important;background: #84FD03!important;">Actualizar Registro de Compra desde el SII</a> &nbsp; &nbsp; &nbsp; 
-		<!-- <a class="myButton" href="#norecibido" rel="modal:open" style="border: #84FD03!important;box-shadow: #84FD03!important;background: #84FD03!important;" onclick="norecibido();">Ver los no recibidos en OpenB</a> -->
-		<input type="button" class="myButton" text="Ver los no recibidos en OpenB" style="border: #84FD03!important;box-shadow: #84FD03!important;background: #84FD03!important;" Value="Ver los no recibidos en OpenB" onclick="norecibido();">
+	<tr>
+		<td align="center" colspan="2" class="filter-actions">
+			<div class="d-flex flex-wrap justify-content-center gap-2">
+				<input type="button" class="myButton" text="Listar" Value="Listar" onclick="listar();">
+				<input type="button" class="myButton" text="Excel" Value="Excel" onclick="bajarExcel();">
+				<input type="button" onclick="location.href='list_dte_recep_v3.php';" class="myButton myButton-muted" text="Limpiar" Value="Limpiar">
+				<a class="myButton myButton-success" href="#formActualiza" rel="modal:open">Actualizar Registro de Compra desde el SII</a>
+				<input type="button" class="myButton myButton-success" text="Ver los no recibidos en OpenB" Value="Ver los no recibidos en OpenB" onclick="norecibido();">
+			</div>
+		</td>
+	</tr>
 
-	</td>
-</tr>
-
 <tr>
-	<td align="center" colspan="2"><b><a href="manual_reg_compra.pdf" target="_blank">Manual de Uso</a></b></td>
+		<td align="center" colspan="2"><b><a class="manual-link" href="manual_reg_compra.pdf" target="_blank">Manual de Uso</a></b></td>
 </tr>
 
 </table>
@@ -1082,23 +1055,36 @@ Actualizando, por favor espere...
 </tr>
 </table>
 </form>
+		</div>
+	</div>
 <br><br>
 <?php
 	if($_GET){
 ?>
+<div class="content-card">
 <form name="_FDEL" method="post" action="pro_dte.php">
 <!-- <form name="_FDEL" method="post" action="dte/pro_dte.php"> -->
 	<input type="hidden" name="sAccion" value="E">
 
-<input type="button" class="myButton" name="bname_remove_selected" onclick="chDelEmp();" value="X">
+	<div class="results-toolbar">
+		<div>
+			<h2><i class="bi bi-table me-2"></i>Resultados de DTE recibidos</h2>
+			<p>Se mantiene la grilla original con respuestas SII, enlaces PDF/XML y ordenamiento legacy.</p>
+		</div>
+		<div class="d-flex flex-wrap align-items-center gap-2">
+			<span class="summary-chip"><i class="bi bi-list-ol"></i>Paginaci&oacute;n manual preservada</span>
+			<input type="button" class="myButton myButton-muted" name="bname_remove_selected" onclick="chDelEmp();" value="X">
+		</div>
+	</div>
 
-	<table class="container">
+		<div class="table-responsive-shell">
+		<table class="container results-table">
 		<thead>
 			<tr>
 				<th>Operaciones</th>
 				<th>Tipo</th>
 				<th><table border="0" style="border-collapse: collapse;"><tr style="padding: 0px;line-height:0"><td style="padding: 0px;line-height:0"><a class="alink" href="list_dte_recep_v3.php?a=1<?php echo $qrsFolio; ?>">Folio</a></td><td style="padding: 0px;line-height:0"><?php echo $fleFolio; ?></td></tr></table></th>
-				<th><table border="0" style="border-collapse: collapse;"><tr style="padding: 0px;line-height:0"><td style="padding: 0px;line-height:0"><a class="alink" href="list_dte_recep_v3.php?a=1<?php echo $qrsFech; ?>">F.Emisión</a></td><td style="padding: 0px;line-height:0"><?php echo $fleFech; ?></td></tr></table></th>
+				<th><table border="0" style="border-collapse: collapse;"><tr style="padding: 0px;line-height:0"><td style="padding: 0px;line-height:0"><a class="alink" href="list_dte_recep_v3.php?a=1<?php echo $qrsFech; ?>">F.Emisiï¿½n</a></td><td style="padding: 0px;line-height:0"><?php echo $fleFech; ?></td></tr></table></th>
 				<th><table border="0" style="border-collapse: collapse;"><tr style="padding: 0px;line-height:0"><td style="padding: 0px;line-height:0"><a class="alink" href="list_dte_recep_v3.php?a=1<?php echo $qrsCarga; ?>">F.Recepci&oacute;n Openb</a></td><td style="padding: 0px;line-height:0"><?php echo $fleCarga; ?></td></tr></table></th>
 				<th>F.Recepci&oacute;n SII</th>
 				<th>F.Limite Acepta/Rechazo SII</th>
@@ -1108,7 +1094,7 @@ Actualizando, por favor espere...
 				<th><table border="0" style="border-collapse: collapse;"><tr style="padding: 0px;line-height:0"><td style="padding: 0px;line-height:0"><a class="alink" href="list_dte_recep_v3.php?a=1<?php echo $qrsTotal; ?>">Total</a></td><td style="padding: 0px;line-height:0"><?php echo $fleTotal; ?></td></tr></table></th>
 				<th><table border="0" style="border-collapse: collapse;"><tr style="padding: 0px;line-height:0"><td style="padding: 0px;line-height:0"><a class="alink" href="list_dte_recep_v3.php?a=1<?php echo $qrsRut; ?>">Rut.Emisor</a></td><td style="padding: 0px;line-height:0"><?php echo $fleRut; ?></td></tr></table></th>
 				<th>Emisor</th>
-				<th>Dirección</th>
+				<th>Direcciï¿½n</th>
 				<th>Comuna</th>
 			</tr>
 		</thead>
@@ -1358,13 +1344,13 @@ Actualizando, por favor espere...
 
 
 	//			number_format($nMntNeto,0,',','.');
-				$linkMerca = "<a href=\"javascript:alert('Recibo de Mercadería No Recepcionado');\" onMouseover=\"nm_mostra_hint(this, event, 'Recibo de Mercadería No Generado')\" onMouseOut=\"nm_apaga_hint()\"><img src='../img/rm_no.png' alt='Recibo No Recepcionado'></a>";
+				$linkMerca = "<a href=\"javascript:alert('Recibo de Mercaderï¿½a No Recepcionado');\" onMouseover=\"nm_mostra_hint(this, event, 'Recibo de Mercaderï¿½a No Generado')\" onMouseOut=\"nm_apaga_hint()\"><img src='../img/rm_no.png' alt='Recibo No Recepcionado'></a>";
 				if($merca_dte == "ERM")	
-					$linkMerca = "<a href=\"javascript:alert('Otorgado Recibo de Mercaderías el " . $fech_merca_dte . "');\" onMouseover=\"nm_mostra_hint(this, event, 'Otorgado Recibo de Mercaderías el " . $fech_merca_dte . "')\" onMouseOut=\"nm_apaga_hint()\"><img src='../img/rm_ok.png' alt='Otorgado Recibo de Mercaderías el " . $fech_merca_dte . "'></a>";					
+					$linkMerca = "<a href=\"javascript:alert('Otorgado Recibo de Mercaderï¿½as el " . $fech_merca_dte . "');\" onMouseover=\"nm_mostra_hint(this, event, 'Otorgado Recibo de Mercaderï¿½as el " . $fech_merca_dte . "')\" onMouseOut=\"nm_apaga_hint()\"><img src='../img/rm_ok.png' alt='Otorgado Recibo de Mercaderï¿½as el " . $fech_merca_dte . "'></a>";					
 				if($merca_dte == "RFP")	
-					$linkMerca = "<a href=\"javascript:alert('Reclamado por Falta Parcial de Mercaderías el " . $fech_merca_dte . "');\" onMouseover=\"nm_mostra_hint(this, event, 'Reclamado por Falta Parcial de Mercaderías el " . $fech_merca_dte . "')\" onMouseOut=\"nm_apaga_hint()\"><img src='../img/ac_nook.png' alt='Reclamado por Falta Parcial de Mercaderías el " . $fech_merca_dte . "'></a>";
+					$linkMerca = "<a href=\"javascript:alert('Reclamado por Falta Parcial de Mercaderï¿½as el " . $fech_merca_dte . "');\" onMouseover=\"nm_mostra_hint(this, event, 'Reclamado por Falta Parcial de Mercaderï¿½as el " . $fech_merca_dte . "')\" onMouseOut=\"nm_apaga_hint()\"><img src='../img/ac_nook.png' alt='Reclamado por Falta Parcial de Mercaderï¿½as el " . $fech_merca_dte . "'></a>";
 				if($merca_dte == "RFT")	
-					$linkMerca = "<a href=\"javascript:alert('Reclamodo por Falta Total de Mercaderías el " . $fech_merca_dte . "');\" onMouseover=\"nm_mostra_hint(this, event, 'Reclamodo por Falta Total de Mercaderías el " . $fech_merca_dte . "')\" onMouseOut=\"nm_apaga_hint()\"><img src='../img/ac_nook.png' alt='Reclamodo por Falta Total de Mercaderías el " . $fech_merca_dte . "'></a>";
+					$linkMerca = "<a href=\"javascript:alert('Reclamodo por Falta Total de Mercaderï¿½as el " . $fech_merca_dte . "');\" onMouseover=\"nm_mostra_hint(this, event, 'Reclamodo por Falta Total de Mercaderï¿½as el " . $fech_merca_dte . "')\" onMouseOut=\"nm_apaga_hint()\"><img src='../img/ac_nook.png' alt='Reclamodo por Falta Total de Mercaderï¿½as el " . $fech_merca_dte . "'></a>";
 
 				$linkAcuse = "<a href=\"javascript:alert('Acuse de Recibo No Recepcionado');\" onMouseover=\"nm_mostra_hint(this, event, 'Acuse de Recibo No Generado')\" onMouseOut=\"nm_apaga_hint()\"><img src='../img/ar_no.png' alt='Acuse de Recibo No Recepcionado'></a>";
 				if($sAcuseRecibo != "")	
@@ -1396,7 +1382,7 @@ Actualizando, por favor espere...
 
 				<tr class="<?php echo $sClassRow; ?>">
 					<td>
-						<table class="datagrid">
+					<table class="op-grid">
 							<tr>
 								<td><?php echo $linkPDF; ?></td>
 								<td><?php echo $linkXML; ?></td>
@@ -1451,7 +1437,7 @@ Actualizando, por favor espere...
 		}
 		else{
 ?>
-			<tr><td colspan="16"><h2>No hay resultados para su busqueda</h2></td></tr>
+			<tr><td colspan="16" class="no-results"><i class="bi bi-inbox"></i><strong>No hay resultados para su busqueda</strong><br>Pruebe ajustando los filtros o limpie la consulta para volver a listar.</td></tr>
 <?php
 		}
 ?>
@@ -1463,10 +1449,12 @@ Actualizando, por favor espere...
 					<div id="paging">
 						<ul>
 <?php 
-	//calculo el total de páginas
+	//calculo el total de pï¿½ginas
 	$total_paginas = ceil($totalFilas / $TAMANO_PAGINA);
 
 	$paginasLista = $total_paginas;
+	if($paginasLista < 1)
+		$paginasLista = 1;
 if($paginasLista > 20)
 	$paginasLista = 20;
 
@@ -1484,18 +1472,18 @@ if($paginasLista > 20)
 
 if ($paginasLista > 1) { 
    if ($pagina > 20)
-      echo '<li><span><a href="'.$url.'?pagina='.($inicio-1). $qrstring.'">Previous</a></span></a>';
+	      echo '<li><a href="'.$url.'?pagina='.($inicio-1). $qrstring.'">Previous</a></li>';
       for ($i=$inicio;$i<=($paginasLista + $inicio - 1);$i++) {
          if ($pagina == $i)
-            //si muestro el índice de la página actual, no coloco enlace
-            echo $pagina;
+            //si muestro el ï¿½ndice de la pï¿½gina actual, no coloco enlace
+	            echo '<li><span class="page-current">'.$pagina.'</span></li>';
          else
-            //si el índice no corresponde con la página mostrada actualmente,
-            //coloco el enlace para ir a esa página
-            echo '  <li><span><a href="'.$url.'?pagina='.$i.$qrstring.'">'.$i.'</a></span></a>  ';
+            //si el ï¿½ndice no corresponde con la pï¿½gina mostrada actualmente,
+            //coloco el enlace para ir a esa pï¿½gina
+	            echo '<li><a href="'.$url.'?pagina='.$i.$qrstring.'">'.$i.'</a></li>';
       }
       if ($total_paginas > $paginasLista)
-         echo '<li><span><a href="'.$url.'?pagina='.($i).$qrstring.'">Next</span></a></li>';
+	         echo '<li><a href="'.$url.'?pagina='.($i).$qrstring.'">Next</a></li>';
 }
 ?>
 
@@ -1517,13 +1505,17 @@ if ($paginasLista > 1) {
 			</tr>
 		</tfoot>
 
-	</table>
+		</table>
+		</div>
 
 </form>
+	</div>
 <br><br><br>
 <?php
 	}
 ?>
+
+</div>
 
 </div>
 

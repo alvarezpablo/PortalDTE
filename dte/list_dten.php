@@ -1,410 +1,79 @@
-<?php 
-	include("../include/config.php");  
-	include("../include/db_lib.php"); 
-	include("../include/tables.php"); 
-
-  $conn = conn();
-
-  $sBuscar = $_GET["_Buscar"];
- session_start();
-  if($sBuscar == "OK"){
-	  $_SESSION["_EST_DTES"] = trim($_GET["_EST_DTE"]);  
-	  $_SESSION["nTipoDocuS"] = trim($_GET["nTipoDocu"]);   
-	  $_SESSION["nAnioS"] = trim($_GET["nAnio"]);
-	  $_SESSION["_COLUM_SEARCHS"] = trim($_GET["_COLUM_SEARCH"]);
-	  $_SESSION["_STRING_SEARCHS"] = trim($_GET["_STRING_SEARCH"]);         // STRING SEARCH
-	  $_SESSION["_STRING_SEARCH0S"] = trim($_GET["_STRING_SEARCH0"]);         // STRING SEARCH
-	  $_SESSION["_STRING_SEARCH2S"] = trim($_GET["_STRING_SEARCH2"]);         // STRING SEARCH
-
-	  $_EST_DTE = $_SESSION["_EST_DTES"];  
-	  $nTipoDocu = $_SESSION["nTipoDocuS"];   
-	  $nAnio = $_SESSION["nAnioS"];
-	  $_COLUM_SEARCH = $_SESSION["_COLUM_SEARCHS"];
-	  $_STRING_SEARCH = $_SESSION["_STRING_SEARCHS"];         // STRING SEARCH
-	  $_STRING_SEARCH0 = $_SESSION["_STRING_SEARCH0S"];         // STRING SEARCH
-	  $_STRING_SEARCH2 = $_SESSION["_STRING_SEARCH2S"];         // STRING SEARCH
-  }
-  else{
-	  $_EST_DTE = $_SESSION["_EST_DTES"];  
-	  $nTipoDocu = $_SESSION["nTipoDocuS"];   
-	  $nAnio = $_SESSION["nAnioS"];
-	  $_COLUM_SEARCH = $_SESSION["_COLUM_SEARCHS"];
-	  $_STRING_SEARCH = $_SESSION["_STRING_SEARCHS"];         // STRING SEARCH
-	  $_STRING_SEARCH0 = $_SESSION["_STRING_SEARCH0S"];         // STRING SEARCH
-	  $_STRING_SEARCH2 = $_SESSION["_STRING_SEARCH2S"];         // STRING SEARCH
-  }
-  
-  $sLinkActual = "dte/list_dten.php?_EST_DTE=" . $_EST_DTE . "&nTipoDocu=" . $nTipoDocu . "&nAnio=" . $nAnio . "&";  
-  include("include/phpgrid.php");
-
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-<html>
-	<head>
-		<link rel="shortcut icon" href="/favicon.ico">
-		<title>OpenB</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-
-		<script language="javascript" type="text/javascript" src="<?php echo $_LINK_BASE; ?>javascript/common.js"></script>
-		<script language="javascript" type="text/javascript" src="<?php echo $_LINK_BASE; ?>javascript/msg.js"></script>
-
-		<link rel="stylesheet" type="text/css" href="<?php echo $_LINK_BASE; ?>skins/<?php echo $_SKINS; ?>/css/general.css">
-		<link rel="stylesheet" type="text/css" href="<?php echo $_LINK_BASE; ?>skins/<?php echo $_SKINS; ?>/css/main/custom.css">
-		<link rel="stylesheet" type="text/css" href="<?php echo $_LINK_BASE; ?>skins/<?php echo $_SKINS; ?>/css/main/layout.css">
-		<link rel="stylesheet" type="text/nonsense" href="<?php echo $_LINK_BASE; ?>skins/<?php echo $_SKINS; ?>/css/misc.css">
-
-		  <!-- calendar  -->
-		  <link rel="stylesheet" type="text/css" media="all" href="<?php echo $_LINK_BASE; ?>css/calendar-win2k-cold-1.css" title="win2k-cold-1" />
-		  <script type="text/javascript" src="<?php echo $_LINK_BASE; ?>javascript/calendar.js"></script>
-		  <script type="text/javascript" src="<?php echo $_LINK_BASE; ?>javascript/lang/calendar-es.js"></script>
-		  <script type="text/javascript" src="<?php echo $_LINK_BASE; ?>javascript/calendar-setup.js"></script>
-		  <!-- calendar fin -->
-
-		<script type="text/javascript">
-<!--
-function _body_onload()
-{
-	SetContext('clients');
-	setActiveButtonByName('clients');
-	loff();
-	
+<?php
+include("../include/config.php");
+include("../include/db_lib.php");
+include("../include/tables.php");
+session_start();
+$conn = conn();
+$sBuscar = isset($_GET["_Buscar"]) ? $_GET["_Buscar"] : "";
+if($sBuscar == "OK"){
+	$_SESSION["_EST_DTES"] = isset($_GET["_EST_DTE"]) ? trim($_GET["_EST_DTE"]) : "";
+	$_SESSION["nTipoDocuS"] = isset($_GET["nTipoDocu"]) ? trim($_GET["nTipoDocu"]) : "";
+	$_SESSION["nAnioS"] = isset($_GET["nAnio"]) ? trim($_GET["nAnio"]) : "";
+	$_SESSION["_COLUM_SEARCHS"] = isset($_GET["_COLUM_SEARCH"]) ? trim($_GET["_COLUM_SEARCH"]) : "";
+	$_SESSION["_STRING_SEARCHS"] = isset($_GET["_STRING_SEARCH"]) ? trim($_GET["_STRING_SEARCH"]) : "";
+	$_SESSION["_STRING_SEARCH0S"] = isset($_GET["_STRING_SEARCH0"]) ? trim($_GET["_STRING_SEARCH0"]) : "";
+	$_SESSION["_STRING_SEARCH2S"] = isset($_GET["_STRING_SEARCH2"]) ? trim($_GET["_STRING_SEARCH2"]) : "";
 }
-
-function _body_onunload()
-{
-	lon();
-	
-}
-
-
-var opt_no_frames = false;
-var opt_integrated_mode = false;
-setActiveButtonByName("clients");
-
-
-   function chListBoxSearch(){
-      var F = document._FSEARCH;
-      for(i=0; i < F._COLUM_SEARCH.length; i++){
-        if(F._COLUM_SEARCH.options[i].value == "<?php echo $_COLUM_SEARCH; ?>")
-          F._COLUM_SEARCH.options[i].selected = true;
-      }
-    }
-    
-    function chSelDelEmp(){
-      var F = document._FDEL;
-    
-      for(i=0; i < F.elements.length; i++){
-        if(F.elements[i].name == "del[]"){
-            if(F.elements[i].checked == true)
-              return true;
-          
-        }
-      }
-      return false;
-    }
-    
-    function chDelEmp(){
-      if(chSelDelEmp() == true){
-        if(confirm(_MSG_DEL_CONFIR))
-          document._FDEL.submit();
-      }
-      else
-        alert(_MSG_DTE_DEL);
-    }
-    
-    function chDchALL(){
-      var F = document._FDEL;
-      var obj = F.clientslistSelectAll;
-      
-      if(obj.checked == true){
-        for(i=0; i < F.elements.length; i++){
-           if(F.elements[i].name == "del[]")
-              F.elements[i].checked = true;                                 
-        }
-      }
-      else{
-        for(i=0; i < F.elements.length; i++){
-           if(F.elements[i].name == "del[]")
-              F.elements[i].checked = false;                                 
-        }
-      }
-    }
-
-    function chListBoxEstado(){
-        var F = document._FSEARCH;
-        for(i=0; i < F._EST_DTE.length; i++){
-          if(F._EST_DTE.options[i].value == "<?php echo $_EST_DTE; ?>")
-            F._EST_DTE.options[i].selected = true;
-        }
-      }
-
-	function muestraDivCampos(){ 
-		var F = document._FSEARCH;
-		var opt = F._COLUM_SEARCH.options[F._COLUM_SEARCH.selectedIndex].value;
-
-		var div1=document.getElementById('fechaEmisionFin');
-		var div2=document.getElementById('noFechaEmisionFin');
-//		noFechaEmisionFin
-		
-		if (opt=="D.fec_emi_dte"){
-			div1.style.display = 'block';
-			div2.style.display = 'none';			
-		}
-		else{
-			div1.style.display = 'none';
-			div2.style.display = 'block';		
-		}
-	
-	}
-    
-//-->
-		</script>
-	</head>
-	<body onLoad="_body_onload();" onUnload="_body_onunload();" id="mainCP" class="visibilityAdminMode">
-	
-	<a href="#" name="top" id="top"></a>
-	<table border="0" cellspacing="0" cellpadding="0" id="loaderContainer" onClick="return false;"><tr><td id="loaderContainerWH"><div id="loader"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><p><img src="<?php echo $_LINK_BASE; ?>skins/<?php echo $_SKINS; ?>/icons/loading.gif" height="32" width="32" alt=""/><strong>Por favor espere.<br>Cargando ...</strong></p></td></tr></table></div></td></tr></table>
-
-	<a href="#" name="top" id="top"></a>
-
-	<?php sTituloCabecera("Empresa"); ?>
-	<?php // sAgregaHerramienta("screenClientList", "Herramientas", $aBotonEmpHerramienta); ?>
-
-	<div class="screenBody">
-		<div class="listArea">
-			<fieldset>
-				<legend>DTE</legend>
-				<table width="100%" cellspacing="0" cellpadding="0" border="0">
-					<tr>
-						<td width="250" nowrap>
-							<table width="100%" cellspacing="0" class="buttons"><tr>
-								<td class="main" >
-                    <form name="_FSEARCH" method="get" action="<?php echo $_LINK_BASE . $sLinkActual; ?>">
-						<INPUT type="hidden" name="_Buscar" value="OK">
-           
-					<select name="nTipoDocu">
-                      <option value="">Tipo Documento (Todos)</option>
-<?php 
-					$sql = "SELECT tipo_docu, desc_tipo_docu FROM dte_tipo ORDER BY desc_tipo_docu";
-					$result = rCursor($conn, $sql);
-					while (!$result->EOF) {
-						$nTipoDocuTmp = trim($result->fields["tipo_docu"]);
-						$sDescTipoDocu = trim($result->fields["desc_tipo_docu"]);
-
-						if(trim($nTipoDocuTmp) == trim($nTipoDocu))
-							echo "<option value='" . $nTipoDocuTmp . "' selected>" . $sDescTipoDocu . "</option> \n";
-						else
-							echo "<option value='" . $nTipoDocuTmp . "'>" . $sDescTipoDocu . "</option> \n";
-
-						$result->MoveNext();
-					} 
-?>
-                    </select>
-
-                    <select name="nAnio">
-						<option value="">A&ntilde;o (Todos)</option>
-<?php 
-					$sql = "SELECT MIN(TO_CHAR(TO_DATE(fec_emi_dte, 'YYYY-MM-DD'), 'YYYY')) AS anio_menor, MAX(TO_CHAR(TO_DATE(fec_emi_dte, 'YYYY-MM-DD'), 'YYYY'))  AS anio_mayor FROM dte_enc ";
-					$result = rCursor($conn, $sql);
-					if(!$result->EOF){
-						$nAnioMenor = trim($result->fields["anio_menor"]);
-						$nAnioMayor = trim($result->fields["anio_mayor"]);
-					}
-					else{
-						$nAnioMenor = date(Y);
-						$nAnioMayor = date(Y);
-					}
-
-
-					for($i=$nAnioMayor; $i >= $nAnioMenor; $i--){
-						if(trim($i) == trim($nAnio))
-							echo "<option value='" . $i . "' selected>" . $i . "</option> \n";
-						else
-							echo "<option value='" . $i . "'>" . $i . "</option> \n";
-					
-					}
-?>
-					</select>
-                    <select name="_EST_DTE">
-					  <option value="">Estado Todos</option>                      
-                      <option value="0">DTE Cargados</option>
-                      <option value="1">DTE Firmados</option>                      
-                      <option value="3">DTE Con ERROR</option>                    
-                      <option value="5">DTE Empaquetados</option>                    
-                      <option value="13">DTE Enviados SII</option>
-                      <option value="29">DTE Aceptados SII</option>
-                      <option value="45">DTE Con Reparos SII</option>
-                      <option value="77">DTE Rechazados SII</option>
-                      <option value="157">DTE Enviados a Clientes</option>
-                      <option value="413">DTE Aceptados por Clientes</option>
-                    </select>
- 				<script> chListBoxEstado(); </script>
-
-                    
-                    <select name="_COLUM_SEARCH" onChange="muestraDivCampos();">
-                      <option value="D.folio_dte">Folio Dte</option>
-                      <option value="D.fec_emi_dte">Fecha Emisi&oacute;n</option>                      
-                      <option value="D.fec_venc_dte">Fecha Vencimiento</option>                    
-                      <option value="D.nom_rec_dte">Razon Social Receptor</option>                    
-                      <option value="D.giro_rec_dte">Giro Receptor</option>                    
-                    </select>
-                    <script> chListBoxSearch(); </script>       
-			<div id="noFechaEmisionFin" style="display:none">                    
-					<input type="text" name="_STRING_SEARCH" id="searchInput" value="<?php echo $_STRING_SEARCH; ?>" size="20" maxlength="245">
-					<img src="<?php echo $_LINK_BASE; ?>skins/aqua/images/btn_search_bg.gif" border="0" onclick="document._FSEARCH.submit();" alignth="right">					
-			</div>
-
-	<div id="fechaEmisionFin" style="display:none">
-		<input type="text" id="_STRING_SEARCH0" name="_STRING_SEARCH0" id="searchInput" onFocus="this.blur();" value="<?php echo $_STRING_SEARCH0; ?>" size="20" maxlength="245">
-		<img src="<?php echo $_LINK_BASE; ?>img.gif" id="f_trigger_ini" style="cursor: pointer; border: 1px solid red;" title="Date selector" onmouseover="this.style.background='red';" onmouseout="this.style.background=''" / >		
-		<script type="text/javascript">
-			Calendar.setup({
-				inputField     :    "_STRING_SEARCH0",     // id of the input field
-				ifFormat       :    "%Y/%m/%d",      // format of the input field
-				button         :    "f_trigger_ini",  // trigger for the calendar (button ID)
-				align          :    "Tl",           // alignment (defaults to "Bl")
-				singleClick    :    true
-			});
-		</script>
-		<input type="text" id="_STRING_SEARCH2" name="_STRING_SEARCH2" id="searchInput" onFocus="this.blur();" value="<?php echo $_STRING_SEARCH2; ?>" size="20" maxlength="245">
-		<img src="<?php echo $_LINK_BASE; ?>img.gif" id="f_trigger_ter" style="cursor: pointer; border: 1px solid red;" title="Date selector" onmouseover="this.style.background='red';" onmouseout="this.style.background=''" / >		
-		<script type="text/javascript">
-			Calendar.setup({
-				inputField     :    "_STRING_SEARCH2",     // id of the input field
-				ifFormat       :    "%Y/%m/%d",      // format of the input field
-				button         :    "f_trigger_ter",  // trigger for the calendar (button ID)
-				align          :    "Tl",           // alignment (defaults to "Bl")
-				singleClick    :    true
-			});
-		</script>
-		<img src="<?php echo $_LINK_BASE; ?>skins/aqua/images/btn_search_bg.gif" border="0" onclick="document._FSEARCH.submit();" alignth="right">
-	</div>										
-	<script>muestraDivCampos();</script>
-
-<!-- 
-										<div class="commonButton" id="bid-search" title="Buscar"  name="bid-search">
-											<button name="bname_search" onclick="document._FSEARCH.submit();">Buscar</button><span>Buscar</span>
-										</div> 
-<br>  -->
-<!--										<div class="commonButton" id="bid-show-all" title="Mostrar todo" name="bid-show-all">
-											<button name="bname_show_all">Mostrar todo</button><span>Mostrar todo</span>
-										</div> -->
-                    </form>
-					
-								</td>
-
-                <td class="misc">
-								</td>
-							  </tr>
-							</table>
-              
-            <form name="_FDEL" method="post" action="dte/pro_dte.php">
-              <input type="hidden" name="sAccion" value="E">
-							<table width="100%" cellspacing="0" class="list">
-<?php 
-                
-
-
-	$hostName = $_SERVER_DB;
-	$userName = $_USER_DB;
-	$password = $_PASS_DB;
-	$dbName	  = $_DATABASE;
-	$dbType = "postgres";
-
-
-		$sql = "SELECT 
-				DE.folio_dte,
-                dte_estado(XD.est_xdte) AS estado	,
-				TD.desc_tipo_docu AS desc_tipo,
-				(SELECT trackid_xed FROM xmlenviodte WHERE codi_empr = XD.codi_empr AND num_xed = XD.num_xed) AS track_id,
-                to_char(to_date(DE.fec_emi_dte, 'YYYY-MM-DD'),'DD-MM-YYYY') AS fec_emi_dte,
-                to_char(to_date(DE.fec_venc_dte, 'YYYY-MM-DD'),'DD-MM-YYYY') AS fec_venc_dte,
-				DE.rut_emis_dte || '-' || DE.digi_emis_dte AS rut_emis_dte,
-                DE.nom_emis_dte,
-				DE.rut_rec_dte || '-' || DE.dig_rec_dte AS rut_rec_dte,
-                DE.nom_rec_dte,
-                DE.giro_rec_dte,
-                DE.mntneto_dte,
-                DE.iva_dte,
-                DE.mont_tot_dte,
-                '<a href=\"view_pdf.php?sUrlPdf=' || XD.path_pdf || '\">Ver</a>' as path_pdf,
-                '<a href=\"view_xml.php?nFolioDte=' || DE.folio_dte || '&nTipoDocu=' || DE.tipo_docu || '\">Ver</a>' as xml
-		FROM 
-			dte_enc DE LEFT JOIN contrib_elec CE ON CE.rut_contr = DE.rut_rec_dte, 
-			dte_tipo TD, 
-			xmldte XD 
-		WHERE 
-			DE.tipo_docu = TD.tipo_docu AND 
-			XD.tipo_docu = DE.tipo_docu AND 
-			XD.folio_dte = DE.folio_dte AND 
-			XD.codi_empr = DE.codi_empr ";
-
-/*                DE.giro_emis_dte,
-                DE.dir_orig_dte,
-                DE.com_orig_dte,
-                DE.ciud_orig_dte,	*/
-
-		if($_EST_DTE != "")
-			$sql .= " AND XD.est_xdte = $_EST_DTE ";
-  
-  		if($nTipoDocu != "")
-			$sql .= " AND DE.tipo_docu = $nTipoDocu ";
-        
-		if($nAnio != "")
-			$sql .= " AND to_char(to_date(DE.fec_emi_dte, 'YYYY-MM-DD'), 'YYYY') = '" . $nAnio . "' ";
-		
-        if($_COLUM_SEARCH == "DE.fec_emi_dte"){
-        	if($_STRING_SEARCH0 != "" && $_STRING_SEARCH2 != "")
-				$sql .= " AND TO_DATE(DE.fec_emi_dte,'YYYY/MM/DD') BETWEEN ('" . str_replace("'","''",$_STRING_SEARCH0) . "') AND ('" . str_replace("'","''",$_STRING_SEARCH2) . "') ";
-        }
-		else
-		  if($_STRING_SEARCH != "")
-        	  $sql .= " AND UPPER(" . $_COLUM_SEARCH  . ") LIKE UPPER('" . str_replace("'","''",$_STRING_SEARCH) . "%') ";
- 
-
-		$dg = new C_DataGrid($hostName, $userName, $password, $dbName, $dbType);
-		 
-		$dg -> set_gridpath     ($_LINK_BASE . "dte/include/");
-		$dg -> set_sql          ($sql);
-		//$dg -> set_sql_table    ("xmldte");
-		//$dg -> set_sql_key      ("folio_dte");
-		$dg -> set_page_size(15);
-		$dg -> set_allow_export(true);
-
-		$dg -> set_col_title("folio_dte", "Folio");
-		$dg -> set_col_title("desc_tipo", "Tipo Doc");
-		$dg -> set_col_title("estado", "Estado");
-		$dg -> set_col_title("fec_emi_dte", "Fec. Emite");
-		$dg -> set_col_title("fec_venc_dte", "Fec. Vence");
-		$dg -> set_col_title("rut_emis_dte", "Rut Emisor");
-		$dg -> set_col_title("nom_emis_dte", "Emisor");
-		$dg -> set_col_title("giro_emis_dte", "Giro Emisor");
-		$dg -> set_col_title("dir_orig_dte", "Dir. Emisor");
-		$dg -> set_col_title("com_orig_dte", "Com. Emisor");
-		$dg -> set_col_title("ciud_orig_dte", "Ciud Emisor.");
-		$dg -> set_col_title("rut_rec_dte", "Rut Receptor");
-		$dg -> set_col_title("nom_rec_dte", "Receptor");
-		$dg -> set_col_title("giro_rec_dte", "Giro. Receptor");
-		$dg -> set_col_title("mntneto_dte", "Neto");
-		$dg -> set_col_title("iva_dte", "Iva");
-		$dg -> set_col_title("mont_tot_dte", "Total");
-		$dg -> set_col_title("path_pdf", "PDF");
-		$dg -> set_col_title("track_id", "ID Envío");
-		$dg -> set_col_title("xml", "XML");
-		$dg -> set_ok_showcredit(false);
-		$dg -> set_theme("sweet");
-		$dg -> display();
-?>					              
- 							</table>							
-						</td>
-					</tr>
-				</table>
-                   </form>
-			</fieldset>
-		</div>
-	</div>
- 	
- </body>
-</html>
+$_EST_DTE = isset($_SESSION["_EST_DTES"]) ? $_SESSION["_EST_DTES"] : "";
+$nTipoDocu = isset($_SESSION["nTipoDocuS"]) ? $_SESSION["nTipoDocuS"] : "";
+$nAnio = isset($_SESSION["nAnioS"]) ? $_SESSION["nAnioS"] : "";
+$_COLUM_SEARCH = isset($_SESSION["_COLUM_SEARCHS"]) ? $_SESSION["_COLUM_SEARCHS"] : "";
+$_STRING_SEARCH = isset($_SESSION["_STRING_SEARCHS"]) ? $_SESSION["_STRING_SEARCHS"] : "";
+$_STRING_SEARCH0 = isset($_SESSION["_STRING_SEARCH0S"]) ? $_SESSION["_STRING_SEARCH0S"] : "";
+$_STRING_SEARCH2 = isset($_SESSION["_STRING_SEARCH2S"]) ? $_SESSION["_STRING_SEARCH2S"] : "";
+if(trim($_COLUM_SEARCH) == "") $_COLUM_SEARCH = "D.folio_dte";
+$sLinkActual = "dte/list_dten.php?_EST_DTE=" . $_EST_DTE . "&nTipoDocu=" . $nTipoDocu . "&nAnio=" . $nAnio . "&";
+include("include/phpgrid.php");
+function h($value){ return htmlspecialchars((string)$value, ENT_QUOTES, 'ISO-8859-1'); }
+function estadoDteTexto($nEstadoDte){ switch((int)$nEstadoDte){ case 0:return "Cargado"; case 1:return "Firmado"; case 3:return "Con ERROR"; case 5:return "Empaquetado"; case 13:return "Enviado SII"; case 29:return "Aceptado SII"; case 45:return "Con Reparo SII"; case 77:return "Rechazado SII"; case 157:return "Enviado a Cliente"; case 413:return "Aceptado por Cliente"; } return (string)$nEstadoDte; }
+$filtrosResumen = array();
+if(trim($nTipoDocu) != "") $filtrosResumen[] = "Tipo: " . $nTipoDocu;
+if(trim($nAnio) != "") $filtrosResumen[] = "A&ntilde;o: " . $nAnio;
+if(trim($_EST_DTE) != "") $filtrosResumen[] = "Estado: " . estadoDteTexto($_EST_DTE);
+if(trim($_COLUM_SEARCH) == "D.fec_emi_dte"){ if(trim($_STRING_SEARCH0) != "" || trim($_STRING_SEARCH2) != "") $filtrosResumen[] = "Emisi&oacute;n: " . (trim($_STRING_SEARCH0) != "" ? $_STRING_SEARCH0 : "...") . " a " . (trim($_STRING_SEARCH2) != "" ? $_STRING_SEARCH2 : "..."); }
+elseif(trim($_STRING_SEARCH) != "") $filtrosResumen[] = "B&uacute;squeda: " . $_STRING_SEARCH;
+$sqlTipos = "SELECT tipo_docu, desc_tipo_docu FROM dte_tipo ORDER BY desc_tipo_docu";
+$resultTipos = rCursor($conn, $sqlTipos);
+$sqlAnios = "SELECT MIN(TO_CHAR(TO_DATE(fec_emi_dte, 'YYYY-MM-DD'), 'YYYY')) AS anio_menor, MAX(TO_CHAR(TO_DATE(fec_emi_dte, 'YYYY-MM-DD'), 'YYYY')) AS anio_mayor FROM dte_enc";
+$resultAnios = rCursor($conn, $sqlAnios);
+if(!$resultAnios->EOF){ $nAnioMenor = trim($resultAnios->fields["anio_menor"]); $nAnioMayor = trim($resultAnios->fields["anio_mayor"]); } else { $nAnioMenor = date("Y"); $nAnioMayor = date("Y"); }
+if(trim($nAnioMenor) == "") $nAnioMenor = date("Y");
+if(trim($nAnioMayor) == "") $nAnioMayor = date("Y");
+$hostName = $_SERVER_DB; $userName = $_USER_DB; $password = $_PASS_DB; $dbName = $_DATABASE; $dbType = "postgres";
+$sql = "SELECT DE.folio_dte,dte_estado(XD.est_xdte) AS estado,TD.desc_tipo_docu AS desc_tipo,(SELECT trackid_xed FROM xmlenviodte WHERE codi_empr = XD.codi_empr AND num_xed = XD.num_xed) AS track_id,to_char(to_date(DE.fec_emi_dte, 'YYYY-MM-DD'),'DD-MM-YYYY') AS fec_emi_dte,to_char(to_date(DE.fec_venc_dte, 'YYYY-MM-DD'),'DD-MM-YYYY') AS fec_venc_dte,DE.rut_emis_dte || '-' || DE.digi_emis_dte AS rut_emis_dte,DE.nom_emis_dte,DE.rut_rec_dte || '-' || DE.dig_rec_dte AS rut_rec_dte,DE.nom_rec_dte,DE.giro_rec_dte,DE.mntneto_dte,DE.iva_dte,DE.mont_tot_dte,'<a href=\"view_pdf.php?sUrlPdf=' || XD.path_pdf || '\">Ver</a>' as path_pdf,'<a href=\"view_xml.php?nFolioDte=' || DE.folio_dte || '&nTipoDocu=' || DE.tipo_docu || '\">Ver</a>' as xml FROM dte_enc DE LEFT JOIN contrib_elec CE ON CE.rut_contr = DE.rut_rec_dte,dte_tipo TD,xmldte XD WHERE DE.tipo_docu = TD.tipo_docu AND XD.tipo_docu = DE.tipo_docu AND XD.folio_dte = DE.folio_dte AND XD.codi_empr = DE.codi_empr ";
+if($_EST_DTE != "") $sql .= " AND XD.est_xdte = $_EST_DTE ";
+if($nTipoDocu != "") $sql .= " AND DE.tipo_docu = $nTipoDocu ";
+if($nAnio != "") $sql .= " AND to_char(to_date(DE.fec_emi_dte, 'YYYY-MM-DD'), 'YYYY') = '" . $nAnio . "' ";
+if($_COLUM_SEARCH == "DE.fec_emi_dte"){ if($_STRING_SEARCH0 != "" && $_STRING_SEARCH2 != "") $sql .= " AND TO_DATE(DE.fec_emi_dte,'YYYY/MM/DD') BETWEEN ('" . str_replace("'","''",$_STRING_SEARCH0) . "') AND ('" . str_replace("'","''",$_STRING_SEARCH2) . "') "; }
+else if($_STRING_SEARCH != "") $sql .= " AND UPPER(" . $_COLUM_SEARCH . ") LIKE UPPER('" . str_replace("'","''",$_STRING_SEARCH) . "%') ";
+$dg = new C_DataGrid($hostName, $userName, $password, $dbName, $dbType);
+$dg->set_gridpath($_LINK_BASE . "dte/include/");
+$dg->set_sql($sql);
+$dg->set_page_size(15);
+$dg->set_allow_export(true);
+$dg->set_col_title("folio_dte", "Folio");
+$dg->set_col_title("desc_tipo", "Tipo Doc");
+$dg->set_col_title("estado", "Estado");
+$dg->set_col_title("fec_emi_dte", "Fec. Emite");
+$dg->set_col_title("fec_venc_dte", "Fec. Vence");
+$dg->set_col_title("rut_emis_dte", "Rut Emisor");
+$dg->set_col_title("nom_emis_dte", "Emisor");
+$dg->set_col_title("giro_emis_dte", "Giro Emisor");
+$dg->set_col_title("dir_orig_dte", "Dir. Emisor");
+$dg->set_col_title("com_orig_dte", "Com. Emisor");
+$dg->set_col_title("ciud_orig_dte", "Ciud Emisor.");
+$dg->set_col_title("rut_rec_dte", "Rut Receptor");
+$dg->set_col_title("nom_rec_dte", "Receptor");
+$dg->set_col_title("giro_rec_dte", "Giro. Receptor");
+$dg->set_col_title("mntneto_dte", "Neto");
+$dg->set_col_title("iva_dte", "Iva");
+$dg->set_col_title("mont_tot_dte", "Total");
+$dg->set_col_title("path_pdf", "PDF");
+$dg->set_col_title("track_id", "ID Env&iacute;o");
+$dg->set_col_title("xml", "XML");
+$dg->set_ok_showcredit(false);
+$dg->set_theme("sweet");
+ob_start(); $dg->display(); $gridHtml = ob_get_clean();
+?><!DOCTYPE html>
+<html lang="es"><head><link rel="shortcut icon" href="/favicon.ico"><title>Listado DTE - Portal DTE</title><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/><meta name="viewport" content="width=device-width, initial-scale=1" /><script type="text/javascript" src="<?php echo h($_LINK_BASE); ?>javascript/common.js"></script><script type="text/javascript" src="<?php echo h($_LINK_BASE); ?>javascript/msg.js"></script><link rel="stylesheet" type="text/css" media="all" href="<?php echo h($_LINK_BASE); ?>css/calendar-win2k-cold-1.css" title="win2k-cold-1" /><script type="text/javascript" src="<?php echo h($_LINK_BASE); ?>javascript/calendar.js"></script><script type="text/javascript" src="<?php echo h($_LINK_BASE); ?>javascript/lang/calendar-es.js"></script><script type="text/javascript" src="<?php echo h($_LINK_BASE); ?>javascript/calendar-setup.js"></script><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"><link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet"><style>body{background:#eef2f7;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:#1f2937}.page-shell{max-width:1700px;margin:0 auto;padding:1rem}.page-hero{background:linear-gradient(135deg,#0f172a 0%,#0b5ed7 100%);color:#fff;border-radius:18px;padding:1.5rem;box-shadow:0 14px 34px rgba(15,23,42,.18);margin-bottom:1.25rem}.hero-icon{width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-size:1.4rem}.hero-pills,.actions-stack{display:flex;flex-wrap:wrap}.hero-pills{gap:.75rem}.hero-pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:.45rem .85rem;font-size:.82rem}.card{border:1px solid rgba(15,23,42,.06);border-radius:16px;box-shadow:0 10px 24px rgba(15,23,42,.08);overflow:hidden;margin-bottom:1rem}.card-header{background:#0f172a;color:#fff;padding:.9rem 1rem}.card-header .small{color:rgba(255,255,255,.75)}.filter-summary{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:14px;padding:.9rem 1rem}.filter-chip{display:inline-flex;align-items:center;gap:.35rem;padding:.35rem .75rem;background:#fff;border:1px solid #dbe7f3;border-radius:999px;font-size:.8rem;color:#334155;margin:.2rem}.actions-stack{gap:.65rem}.form-label{font-weight:600;color:#334155}.search-switch{min-height:42px}.datagrid-wrap{padding:1rem;overflow:auto}.datagrid-wrap table{width:100%!important}.datagrid-wrap a{color:#0b5ed7;text-decoration:none}.datagrid-wrap a:hover{text-decoration:underline}#loaderContainer{position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(15,23,42,.3);z-index:1050}#loaderContainerWH{vertical-align:middle;text-align:center}#loader{display:inline-block;background:#fff;border-radius:14px;padding:1rem 1.25rem;box-shadow:0 12px 28px rgba(15,23,42,.18)}@media (max-width:991.98px){.page-shell{padding:.75rem}.page-hero{padding:1.1rem}}</style><script type="text/javascript">function _body_onload(){try{SetContext('clients');setActiveButtonByName('clients');}catch(e){}try{loff();}catch(e){}try{muestraDivCampos();}catch(e){}}function _body_onunload(){try{lon();}catch(e){}}var opt_no_frames=false,opt_integrated_mode=false;try{setActiveButtonByName("clients");}catch(e){}function chListBoxSearch(){var F=document._FSEARCH;if(!F||!F._COLUM_SEARCH)return;for(var i=0;i<F._COLUM_SEARCH.length;i++){if(F._COLUM_SEARCH.options[i].value=="<?php echo h($_COLUM_SEARCH); ?>")F._COLUM_SEARCH.options[i].selected=true;}}function chSelDelEmp(){var F=document._FDEL;if(!F)return false;for(var i=0;i<F.elements.length;i++){if(F.elements[i].name=="del[]"&&F.elements[i].checked==true)return true;}return false;}function chDelEmp(){if(chSelDelEmp()==true){if(confirm(_MSG_DEL_CONFIR))document._FDEL.submit();}else alert(_MSG_DTE_DEL);}function chDchALL(){var F=document._FDEL;if(!F||!F.clientslistSelectAll)return;var obj=F.clientslistSelectAll;for(var i=0;i<F.elements.length;i++){if(F.elements[i].name=="del[]")F.elements[i].checked=!!obj.checked;}}function chListBoxEstado(){var F=document._FSEARCH;if(!F||!F._EST_DTE)return;for(var i=0;i<F._EST_DTE.length;i++){if(F._EST_DTE.options[i].value=="<?php echo h($_EST_DTE); ?>")F._EST_DTE.options[i].selected=true;}}function muestraDivCampos(){var F=document._FSEARCH;if(!F||!F._COLUM_SEARCH)return;var opt=F._COLUM_SEARCH.options[F._COLUM_SEARCH.selectedIndex].value;var div1=document.getElementById('fechaEmisionFin');var div2=document.getElementById('noFechaEmisionFin');if(!div1||!div2)return;if(opt=="D.fec_emi_dte"){div1.style.display='block';div2.style.display='none';}else{div1.style.display='none';div2.style.display='block';}}</script></head>
+<body onload="_body_onload();" onunload="_body_onunload();" id="mainCP" class="visibilityAdminMode"><a href="#" name="top" id="top"></a><table border="0" cellspacing="0" cellpadding="0" id="loaderContainer" onclick="return false;"><tr><td id="loaderContainerWH"><div id="loader"><p class="mb-0"><img src="<?php echo h($_LINK_BASE); ?>skins/<?php echo h($_SKINS); ?>/icons/loading.gif" height="32" width="32" alt="" class="me-2" /><strong>Por favor espere.<br>Cargando ...</strong></p></div></td></tr></table><div class="page-shell"><div class="page-hero"><div class="row g-3 align-items-center"><div class="col-lg-8"><div class="d-flex align-items-start gap-3"><div class="hero-icon"><i class="bi bi-table"></i></div><div><h1 class="h3 mb-2">Listado DTE</h1><p class="mb-0 opacity-75">Vista modernizada de forma conservadora, manteniendo sesi&oacute;n, calendario legacy, exportaci&oacute;n y el grid original con phpGrid.</p></div></div></div><div class="col-lg-4"><div class="hero-pills justify-content-lg-end"><span class="hero-pill"><i class="bi bi-funnel me-1"></i><?php echo count($filtrosResumen); ?> filtros activos</span><span class="hero-pill"><i class="bi bi-box-arrow-down me-1"></i>Exportaci&oacute;n habilitada</span><span class="hero-pill"><i class="bi bi-clock-history me-1"></i>Sesi&oacute;n legacy</span></div></div></div></div><div class="card"><div class="card-header d-flex flex-wrap justify-content-between gap-2 align-items-center"><div><div class="fw-semibold">Filtros y acciones</div><div class="small">Se conservan `_Buscar=OK`, los nombres GET originales y la persistencia en `$_SESSION`.</div></div><div class="actions-stack"><button type="submit" form="formSearchDten" class="btn btn-light btn-sm"><i class="bi bi-search me-1"></i>Buscar</button><button type="button" class="btn btn-outline-light btn-sm" onclick="chDelEmp();"><i class="bi bi-trash me-1"></i>Eliminar selecci&oacute;n</button></div></div><div class="card-body"><form name="_FSEARCH" id="formSearchDten" method="get" action="<?php echo h($_LINK_BASE . $sLinkActual); ?>"><input type="hidden" name="_Buscar" value="OK"><div class="row g-3 align-items-end"><div class="col-xl-2 col-lg-3 col-md-6"><label class="form-label mb-1">Tipo documento</label><select name="nTipoDocu" class="form-select form-select-sm"><option value="">Tipo Documento (Todos)</option><?php while(!$resultTipos->EOF){ $nTipoDocuTmp = trim($resultTipos->fields["tipo_docu"]); $sDescTipoDocu = trim($resultTipos->fields["desc_tipo_docu"]); ?><option value="<?php echo h($nTipoDocuTmp); ?>"<?php echo (trim($nTipoDocuTmp) == trim($nTipoDocu) ? " selected" : ""); ?>><?php echo h($sDescTipoDocu); ?></option><?php $resultTipos->MoveNext(); } ?></select></div><div class="col-xl-2 col-lg-3 col-md-6"><label class="form-label mb-1">A&ntilde;o</label><select name="nAnio" class="form-select form-select-sm"><option value="">A&ntilde;o (Todos)</option><?php for($i=$nAnioMayor; $i >= $nAnioMenor; $i--){ ?><option value="<?php echo h($i); ?>"<?php echo (trim($i) == trim($nAnio) ? " selected" : ""); ?>><?php echo h($i); ?></option><?php } ?></select></div><div class="col-xl-2 col-lg-3 col-md-6"><label class="form-label mb-1">Estado</label><select name="_EST_DTE" class="form-select form-select-sm"><option value="">Estado Todos</option><option value="0">DTE Cargados</option><option value="1">DTE Firmados</option><option value="3">DTE Con ERROR</option><option value="5">DTE Empaquetados</option><option value="13">DTE Enviados SII</option><option value="29">DTE Aceptados SII</option><option value="45">DTE Con Reparos SII</option><option value="77">DTE Rechazados SII</option><option value="157">DTE Enviados a Clientes</option><option value="413">DTE Aceptados por Clientes</option></select><script>chListBoxEstado();</script></div><div class="col-xl-2 col-lg-3 col-md-6"><label class="form-label mb-1">Campo</label><select name="_COLUM_SEARCH" class="form-select form-select-sm" onchange="muestraDivCampos();"><option value="D.folio_dte">Folio Dte</option><option value="D.fec_emi_dte">Fecha Emisi&oacute;n</option><option value="D.fec_venc_dte">Fecha Vencimiento</option><option value="D.nom_rec_dte">Razon Social Receptor</option><option value="D.giro_rec_dte">Giro Receptor</option></select><script>chListBoxSearch();</script></div><div class="col-xl-4 col-lg-12"><label class="form-label mb-1">Valor</label><div id="noFechaEmisionFin" class="search-switch" style="display:none;"><div class="input-group input-group-sm"><input type="text" name="_STRING_SEARCH" value="<?php echo h($_STRING_SEARCH); ?>" size="20" maxlength="245" class="form-control"><button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button></div></div><div id="fechaEmisionFin" class="search-switch" style="display:none;"><div class="row g-2"><div class="col-md-5"><div class="input-group input-group-sm"><input type="text" id="_STRING_SEARCH0" name="_STRING_SEARCH0" onfocus="this.blur();" value="<?php echo h($_STRING_SEARCH0); ?>" size="20" maxlength="245" class="form-control"><button type="button" class="btn btn-outline-secondary" id="f_trigger_ini"><i class="bi bi-calendar3"></i></button></div></div><div class="col-md-5"><div class="input-group input-group-sm"><input type="text" id="_STRING_SEARCH2" name="_STRING_SEARCH2" onfocus="this.blur();" value="<?php echo h($_STRING_SEARCH2); ?>" size="20" maxlength="245" class="form-control"><button type="button" class="btn btn-outline-secondary" id="f_trigger_ter"><i class="bi bi-calendar3"></i></button></div></div><div class="col-md-2 d-grid"><button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-search me-1"></i>Buscar</button></div></div></div><script type="text/javascript">Calendar.setup({inputField:"_STRING_SEARCH0",ifFormat:"%Y/%m/%d",button:"f_trigger_ini",align:"Tl",singleClick:true});Calendar.setup({inputField:"_STRING_SEARCH2",ifFormat:"%Y/%m/%d",button:"f_trigger_ter",align:"Tl",singleClick:true});muestraDivCampos();</script></div></div></form><div class="filter-summary mt-3"><div class="d-flex flex-wrap align-items-center justify-content-between gap-2"><div><strong>Resumen actual</strong><div class="small text-muted">Se mantienen filtros por tipo, a&ntilde;o, estado y criterio de b&uacute;squeda.</div></div><div class="text-muted small"><?php echo count($filtrosResumen); ?> filtro(s)</div></div><div class="mt-2"><?php if(count($filtrosResumen) > 0){ foreach($filtrosResumen as $filtro){ ?><span class="filter-chip"><?php echo $filtro; ?></span><?php } } else { ?><span class="text-muted small">Sin filtros adicionales. Se conserva el comportamiento del grid original.</span><?php } ?></div></div></div></div><div class="card"><div class="card-header d-flex flex-wrap justify-content-between gap-2 align-items-center"><div><div class="fw-semibold">Grid de DTE</div><div class="small">Se conserva `C_DataGrid`, `set_allow_export(true)` y la SQL original del listado.</div></div><div class="small">El formulario POST legacy a `dte/pro_dte.php` sigue disponible.</div></div><div class="card-body p-0"><form name="_FDEL" method="post" action="dte/pro_dte.php" class="mb-0"><input type="hidden" name="sAccion" value="E"><div class="datagrid-wrap"><?php echo $gridHtml; ?></div></form></div></div></div></body></html>

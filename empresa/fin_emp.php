@@ -1,107 +1,95 @@
-<?php 
-    include("../include/config.php");  
-    include("../include/ver_aut.php");      
-    include("../include/ver_aut_adm.php");      
-    include("../include/tables.php"); 
- 
-    $sRutEmp = trim($_GET["sRutEmp"]);
-    $sDvEmp = trim($_GET["sDvEmp"]);        
- ?>
+<?php
+  include("../include/config.php");
+  include("../include/ver_aut.php");
+  include("../include/ver_aut_adm.php");
+  include("../include/tables.php");
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+  function h($value){
+    return htmlspecialchars((string)$value, ENT_QUOTES, 'ISO-8859-1');
+  }
 
-<html>
-	
-	<head>
-		<link rel="shortcut icon" href="/favicon.ico">
-		<title>OpenB</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<base href="<?php echo $_LINK_BASE; ?>" />
-		<script language="javascript" type="text/javascript" src="javascript/common.js"></script>
-		
-		<link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/general.css">
-		<link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/main/custom.css">
-		<link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/main/layout.css">
-		<link rel="stylesheet" type="text/nonsense" href="skins/<?php echo $_SKINS; ?>/css/misc.css">
+  function rq($key){
+    return isset($_GET[$key]) ? trim((string)$_GET[$key]) : "";
+  }
 
+  $sRutEmp = rq("sRutEmp");
+  $sDvEmp = rq("sDvEmp");
+  $returnHref = "empresa/listempre.php";
+  $companyLabel = trim($sRutEmp . (($sRutEmp !== "" && $sDvEmp !== "") ? "-" : "") . $sDvEmp);
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="shortcut icon" href="/favicon.ico">
+  <title>Empresas - Portal DTE</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <base href="<?php echo h($_LINK_BASE); ?>" />
+  <script type="text/javascript" src="javascript/common.js"></script>
+  <link rel="stylesheet" type="text/css" href="skins/<?php echo h($_SKINS); ?>/css/general.css">
+  <link rel="stylesheet" type="text/css" href="skins/<?php echo h($_SKINS); ?>/css/main/custom.css">
+  <link rel="stylesheet" type="text/css" href="skins/<?php echo h($_SKINS); ?>/css/main/layout.css">
+  <link rel="stylesheet" type="text/nonsense" href="skins/<?php echo h($_SKINS); ?>/css/misc.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body{background:#eef2f7;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:#1f2937}
+    .page-shell{max-width:960px;margin:0 auto;padding:1rem}
+    .page-hero{background:linear-gradient(135deg,#001f3f 0%,#0b5ed7 100%);color:#fff;border-radius:18px;padding:1.5rem;box-shadow:0 14px 34px rgba(0,31,63,.18);margin-bottom:1.25rem}
+    .hero-icon{width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+    .card{border:1px solid rgba(15,23,42,.06);border-radius:16px;box-shadow:0 10px 24px rgba(15,23,42,.08);overflow:hidden}
+    .card-header{background:#001f3f;color:#fff;padding:.95rem 1rem}.card-header .small{color:rgba(255,255,255,.75)}
+    .status-chip{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .75rem;border-radius:999px;background:#f8fafc;border:1px solid #dbe7f3;font-size:.82rem;color:#334155}
+    #loaderContainer{position:fixed;inset:0;background:rgba(15,23,42,.3);z-index:1050}#loaderContainerWH{vertical-align:middle;text-align:center}
+    #loader{display:inline-block;background:#fff;border-radius:14px;padding:1rem 1.25rem;box-shadow:0 12px 28px rgba(15,23,42,.18)}
+  </style>
+  <script type="text/javascript">
+    function _body_onload(){ try{loff();}catch(e){} try{SetContext('cl_ed');}catch(e){} }
+    function _body_onunload(){ try{lon();}catch(e){} }
+  </script>
+</head>
+<body onload="_body_onload();" onunload="_body_onunload();" id="mainCP" class="visibilityAdminMode">
+  <a href="#" name="top" id="top"></a>
+  <table border="0" cellspacing="0" cellpadding="0" id="loaderContainer" onclick="return false;"><tr><td id="loaderContainerWH"><div id="loader"><p class="mb-0"><img src="skins/<?php echo h($_SKINS); ?>/icons/loading.gif" height="32" width="32" alt="" class="me-2"/><strong>Por favor espere.<br>Cargando ...</strong></p></div></td></tr></table>
 
-<script type="text/javascript">
-<!--
+  <div class="page-shell">
+    <div class="page-hero">
+      <div class="d-flex align-items-start gap-3">
+        <div class="hero-icon"><i class="bi bi-buildings"></i></div>
+        <div>
+          <h1 class="h3 mb-2">Operacion de empresa completada</h1>
+          <p class="mb-0 opacity-75">Se mantiene la confirmacion final del modulo de empresas y el retorno conservador al listado.</p>
+        </div>
+      </div>
+    </div>
 
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+      <div class="status-chip"><i class="bi bi-building"></i><a href="<?php echo h($_LINK_BASE . $returnHref); ?>" class="text-decoration-none">Empresas</a></div>
+      <a href="<?php echo h($_LINK_BASE . $returnHref); ?>" class="btn btn-outline-secondary"><i class="bi bi-arrow-up-circle me-1"></i>Subir nivel</a>
+    </div>
 
-function _body_onload()
-{
-	loff();
-	SetContext('cl_ed');
-		
-}
+    <div class="card">
+      <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+        <div>
+          <div class="fw-semibold"><i class="bi bi-check2-circle me-2"></i>Datos ingresados</div>
+          <div class="small mt-1">Pantalla final conservadora luego del procesamiento de la empresa.</div>
+        </div>
+        <span class="badge rounded-pill text-bg-light text-primary-emphasis">Flujo legacy preservado</span>
+      </div>
+      <div class="card-body p-4 text-center">
+        <div class="display-6 text-success mb-3"><i class="bi bi-check-circle-fill"></i></div>
+        <h2 class="h4 mb-2">Operacion completada</h2>
+        <p class="text-muted mb-4">La informacion de la empresa <?php echo ($companyLabel !== "" ? '<strong>' . h($companyLabel) . '</strong>' : 'seleccionada'); ?> fue procesada correctamente.</p>
+        <div class="d-flex flex-column flex-sm-row justify-content-center gap-2">
+          <a href="<?php echo h($_LINK_BASE . $returnHref); ?>" class="btn btn-primary"><i class="bi bi-list-ul me-1"></i>Volver al listado</a>
+          <a href="<?php echo h($_LINK_BASE . $returnHref); ?>" class="btn btn-outline-secondary"><i class="bi bi-check2 me-1"></i>Aceptar</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
-function _body_onunload()
-{
-	lon();
-	
-}
-
-//-->
-		</script>
-	</head>
-
-	<body onLoad="_body_onload();" onUnload="_body_onunload();" id="mainCP" class="visibilityAdminMode">
-	
-	<a href="#" name="top" id="top"></a>
-	<table border="0" cellspacing="0" cellpadding="0" id="loaderContainer" onClick="return false;"><tr><td id="loaderContainerWH"><div id="loader"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><p><img src="skins/<?php echo $_SKINS; ?>/icons/loading.gif" height="32" width="32" alt=""/><strong>Por favor espere.<br>Cargando ...</strong></p></td></tr></table></div></td></tr></table>
-
-	<table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td id="screenWH">
-	<div class="pathbar"><a href="javascript:void(0);" onClick="location.href='<?php echo $_LINK_BASE; ?>empresa/listempre.php';">Empresas</a> &gt; </div>
-	<div class="screenTitle">
-		<table width="100%" cellspacing="0">
-		<tr>
-			<td>Informaci&oacute;n de empresa <?php echo $sRutEmp . "-" . $sDvEmp; ?>:</td>
-			<td class="uplevel"><div class="commonButton" id="bid-up-level" title="Subir nivel"><button name="bname_up_level">Subir nivel</button><span>Subir nivel</span></div></td>
-		</tr>
-		</table>
-	</div>
-	<div id="screenSubTitle"></div>
-	<div id="screenTabs">
-		<div id="tabs">
-			
-		</div>
-
-	</div>
-	<div class="screenBody" id="">
-		
-
-
-	<div class="formArea">
-		<fieldset>
-			<legend>Datos Ingresados </legend>
-				<table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td align="center">
-<br>	<br>	<br>
-					<div class="commonButton" id="bid-ok" title="Aceptar" onClick="location.href='<?php echo $_LINK_BASE; ?>empresa/listempre.php';" onMouseOver="" onMouseOut=""><button name="bname_ok">Aceptar</button><span>Aceptar</span></div>
-	<br>				<br>	<br>
-				</td></tr></table>
-		</fieldset>
-
-	</div>
-	
-	<div class="formArea">
-		<table width="100%" class="buttons" cellspacing="0" cellpadding="0"><tr>
-			<td class="main" width="0"></td>
-		</tr></table>
-
-
-	</div>
-
-</form>
-
-	</div>
-	</td></tr></table>
-	</body>
-
-	<script type="text/javascript">
-		try {
-			lsetup();
-		} catch (e) {
-		}
-	</script>
+  <script type="text/javascript">
+    try{ lsetup(); }catch(e){}
+  </script>
+</body>
 </html>

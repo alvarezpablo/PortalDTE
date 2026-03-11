@@ -33,7 +33,7 @@ function uploadCaf() {
     if (!$my_upload->upload($new_name)) {
         $arrayTmp = $my_upload->message;
         $sMsgJs = implode("\n", $arrayTmp);
-        header("location:form_cont_elec.php?sMsgJs=" . $sMsgJs);
+        header("location:form_cont_elec_v2.php?sMsgJs=" . urlencode($sMsgJs));
         exit;
     }
 
@@ -161,7 +161,7 @@ SET
     ";
     nrExecuta($conn, $sqlClientes, true);
 
-    echo "ActualizaciÃn final completada.\n";
+    echo "Actualizaciï¿½n final completada.\n";
   // nrExecuta($conn, "DROP TABLE IF EXISTS contrib_elec_staging;", true);
 
 }

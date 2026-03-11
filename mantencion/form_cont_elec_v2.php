@@ -9,19 +9,42 @@
     include("../include/ver_aut.php");      
     include("../include/db_lib.php"); 
     include("../include/tables.php");  
+
+    function h($value) {
+        return htmlspecialchars((string)$value, ENT_QUOTES, 'ISO-8859-1');
+    }
+
+    function jsq($value) {
+        return str_replace(array("\\", "'", "\r", "\n"), array("\\\\", "\\'", "", "\\n"), (string)$value);
+    }
     
-    $sMsgJs = trim($_GET["sMsgJs"]);  
+    $sMsgJs = isset($_GET["sMsgJs"]) ? trim($_GET["sMsgJs"]) : "";  
     $sLinkActual = "mantencion/form_cont_elec_v2.php";  
     $_NUM_ROW_LIST = 50;
     $conn = conn();
 
+    $allowedOrderCols = array("rut_contr", "rs_contr", "fecres_contr", "email_contr");
+    $allowedSearchCols = array("rut_contr", "rs_contr", "email_contr");
+
     // Parametros de ordenamiento
     $orderCol = isset($_GET["_ORDER_BY_COLUM"]) ? trim($_GET["_ORDER_BY_COLUM"]) : "rs_contr";
     $orderDir = isset($_GET["_NIVEL_BY_ORDER"]) ? trim($_GET["_NIVEL_BY_ORDER"]) : "ASC";
-    $searchCol = isset($_GET["_COLUM_SEARCH"]) ? trim($_GET["_COLUM_SEARCH"]) : "";
+    $searchCol = isset($_GET["_COLUM_SEARCH"]) ? trim($_GET["_COLUM_SEARCH"]) : "rut_contr";
     $searchStr = isset($_GET["_STRING_SEARCH"]) ? trim($_GET["_STRING_SEARCH"]) : "";
     $pagina = isset($_GET["pagina"]) ? intval($_GET["pagina"]) : 1;
     if ($pagina < 1) $pagina = 1;
+
+    if (!in_array($orderCol, $allowedOrderCols, true)) {
+        $orderCol = "rs_contr";
+    }
+
+    if ($orderDir != "ASC" && $orderDir != "DESC") {
+        $orderDir = "ASC";
+    }
+
+    if (!in_array($searchCol, $allowedSearchCols, true)) {
+        $searchCol = "rut_contr";
+    }
 
     // Toggle orden
     if (isset($_GET["_ORDER_CAMBIA"]) && $_GET["_ORDER_CAMBIA"] == "Y") {
@@ -63,7 +86,7 @@
 <body class="p-3">
 
 <?php if($sMsgJs != ""): ?>
-<script>alert('<?php echo addslashes($sMsgJs); ?>');</script>
+<script>alert('<?php echo jsq($sMsgJs); ?>');</script>
 <?php endif; ?>
 
 <!-- Card: Cargar Archivo -->
@@ -111,7 +134,7 @@
                 </div>
                 <div class="col-md-5">
                     <input type="text" name="_STRING_SEARCH" class="form-control form-control-sm" 
-                           placeholder="Buscar..." value="<?php echo htmlspecialchars($searchStr); ?>">
+                           placeholder="Buscar..." value="<?php echo h($searchStr); ?>">
                 </div>
                 <div class="col-md-4">
                     <button type="submit" class="btn btn-primary btn-sm">
@@ -159,7 +182,7 @@
 
     $sqlWhere = "";
     if ($searchStr != "") {
-        $sqlWhere = " AND UPPER(CAST(" . $orderCol . " AS varchar)) LIKE UPPER('" . str_replace("'", "''", $searchStr) . "%')";
+        $sqlWhere = " AND UPPER(CAST(" . $searchCol . " AS varchar)) LIKE UPPER('" . str_replace("'", "''", $searchStr) . "%')";
         $sql .= $sqlWhere;
     }
 
@@ -186,10 +209,10 @@
         $sEm = trim($result->fields["email_contr"]);
 ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($sRut); ?></td>
-                        <td><?php echo htmlspecialchars($sRs); ?></td>
-                        <td><?php echo $dFec; ?></td>
-                        <td><?php echo htmlspecialchars($sEm); ?></td>
+                        <td><?php echo h($sRut); ?></td>
+                        <td><?php echo h($sRs); ?></td>
+                        <td><?php echo h($dFec); ?></td>
+                        <td><?php echo h($sEm); ?></td>
                     </tr>
 <?php
         $result->MoveNext();
