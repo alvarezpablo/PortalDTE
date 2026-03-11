@@ -8,57 +8,78 @@
 	include("../include/ver_aut.php");
     include("../include/ver_emp_adm.php"); 
 
-	$orden = trim($_GET["orden"]);	// orden campo
-	$descAsc = trim($_GET["orni"]); // orden nivel
+		function h($value){
+			return htmlspecialchars((string)$value, ENT_QUOTES, 'ISO-8859-1');
+		}
 
-	if($descAsc == "") $descAsc = "1";
-	if($orden == "") $orden = "fecha_recep";	
-	if($orden == "1") $orden = "fact_ref";
-	if($orden == "2") $orden = "fec_emi_doc";
-	if($orden == "3") $orden = "rut_rec_dte";
-	if($orden == "4") $orden = "mont_tot_dte";
+		function q($value){
+			return rawurlencode((string)$value);
+		}
 
-	if($descAsc == "1") $descAsc = "DESC";
-	if($descAsc == "2") $descAsc = "ASC";
+		function request_value($name){
+			return isset($_GET[$name]) ? trim($_GET[$name]) : "";
+		}
 
-	$tipo = trim($_GET["tipo"]);
-	$folio = trim($_GET["folio"]);
-	$fecha1 = trim($_GET["fecha1"]);
-	$fecha2 = trim($_GET["fecha2"]);
-	$fechac1 = trim($_GET["fechac1"]);
-	$fechac2 = trim($_GET["fechac2"]);
-	$rut = trim($_GET["rut"]);
-	$pagina = trim($_GET["pagina"]);
+		function js_sq($value){
+			$value = str_replace(array("\\", "'", "\r", "\n"), array("\\\\", "\\'", "\\r", "\\n"), (string)$value);
+			return "'" . $value . "'";
+		}
+
+		$orden = request_value("orden");	// orden campo
+		$descAsc = request_value("orni"); // orden nivel
+
+		if($descAsc == "") $descAsc = "1";
+		if($orden == "") $orden = "fecha_recep";	
+		elseif($orden == "1") $orden = "fact_ref";
+		elseif($orden == "2") $orden = "fec_emi_doc";
+		elseif($orden == "3") $orden = "rut_rec_dte";
+		elseif($orden == "4") $orden = "mont_tot_dte";
+		else $orden = "fecha_recep";
+
+		if($descAsc == "1") $descAsc = "DESC";
+		elseif($descAsc == "2") $descAsc = "ASC";
+		else $descAsc = "DESC";
+
+		$tipo = request_value("tipo");
+		$folio = request_value("folio");
+		$fecha1 = request_value("fecha1");
+		$fecha2 = request_value("fecha2");
+		$fechac1 = request_value("fechac1");
+		$fechac2 = request_value("fechac2");
+		$rutFiltro = request_value("rut");
+		$rut = $rutFiltro;
+		$pagina = request_value("pagina");
+		if($pagina != "" && (!ctype_digit($pagina) || intval($pagina) < 1)) $pagina = "";
 
 	if($rut != ""){
 		$aRut = explode("-",$rut);
 		$rut = $aRut[0];
 	}
 
-	$AAR = trim($_GET["AAR"]);		// Acuse de recibo ok
-	$SAR = trim($_GET["SAR"]);		// sin acuse de recibo
-	$AAC = trim($_GET["AAC"]);		// acptado comercialmente
-	$RAC = trim($_GET["RAC"]);		// rechazado comercialmente
-	$SAC = trim($_GET["SAC"]);		// sin respuesta comercial
-	$CRM = trim($_GET["CRM"]);		// con recibo de mercaderia ACEPTADO
-	$RRM = trim($_GET["RRM"]);		// con recibo de mercaderia RECHAZADO
-	$SRM = trim($_GET["SRM"]);		// sin recibo de mercaderia
+		$AAR = request_value("AAR");		// Acuse de recibo ok
+		$SAR = request_value("SAR");		// sin acuse de recibo
+		$AAC = request_value("AAC");		// acptado comercialmente
+		$RAC = request_value("RAC");		// rechazado comercialmente
+		$SAC = request_value("SAC");		// sin respuesta comercial
+		$CRM = request_value("CRM");		// con recibo de mercaderia ACEPTADO
+		$RRM = request_value("RRM");		// con recibo de mercaderia RECHAZADO
+		$SRM = request_value("SRM");		// sin recibo de mercaderia
 
-	$qrstring = "&tipo=" . $tipo;
-	$qrstring .= "&folio=" . $folio;
-	$qrstring .= "&fecha1=" . $fecha1;
-	$qrstring .= "&fecha2=" . $fecha2;
-	$qrstring .= "&fechac1=" . $fechac1;
-	$qrstring .= "&fechac2=" . $fechac2;
-	$qrstring .= "&rut=" . $rut;
-	$qrstring .= "&AAR=" . $AAR;
-	$qrstring .= "&SAR=" . $SAR;
-	$qrstring .= "&AAC=" . $AAC;
-	$qrstring .= "&RAC=" . $RAC;
-	$qrstring .= "&SAC=" . $SAC;
-	$qrstring .= "&CRM=" . $CRM;
-	$qrstring .= "&RRM=" . $RRM;	
-	$qrstring .= "&SRM=" . $SRM;	
+		$qrstring = "&tipo=" . q($tipo);
+		$qrstring .= "&folio=" . q($folio);
+		$qrstring .= "&fecha1=" . q($fecha1);
+		$qrstring .= "&fecha2=" . q($fecha2);
+		$qrstring .= "&fechac1=" . q($fechac1);
+		$qrstring .= "&fechac2=" . q($fechac2);
+		$qrstring .= "&rut=" . q($rut);
+		$qrstring .= "&AAR=" . q($AAR);
+		$qrstring .= "&SAR=" . q($SAR);
+		$qrstring .= "&AAC=" . q($AAC);
+		$qrstring .= "&RAC=" . q($RAC);
+		$qrstring .= "&SAC=" . q($SAC);
+		$qrstring .= "&CRM=" . q($CRM);
+		$qrstring .= "&RRM=" . q($RRM);	
+		$qrstring .= "&SRM=" . q($SRM);	
 
 	$fleCarga = "";
 	$fleFolio = "";
@@ -138,6 +159,13 @@
 ?>
 <?php
 	$conn = conn();
+		$fech_ahora = 0;
+		$fech_update_sii1 = "";
+		$fech_update_sii2 = 0;
+		$fech_update_sii3 = "";
+		$fech_update_sii4 = 0;
+		$fech_update_sii = "";
+
 	$sql = "select to_char(now(),'yyyymmddHH24MI') fech_ahora";
 	$result2 = rCursor($conn, $sql);
 	if(!$result2->EOF) {
@@ -223,7 +251,7 @@
             </div>
             <div class="modal-body">
                 <div class="alert alert-info">
-                    <i class="bi bi-info-circle"></i> &Uacute;ltima actualizaci&oacute;n: <strong><?php echo $fech_update_sii; ?></strong>
+	                    <i class="bi bi-info-circle"></i> &Uacute;ltima actualizaci&oacute;n: <strong><?php echo h($fech_update_sii); ?></strong>
                 </div>
                 <form id="_FORMAJAX">
                     <?php $anio = date("Y"); $mes = date("m"); ?>
@@ -232,7 +260,7 @@
                         <div class="row">
                             <div class="col-6">
                                 <select name="sanio" id="sanio" class="form-select">
-                                    <option value="<?php echo $anio; ?>" selected><?php echo $anio; ?></option>
+	                                    <option value="<?php echo h($anio); ?>" selected><?php echo h($anio); ?></option>
                                     <?php for($i=$anio-1; $i > $anio-20; $i--){ echo "<option value='" . $i . "'>" . $i . "</option>\n"; } ?>
                                 </select>
                             </div>
@@ -310,7 +338,7 @@
         <i class="bi bi-search"></i> B&uacute;squeda de DTE Recibidos
     </div>
     <div class="card-body">
-        <form name="_BUSCA" id="_BUSCA" method="get" action="">
+	        <form name="_BUSCA" id="_BUSCA" method="get" action="list_dte_recep_v4.php" onsubmit="return valida();">
             <div class="row g-3">
                 <!-- Tipo DTE -->
                 <div class="col-md-4">
@@ -331,29 +359,29 @@
                         <option value="">Todos</option>
                     </select>
                     <?php if($_GET){ ?>
-                    <script>document._BUSCA.tipo.value = "<?php echo $tipo; ?>";</script>
+	                    <script>document._BUSCA.tipo.value = "<?php echo h($tipo); ?>";</script>
                     <?php } ?>
                 </div>
 
                 <!-- Folio -->
                 <div class="col-md-2">
                     <label class="filter-label">Folio DTE</label>
-                    <input type="text" name="folio" class="form-control" maxlength="18" value="<?php echo $folio; ?>">
+	                    <input type="text" name="folio" class="form-control" maxlength="18" value="<?php echo h($folio); ?>">
                 </div>
 
                 <!-- Rut Emisor -->
                 <div class="col-md-2">
                     <label class="filter-label">Rut Emisor</label>
-                    <input type="text" name="rut" class="form-control" maxlength="10" value="<?php echo trim($_GET["rut"]); ?>" placeholder="12345678-9">
+	                    <input type="text" name="rut" class="form-control" maxlength="10" value="<?php echo h($rutFiltro); ?>" placeholder="12345678-9">
                 </div>
 
                 <!-- Fecha Emisi&oacute;n -->
                 <div class="col-md-4">
                     <label class="filter-label">Fecha Emisi&oacute;n</label>
                     <div class="input-group">
-                        <input type="text" name="fecha1" id="fecha1" class="form-control" placeholder="Desde" value="<?php echo $fecha1; ?>" autocomplete="off">
+	                        <input type="text" name="fecha1" id="fecha1" class="form-control" placeholder="Desde" value="<?php echo h($fecha1); ?>" autocomplete="off">
                         <span class="input-group-text">a</span>
-                        <input type="text" name="fecha2" id="fecha2" class="form-control" placeholder="Hasta" value="<?php echo $fecha2; ?>" autocomplete="off">
+	                        <input type="text" name="fecha2" id="fecha2" class="form-control" placeholder="Hasta" value="<?php echo h($fecha2); ?>" autocomplete="off">
                     </div>
                 </div>
 
@@ -361,9 +389,9 @@
                 <div class="col-md-4">
                     <label class="filter-label">Fecha Recepci&oacute;n</label>
                     <div class="input-group">
-                        <input type="text" name="fechac1" id="fechac1" class="form-control" placeholder="Desde" value="<?php echo $fechac1; ?>" autocomplete="off">
+	                        <input type="text" name="fechac1" id="fechac1" class="form-control" placeholder="Desde" value="<?php echo h($fechac1); ?>" autocomplete="off">
                         <span class="input-group-text">a</span>
-                        <input type="text" name="fechac2" id="fechac2" class="form-control" placeholder="Hasta" value="<?php echo $fechac2; ?>" autocomplete="off">
+	                        <input type="text" name="fechac2" id="fechac2" class="form-control" placeholder="Hasta" value="<?php echo h($fechac2); ?>" autocomplete="off">
                     </div>
                 </div>
 
@@ -466,16 +494,16 @@
                     <tr>
                         <th>Operaciones</th>
                         <th>Tipo</th>
-                        <th><a href="list_dte_recep_v4.php?a=1<?php echo $qrsFolio; ?>" class="sort-link">Folio <?php echo $fleFolio; ?></a></th>
-                        <th><a href="list_dte_recep_v4.php?a=1<?php echo $qrsFech; ?>" class="sort-link">F.Emisi&oacute;n <?php echo $fleFech; ?></a></th>
-                        <th><a href="list_dte_recep_v4.php?a=1<?php echo $qrsCarga; ?>" class="sort-link">F.Recepci&oacute;n <?php echo $fleCarga; ?></a></th>
+	                        <th><a href="list_dte_recep_v4.php?a=1<?php echo h($qrsFolio); ?>" class="sort-link">Folio <?php echo $fleFolio; ?></a></th>
+	                        <th><a href="list_dte_recep_v4.php?a=1<?php echo h($qrsFech); ?>" class="sort-link">F.Emisi&oacute;n <?php echo $fleFech; ?></a></th>
+	                        <th><a href="list_dte_recep_v4.php?a=1<?php echo h($qrsCarga); ?>" class="sort-link">F.Recepci&oacute;n <?php echo $fleCarga; ?></a></th>
                         <th>F.Recep SII</th>
                         <th>F.L&iacute;mite</th>
                         <th class="text-end">Exento</th>
                         <th class="text-end">Neto</th>
                         <th class="text-end">IVA</th>
-                        <th class="text-end"><a href="list_dte_recep_v4.php?a=1<?php echo $qrsTotal; ?>" class="sort-link">Total <?php echo $fleTotal; ?></a></th>
-                        <th><a href="list_dte_recep_v4.php?a=1<?php echo $qrsRut; ?>" class="sort-link">Rut Emisor <?php echo $fleRut; ?></a></th>
+	                        <th class="text-end"><a href="list_dte_recep_v4.php?a=1<?php echo h($qrsTotal); ?>" class="sort-link">Total <?php echo $fleTotal; ?></a></th>
+	                        <th><a href="list_dte_recep_v4.php?a=1<?php echo h($qrsRut); ?>" class="sort-link">Rut Emisor <?php echo $fleRut; ?></a></th>
                         <th>Emisor</th>
                     </tr>
                 </thead>
@@ -611,17 +639,27 @@
 			if($fech_limite_sii2 == "") $fech_limite_sii2 = $fech_ahora;
 			else $fech_limite_sii2 = floatval($fech_limite_sii2);
 
-			$urlPdf = "../dte/view_pdf_compras.php?c=" . $_SESSION["_COD_EMP_USU_SESS"] . "&f=" . $folio_dte . "&t=" . $tipo_docu . "&r=" . $rut_rec_dte . "-" . $dig_rec_dte;
-			$urlXML = "../dte/view_xmlrecibido.php?rutEmi=" . $rut_rec_dte . "&nFolioDte=" . $folio_dte . "&nTipoDocu=" . $tipo_docu;
-			$urlSET = "../dte/view_setxmlrecibido.php?rutEmi=" . $rut_rec_dte . "&nFolioDte=" . $folio_dte . "&nTipoDocu=" . $tipo_docu;
+				$urlPdf = "../dte/view_pdf_compras.php?c=" . q($_SESSION["_COD_EMP_USU_SESS"]) . "&f=" . q($folio_dte) . "&t=" . q($tipo_docu) . "&r=" . q($rut_rec_dte . "-" . $dig_rec_dte);
+				$urlXML = "../dte/view_xmlrecibido.php?rutEmi=" . q($rut_rec_dte) . "&nFolioDte=" . q($folio_dte) . "&nTipoDocu=" . q($tipo_docu);
+				$urlSET = "../dte/view_setxmlrecibido.php?rutEmi=" . q($rut_rec_dte) . "&nFolioDte=" . q($folio_dte) . "&nTipoDocu=" . q($tipo_docu);
+				$responderArgs = implode(",", array(
+					js_sq($folio_dte),
+					js_sq($tipo_docu),
+					js_sq($rut_rec_dte),
+					js_sq($dig_rec_dte),
+					js_sq($merca_dte),
+					js_sq($fech_merca_dte),
+					js_sq($acuse_dte),
+					js_sq($fech_acuse_dte)
+				));
 ?>
                     <tr>
                         <td class="text-center" style="white-space: nowrap;">
-                            <a href="<?php echo $urlPdf; ?>" target="_blank" class="btn btn-sm btn-outline-danger" title="Ver PDF"><i class="bi bi-file-pdf"></i></a>
-                            <a href="<?php echo $urlXML; ?>" target="_blank" class="btn btn-sm btn-outline-primary" title="Ver XML"><i class="bi bi-file-code"></i></a>
-                            <a href="<?php echo $urlSET; ?>" target="_blank" class="btn btn-sm btn-outline-secondary" title="SET XML"><i class="bi bi-file-earmark-code"></i></a>
+	                            <a href="<?php echo h($urlPdf); ?>" target="_blank" class="btn btn-sm btn-outline-danger" title="Ver PDF"><i class="bi bi-file-pdf"></i></a>
+	                            <a href="<?php echo h($urlXML); ?>" target="_blank" class="btn btn-sm btn-outline-primary" title="Ver XML"><i class="bi bi-file-code"></i></a>
+	                            <a href="<?php echo h($urlSET); ?>" target="_blank" class="btn btn-sm btn-outline-secondary" title="SET XML"><i class="bi bi-file-earmark-code"></i></a>
                             <?php if($fech_ahora <= $fech_limite_sii2 && (trim($merca_dte) == "" || trim($acuse_dte) == "")){ ?>
-                            <button type="button" class="btn btn-sm btn-success" onclick="responderSII('<?php echo $folio_dte; ?>','<?php echo $tipo_docu; ?>','<?php echo $rut_rec_dte; ?>','<?php echo $dig_rec_dte; ?>','<?php echo $merca_dte; ?>','<?php echo $fech_merca_dte; ?>','<?php echo $acuse_dte; ?>','<?php echo $fech_acuse_dte; ?>');" title="Responder DTE"><i class="bi bi-reply"></i></button>
+	                            <button type="button" class="btn btn-sm btn-success" onclick="responderSII(<?php echo h($responderArgs); ?>);" title="Responder DTE"><i class="bi bi-reply"></i></button>
                             <?php } ?>
                             <br>
                             <?php
@@ -645,18 +683,18 @@
                             }
                             ?>
                         </td>
-                        <td><span class="badge bg-info"><?php echo poneTipo($tipo_docu); ?></span></td>
+	                        <td><span class="badge bg-info"><?php echo h(poneTipo($tipo_docu)); ?></span></td>
                         <td class="text-end"><?php echo number_format($folio_dte,0,',','.'); ?></td>
-                        <td><?php echo $fec_emi_doc; ?></td>
-                        <td><?php echo $fec_rece_doc; ?></td>
-                        <td><?php echo $fec_rece_sii; ?></td>
-                        <td><?php echo $fech_limite_sii; ?></td>
+	                        <td><?php echo h($fec_emi_doc); ?></td>
+	                        <td><?php echo h($fec_rece_doc); ?></td>
+	                        <td><?php echo h($fec_rece_sii); ?></td>
+	                        <td><?php echo h($fech_limite_sii); ?></td>
                         <td class="text-end"><?php echo number_format($mnt_exen_dte,0,',','.'); ?></td>
                         <td class="text-end"><?php echo number_format($mntneto_dte,0,',','.'); ?></td>
                         <td class="text-end"><?php echo number_format($iva_dte,0,',','.'); ?></td>
                         <td class="text-end fw-bold"><?php echo number_format($mont_tot_dte,0,',','.'); ?></td>
-                        <td><?php echo $rut_rec_dte . "-" . $dig_rec_dte; ?></td>
-                        <td><?php echo $nom_rec_dte; ?></td>
+	                        <td><?php echo h($rut_rec_dte . "-" . $dig_rec_dte); ?></td>
+	                        <td><?php echo h($nom_rec_dte); ?></td>
                     </tr>
 <?php
 			$result->MoveNext();
@@ -674,7 +712,7 @@
     <?php if($totalFilas > 0){
         $total_paginas = ceil($totalFilas / $TAMANO_PAGINA);
         $paginasLista = ($total_paginas > 20) ? 20 : $total_paginas;
-        $qrstring .= "&orden=" . $orden . "&orni=" . $descAsc;
+	        $qrstringPag = $qrstring . "&orden=" . q($orden) . "&orni=" . q($descAsc);
         $inicio_pag = floor($pagina / $paginasLista);
         if(floor($pagina / $paginasLista) == ($pagina / $paginasLista))
             $inicio_pag = $inicio_pag * $paginasLista - $paginasLista + 1;
@@ -683,21 +721,21 @@
     ?>
     <div class="card-footer">
         <div class="d-flex justify-content-between align-items-center">
-            <span class="text-muted">Mostrando p&aacute;gina <?php echo $pagina; ?> de <?php echo $total_paginas; ?> (<?php echo $totalFilas; ?> registros)</span>
+	            <span class="text-muted">Mostrando p&aacute;gina <?php echo h($pagina); ?> de <?php echo h($total_paginas); ?> (<?php echo h($totalFilas); ?> registros)</span>
             <nav>
                 <ul class="pagination pagination-sm mb-0">
                     <?php if($pagina > 20){ ?>
-                    <li class="page-item"><a class="page-link" href="list_dte_recep_v4.php?pagina=<?php echo ($inicio_pag-1); ?><?php echo $qrstring; ?>">Anterior</a></li>
+	                    <li class="page-item"><a class="page-link" href="list_dte_recep_v4.php?pagina=<?php echo h($inicio_pag-1); ?><?php echo h($qrstringPag); ?>">Anterior</a></li>
                     <?php } ?>
                     <?php for($i=$inicio_pag; $i<=($paginasLista + $inicio_pag - 1); $i++){ ?>
                         <?php if($pagina == $i){ ?>
-                        <li class="page-item active"><span class="page-link"><?php echo $i; ?></span></li>
+	                        <li class="page-item active"><span class="page-link"><?php echo h($i); ?></span></li>
                         <?php } else { ?>
-                        <li class="page-item"><a class="page-link" href="list_dte_recep_v4.php?pagina=<?php echo $i; ?><?php echo $qrstring; ?>"><?php echo $i; ?></a></li>
+	                        <li class="page-item"><a class="page-link" href="list_dte_recep_v4.php?pagina=<?php echo h($i); ?><?php echo h($qrstringPag); ?>"><?php echo h($i); ?></a></li>
                         <?php } ?>
                     <?php } ?>
                     <?php if($total_paginas > $paginasLista){ ?>
-                    <li class="page-item"><a class="page-link" href="list_dte_recep_v4.php?pagina=<?php echo $i; ?><?php echo $qrstring; ?>">Siguiente</a></li>
+	                    <li class="page-item"><a class="page-link" href="list_dte_recep_v4.php?pagina=<?php echo h($i); ?><?php echo h($qrstringPag); ?>">Siguiente</a></li>
                     <?php } ?>
                 </ul>
             </nav>
@@ -723,25 +761,43 @@ document.addEventListener('DOMContentLoaded', function() {
 
 var noRecActivo = false;
 
+function valida() {
+    var F = document._BUSCA;
+
+    if(F.AAR.checked == false && F.SAR.checked == false) {
+        alert("Se debe seleccionar a lo menos un estado del Acuse de Recibo");
+        return false;
+    }
+    if(F.AAC.checked == false && F.RAC.checked == false && F.SAC.checked == false) {
+        alert("Se debe seleccionar a lo menos un estado de la Respuesta Comercial");
+        return false;
+    }
+    if(F.CRM.checked == false && F.RRM.checked == false && F.SRM.checked == false) {
+        alert("Se debe seleccionar a lo menos un estado del Recibo de Mercader\u00EDa");
+        return false;
+    }
+    return true;
+}
+
 function bajarExcel() {
     var F = document._BUSCA;
-    var url = "excel_dte_recep_v3.php?" +
-        "tipo=" + (F.tipo ? F.tipo.value : "") +
-        "&folio=" + (F.folio ? F.folio.value : "") +
-        "&fecha1=" + (F.fecha1 ? F.fecha1.value : "") +
-        "&fecha2=" + (F.fecha2 ? F.fecha2.value : "") +
-        "&fechac1=" + (F.fechac1 ? F.fechac1.value : "") +
-        "&fechac2=" + (F.fechac2 ? F.fechac2.value : "") +
-        "&rut=" + (F.rut ? F.rut.value : "") +
-        "&AAR=" + (F.AAR && F.AAR.checked ? "1" : "") +
-        "&SAR=" + (F.SAR && F.SAR.checked ? "1" : "") +
-        "&AAC=" + (F.AAC && F.AAC.checked ? "1" : "") +
-        "&RAC=" + (F.RAC && F.RAC.checked ? "1" : "") +
-        "&SAC=" + (F.SAC && F.SAC.checked ? "1" : "") +
-        "&CRM=" + (F.CRM && F.CRM.checked ? "1" : "") +
-        "&RRM=" + (F.RRM && F.RRM.checked ? "1" : "") +
-        "&SRM=" + (F.SRM && F.SRM.checked ? "1" : "");
-    window.open(url, "_blank");
+
+    if(valida() != true) {
+        return false;
+    }
+
+    if(confirm("Bajar a Excel el resultado de la busqueda? Se descargan un maximo de 10.000 registros.")) {
+        var actionOriginal = F.action;
+        var targetOriginal = F.target;
+
+        F.action = "excel_dte_recep_v3.php";
+        F.target = "_blank";
+        F.submit();
+        F.action = actionOriginal;
+        F.target = targetOriginal;
+    }
+
+    return false;
 }
 
 function actualizaRegistro() {
@@ -769,7 +825,7 @@ function responderSII(folio_dte, tipo_docu, rut_rec_dte, dig_rec_dte, merca_dte,
     // Mostrar/ocultar opciones seg&uacute;n estado actual
     if(merca_dte != "") {
         $("#sRespuestaMerca1").hide();
-        $("#sRespuestaMerca3").text("Recibo de Mercader&iacute;a ya generado: " + merca_dte + " el " + fech_merca_dte);
+        $("#sRespuestaMerca3").text("Recibo de Mercader\u00EDa ya generado: " + merca_dte + " el " + fech_merca_dte);
     } else {
         $("#sRespuestaMerca1").show();
         $("#sRespuestaMerca3").text("");
@@ -793,7 +849,7 @@ function enviarRespSII() {
         return;
     }
 
-    if(confirm("&iquest;Est&aacute; seguro de enviar la respuesta al SII?")) {
+    if(confirm("\u00BFEst\u00E1 seguro de enviar la respuesta al SII?")) {
         $("#divLoading").addClass("show");
         $.ajax({
             type: "GET",
@@ -806,7 +862,7 @@ function enviarRespSII() {
                     if($("#sRespuesta option:selected").val() != "")
                         alert("Resultado de Respuesta a Contenido del Documento: " + obj.glosaAcuse);
                     if($("#sRespuestaMerca option:selected").val() != "")
-                        alert("Resultado de Respuesta a Recibo de Mercader&iacute;as: " + obj.glosaMerca);
+                        alert("Resultado de Respuesta a Recibo de Mercader\u00EDas: " + obj.glosaMerca);
                     location.reload();
                 }
                 if(obj.Error == "1") { alert(obj.msj); $("#divLoading").removeClass("show"); }
