@@ -5,7 +5,7 @@ include("../include/tables.php");
 
 function h($value){ return htmlspecialchars((string)$value, ENT_QUOTES, 'ISO-8859-1'); }
 
-$returnHref = "factura/list_dte_recep_v2.php";
+$returnHref = "factura/list_dte_recep_v4.php";
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -24,7 +24,7 @@ $returnHref = "factura/list_dte_recep_v2.php";
 <body onload="_body_onload();" onunload="_body_onunload();" id="mainCP">
 	<a href="#" name="top" id="top"></a>
 	<table border="0" cellspacing="0" cellpadding="0" id="loaderContainer" onclick="return false;"><tr><td id="loaderContainerWH"><div id="loader"><p class="mb-0"><img src="skins/<?php echo h($_SKINS); ?>/icons/loading.gif" height="32" width="32" alt="" class="me-2"/><strong>Por favor espere.<br>Cargando ...</strong></p></div></td></tr></table>
-	<div class="page-shell"><div class="confirm-card card mt-4"><div class="confirm-body text-center"><div class="icon-wrap mx-auto mb-3"><i class="bi bi-reply"></i></div><h1 class="h3 mb-2">Informacion de DTE</h1><p class="text-secondary mb-4">La respuesta del DTE fue procesada y el retorno se mantiene asociado al flujo legacy que todavia usa esta pantalla final.</p><div class="alert alert-success border-0 shadow-sm mb-4"><strong>Operacion completada.</strong> Se moderniza la confirmacion sin alterar el destino actual del proceso.</div><div class="d-flex flex-column flex-sm-row gap-2 justify-content-center"><a href="<?php echo h($returnHref); ?>" class="btn btn-primary"><i class="bi bi-arrow-left-circle me-2"></i>Volver al listado v2</a><a href="main.php" class="btn btn-outline-secondary"><i class="bi bi-house-door me-2"></i>Ir al inicio</a></div></div></div></div>
+		<div class="page-shell"><div class="confirm-card card mt-4"><div class="confirm-body text-center"><div class="icon-wrap mx-auto mb-3"><i class="bi bi-reply"></i></div><h1 class="h3 mb-2">Informacion de DTE</h1><p class="text-secondary mb-4">La respuesta del DTE fue procesada y el retorno ahora apunta a la vista activa de DTE Recibidos.</p><div class="alert alert-success border-0 shadow-sm mb-4"><strong>Operacion completada.</strong> Se mantiene el flujo del proceso sin volver a una version anterior.</div><div class="d-flex flex-column flex-sm-row gap-2 justify-content-center"><a href="<?php echo h($returnHref); ?>" class="btn btn-primary"><i class="bi bi-arrow-left-circle me-2"></i>Volver a DTE Recibidos</a><a href="main.php" class="btn btn-outline-secondary"><i class="bi bi-house-door me-2"></i>Ir al inicio</a></div></div></div></div>
 	<script type="text/javascript">try{lsetup();}catch(e){}</script>
 </body>
 </html>

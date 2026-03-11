@@ -211,17 +211,155 @@
         :root {
             --primary-color: #0d6efd;
             --secondary-color: #6c757d;
+            --surface-color: #ffffff;
+            --border-color: #dbe3ef;
+            --muted-color: #6b7280;
         }
-        body { background-color: #f8f9fa; }
-        .card { border-radius: 0.5rem; box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,.075); }
-        .card-header { background-color: var(--primary-color); color: white; font-weight: 600; }
+        body { background-color: #eef3f8; }
+        .page-shell { max-width: 100%; margin: 0 auto; }
+        .card {
+            border: 1px solid var(--border-color);
+            border-radius: 0.65rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(15, 23, 42, .05);
+            overflow: hidden;
+        }
+        .card + .card { margin-top: 0.9rem; }
+        .card-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+            font-weight: 600;
+            padding: 0.65rem 0.9rem;
+            border-bottom: 0;
+        }
+        .card-header-title {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            line-height: 1.1;
+        }
+        .card-body { padding: 0.9rem; }
+        .card-body.compact-body { padding: 0.85rem; }
+        .card-footer {
+            background-color: #f8fafc;
+            border-top: 1px solid var(--border-color);
+            padding: 0.7rem 0.9rem;
+        }
         .table-container { max-height: 60vh; overflow-y: auto; }
-        .table thead th { position: sticky; top: 0; background-color: #343a40; color: white; z-index: 10; white-space: nowrap; }
+        .table { margin-bottom: 0; }
+        .table thead th {
+            position: sticky;
+            top: 0;
+            background-color: #27364a;
+            color: white;
+            z-index: 10;
+            white-space: nowrap;
+            font-size: 0.78rem;
+            letter-spacing: 0.01em;
+            padding: 0.55rem 0.55rem;
+            border-color: #31445d;
+        }
+        .table tbody td {
+            padding: 0.45rem 0.55rem;
+            vertical-align: middle;
+            font-size: 0.83rem;
+            border-color: #e2e8f0;
+        }
         .table tbody tr:hover { background-color: rgba(13, 110, 253, 0.1); }
+        .table tbody tr:nth-child(even) { background-color: rgba(248, 250, 252, 0.85); }
         .btn-action { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
-        .badge-status { font-size: 0.7rem; }
-        .filter-label { font-weight: 500; font-size: 0.875rem; }
-        .form-check-inline { margin-right: 0.5rem; }
+        .badge-status {
+            font-size: 0.64rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            padding: 0.28rem 0.38rem;
+        }
+        .type-badge {
+            background-color: #e0ecff !important;
+            color: #1f4f99 !important;
+            font-weight: 600;
+            border: 1px solid #bfd4ff;
+        }
+        .filter-label {
+            font-weight: 600;
+            font-size: 0.77rem;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            color: #334155;
+            margin-bottom: 0.3rem;
+        }
+        .form-check-inline { margin-right: 0.55rem; margin-bottom: 0.1rem; }
+        .form-check-label { font-size: 0.82rem; }
+        .form-select, .form-control, .input-group-text { font-size: 0.85rem; }
+        .compact-control, .compact-actions .btn, .compact-actions .btn-link, .compact-btn {
+            min-height: calc(1.5em + 0.55rem + 2px);
+            padding-top: 0.27rem;
+            padding-bottom: 0.27rem;
+            font-size: 0.84rem;
+        }
+        .compact-actions {
+            display: flex;
+            justify-content: center;
+            gap: 0.45rem;
+            flex-wrap: wrap;
+        }
+        .manual-link {
+            font-size: 0.82rem;
+            padding-top: 0;
+            padding-bottom: 0;
+            text-decoration: none;
+        }
+        .filter-group {
+            background-color: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 0.55rem;
+            padding: 0.7rem 0.8rem;
+            height: 100%;
+        }
+        .results-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            color: rgba(255,255,255,.9);
+            font-size: 0.8rem;
+        }
+        .results-meta .badge {
+            background-color: rgba(255,255,255,.18) !important;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,.24);
+            font-weight: 600;
+        }
+        .ops-cell { min-width: 138px; }
+        .ops-actions {
+            display: inline-flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+        }
+        .status-stack {
+            display: inline-flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.2rem;
+            margin-top: 0.35rem;
+        }
+        .empty-state {
+            padding: 2rem 1rem;
+            color: var(--muted-color);
+        }
+        .page-link {
+            color: #1d4ed8;
+            border-color: #d7e3f4;
+            padding: 0.25rem 0.55rem;
+        }
+        .page-item.active .page-link {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+        .page-summary {
+            font-size: 0.82rem;
+            color: #64748b;
+        }
         .loading-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0,0,0,0.5); z-index: 9999; display: none;
@@ -231,9 +369,17 @@
         .spinner-text { color: white; margin-left: 1rem; font-size: 1.2rem; }
         a.sort-link { color: white; text-decoration: none; }
         a.sort-link:hover { color: #ccc; }
+        @media (max-width: 991px) {
+            body { padding: 0.8rem !important; }
+            .card-body { padding: 0.8rem; }
+            .results-meta { margin-top: 0.35rem; }
+            .card-footer .d-flex { gap: 0.6rem; }
+        }
     </style>
 </head>
 <body class="p-3">
+
+<div class="page-shell">
 
 <!-- Loading Overlay -->
 <div id="divLoading" class="loading-overlay">
@@ -335,15 +481,18 @@
 <!-- Formulario de B&uacute;squeda -->
 <div class="card mb-4">
     <div class="card-header">
-        <i class="bi bi-search"></i> B&uacute;squeda de DTE Recibidos
+        <div class="card-header-title">
+            <i class="bi bi-search"></i>
+            <span>B&uacute;squeda de DTE Recibidos</span>
+        </div>
     </div>
-    <div class="card-body">
+    <div class="card-body compact-body">
 	        <form name="_BUSCA" id="_BUSCA" method="get" action="list_dte_recep_v4.php" onsubmit="return valida();">
-            <div class="row g-3">
+            <div class="row g-2 align-items-end">
                 <!-- Tipo DTE -->
                 <div class="col-md-4">
                     <label class="filter-label">Tipo DTE</label>
-                    <select name="tipo" class="form-select">
+                    <select name="tipo" class="form-select compact-control">
                         <option value="33">Factura Electr&oacute;nica</option>
                         <option value="34">Factura No Afecta o Exenta Electr&oacute;nica</option>
                         <option value="39">Boleta Electr&oacute;nica</option>
@@ -366,22 +515,22 @@
                 <!-- Folio -->
                 <div class="col-md-2">
                     <label class="filter-label">Folio DTE</label>
-	                    <input type="text" name="folio" class="form-control" maxlength="18" value="<?php echo h($folio); ?>">
+		                    <input type="text" name="folio" class="form-control compact-control" maxlength="18" value="<?php echo h($folio); ?>">
                 </div>
 
                 <!-- Rut Emisor -->
                 <div class="col-md-2">
                     <label class="filter-label">Rut Emisor</label>
-	                    <input type="text" name="rut" class="form-control" maxlength="10" value="<?php echo h($rutFiltro); ?>" placeholder="12345678-9">
+		                    <input type="text" name="rut" class="form-control compact-control" maxlength="10" value="<?php echo h($rutFiltro); ?>" placeholder="12345678-9">
                 </div>
 
                 <!-- Fecha Emisi&oacute;n -->
                 <div class="col-md-4">
                     <label class="filter-label">Fecha Emisi&oacute;n</label>
                     <div class="input-group">
-	                        <input type="text" name="fecha1" id="fecha1" class="form-control" placeholder="Desde" value="<?php echo h($fecha1); ?>" autocomplete="off">
+		                        <input type="text" name="fecha1" id="fecha1" class="form-control compact-control" placeholder="Desde" value="<?php echo h($fecha1); ?>" autocomplete="off">
                         <span class="input-group-text">a</span>
-	                        <input type="text" name="fecha2" id="fecha2" class="form-control" placeholder="Hasta" value="<?php echo h($fecha2); ?>" autocomplete="off">
+		                        <input type="text" name="fecha2" id="fecha2" class="form-control compact-control" placeholder="Hasta" value="<?php echo h($fecha2); ?>" autocomplete="off">
                     </div>
                 </div>
 
@@ -389,16 +538,17 @@
                 <div class="col-md-4">
                     <label class="filter-label">Fecha Recepci&oacute;n</label>
                     <div class="input-group">
-	                        <input type="text" name="fechac1" id="fechac1" class="form-control" placeholder="Desde" value="<?php echo h($fechac1); ?>" autocomplete="off">
+		                        <input type="text" name="fechac1" id="fechac1" class="form-control compact-control" placeholder="Desde" value="<?php echo h($fechac1); ?>" autocomplete="off">
                         <span class="input-group-text">a</span>
-	                        <input type="text" name="fechac2" id="fechac2" class="form-control" placeholder="Hasta" value="<?php echo h($fechac2); ?>" autocomplete="off">
+		                        <input type="text" name="fechac2" id="fechac2" class="form-control compact-control" placeholder="Hasta" value="<?php echo h($fechac2); ?>" autocomplete="off">
                     </div>
                 </div>
 
                 <!-- Filtros de Estado -->
                 <div class="col-md-8">
-                    <div class="row">
+                    <div class="row g-2">
                         <div class="col-md-4">
+                            <div class="filter-group">
                             <label class="filter-label">Acuse de Recibo</label>
                             <div>
                                 <div class="form-check form-check-inline">
@@ -410,8 +560,10 @@
                                     <label class="form-check-label" for="chkSAR">No Generado</label>
                                 </div>
                             </div>
+                            </div>
                         </div>
                         <div class="col-md-4">
+                            <div class="filter-group">
                             <label class="filter-label">Respuesta Comercial</label>
                             <div>
                                 <div class="form-check form-check-inline">
@@ -427,8 +579,10 @@
                                     <label class="form-check-label" for="chkSAC">No Generado</label>
                                 </div>
                             </div>
+                            </div>
                         </div>
                         <div class="col-md-4">
+                            <div class="filter-group">
                             <label class="filter-label">Recibo de Mercader&iacute;a</label>
                             <div>
                                 <div class="form-check form-check-inline">
@@ -443,6 +597,7 @@
                                     <input type="checkbox" class="form-check-input" name="SRM" value="1" id="chkSRM" checked>
                                     <label class="form-check-label" for="chkSRM">No Generado</label>
                                 </div>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -463,18 +618,20 @@
             <?php } ?>
 
             <div class="row mt-3">
-                <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Buscar</button>
-                    <button type="button" class="btn btn-outline-success" onclick="bajarExcel();"><i class="bi bi-file-earmark-excel"></i> Excel</button>
-                    <a href="list_dte_recep_v4.php" class="btn btn-outline-secondary"><i class="bi bi-x-circle"></i> Limpiar</a>
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalActualizaSII"><i class="bi bi-cloud-download"></i> Actualizar desde SII</button>
-                    <button type="button" class="btn btn-warning" onclick="norecibido();"><i class="bi bi-exclamation-triangle"></i> No recibidos en OpenB</button>
+                <div class="col-12">
+                    <div class="compact-actions">
+	                    <button type="submit" class="btn btn-primary compact-btn"><i class="bi bi-search"></i> Buscar</button>
+	                    <button type="button" class="btn btn-outline-success compact-btn" onclick="bajarExcel();"><i class="bi bi-file-earmark-excel"></i> Excel</button>
+	                    <a href="list_dte_recep_v4.php" class="btn btn-outline-secondary compact-btn"><i class="bi bi-x-circle"></i> Limpiar</a>
+	                    <button type="button" class="btn btn-success compact-btn" data-bs-toggle="modal" data-bs-target="#modalActualizaSII"><i class="bi bi-cloud-download"></i> Actualizar desde SII</button>
+	                    <button type="button" class="btn btn-warning compact-btn" onclick="norecibido();"><i class="bi bi-exclamation-triangle"></i> No recibidos en OpenB</button>
+                    </div>
                 </div>
             </div>
 
             <div class="row mt-2">
                 <div class="col-12 text-center">
-                    <a href="manual_reg_compra.pdf" target="_blank" class="btn btn-link"><i class="bi bi-book"></i> Manual de Uso</a>
+	                    <a href="manual_reg_compra.pdf" target="_blank" class="btn btn-link manual-link"><i class="bi bi-book"></i> Manual de Uso</a>
                 </div>
             </div>
         </form>
@@ -485,11 +642,15 @@
 <?php if($_GET){ ?>
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <span><i class="bi bi-table"></i> Resultados</span>
+        <span class="card-header-title"><i class="bi bi-table"></i> <span>Resultados</span></span>
+        <div class="results-meta">
+            <span class="badge rounded-pill">40 por p&aacute;gina</span>
+            <span>Vista compacta</span>
+        </div>
     </div>
     <div class="card-body p-0">
         <div class="table-container">
-            <table class="table table-striped table-hover table-bordered mb-0">
+            <table class="table table-striped table-hover table-bordered table-sm mb-0">
                 <thead>
                     <tr>
                         <th>Operaciones</th>
@@ -653,15 +814,17 @@
 					js_sq($fech_acuse_dte)
 				));
 ?>
-                    <tr>
-                        <td class="text-center" style="white-space: nowrap;">
-	                            <a href="<?php echo h($urlPdf); ?>" target="_blank" class="btn btn-sm btn-outline-danger" title="Ver PDF"><i class="bi bi-file-pdf"></i></a>
-	                            <a href="<?php echo h($urlXML); ?>" target="_blank" class="btn btn-sm btn-outline-primary" title="Ver XML"><i class="bi bi-file-code"></i></a>
-	                            <a href="<?php echo h($urlSET); ?>" target="_blank" class="btn btn-sm btn-outline-secondary" title="SET XML"><i class="bi bi-file-earmark-code"></i></a>
+	                    <tr>
+	                        <td class="text-center ops-cell">
+	                            <div class="ops-actions">
+		                            <a href="<?php echo h($urlPdf); ?>" target="_blank" class="btn btn-sm btn-outline-danger" title="Ver PDF"><i class="bi bi-file-pdf"></i></a>
+		                            <a href="<?php echo h($urlXML); ?>" target="_blank" class="btn btn-sm btn-outline-primary" title="Ver XML"><i class="bi bi-file-code"></i></a>
+		                            <a href="<?php echo h($urlSET); ?>" target="_blank" class="btn btn-sm btn-outline-secondary" title="SET XML"><i class="bi bi-file-earmark-code"></i></a>
                             <?php if($fech_ahora <= $fech_limite_sii2 && (trim($merca_dte) == "" || trim($acuse_dte) == "")){ ?>
-	                            <button type="button" class="btn btn-sm btn-success" onclick="responderSII(<?php echo h($responderArgs); ?>);" title="Responder DTE"><i class="bi bi-reply"></i></button>
+		                            <button type="button" class="btn btn-sm btn-success" onclick="responderSII(<?php echo h($responderArgs); ?>);" title="Responder DTE"><i class="bi bi-reply"></i></button>
                             <?php } ?>
-                            <br>
+	                            </div>
+	                            <div class="status-stack">
                             <?php
                             // Badges de estado
                             if($tipo_docu == "39" || $tipo_docu == "41" || $tipo_docu == "110" || $tipo_docu == "111" || $tipo_docu == "112"){
@@ -682,8 +845,9 @@
                                 else echo "<span class='badge bg-warning text-dark badge-status' title='Sin Respuesta Comercial'><i class='bi bi-dash'></i>RC</span>";
                             }
                             ?>
+	                            </div>
                         </td>
-	                        <td><span class="badge bg-info"><?php echo h(poneTipo($tipo_docu)); ?></span></td>
+		                        <td><span class="badge type-badge"><?php echo h(poneTipo($tipo_docu)); ?></span></td>
                         <td class="text-end"><?php echo number_format($folio_dte,0,',','.'); ?></td>
 	                        <td><?php echo h($fec_emi_doc); ?></td>
 	                        <td><?php echo h($fec_rece_doc); ?></td>
@@ -701,7 +865,7 @@
 		}
 	} else {
 ?>
-                    <tr><td colspan="13" class="text-center py-4"><i class="bi bi-inbox text-muted" style="font-size: 2rem;"></i><br>No hay resultados para su b&uacute;squeda</td></tr>
+	                    <tr><td colspan="13" class="text-center empty-state"><i class="bi bi-inbox text-muted" style="font-size: 2rem;"></i><br>No hay resultados para su b&uacute;squeda</td></tr>
 <?php } ?>
                 </tbody>
             </table>
@@ -720,8 +884,8 @@
             $inicio_pag = $inicio_pag * $paginasLista + 1;
     ?>
     <div class="card-footer">
-        <div class="d-flex justify-content-between align-items-center">
-	            <span class="text-muted">Mostrando p&aacute;gina <?php echo h($pagina); ?> de <?php echo h($total_paginas); ?> (<?php echo h($totalFilas); ?> registros)</span>
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+		            <span class="page-summary">Mostrando p&aacute;gina <?php echo h($pagina); ?> de <?php echo h($total_paginas); ?> (<?php echo h($totalFilas); ?> registros)</span>
             <nav>
                 <ul class="pagination pagination-sm mb-0">
                     <?php if($pagina > 20){ ?>
@@ -744,6 +908,8 @@
     <?php } ?>
 </div>
 <?php } ?>
+
+</div>
 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

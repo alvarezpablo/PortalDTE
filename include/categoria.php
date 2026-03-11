@@ -11,18 +11,10 @@
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ID"][$j] = "dte_recep";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["CLASS"][$j] = "node";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ICONO"][$j] = "skins/" . $_SKINS . "/images/btn_manage_bg.gif";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "factura/list_dte_recep_v2.php";
+  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "factura/list_dte_recep_v4.php";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TARGET"][$j] = "workFrame";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "DTE Recibidos";      
   $j++;   // inclementa j  
-
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ID"][$j] = "dte_recep_sii";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["CLASS"][$j] = "node";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ICONO"][$j] = "skins/" . $_SKINS . "/images/btn_manage_bg.gif";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "factura/list_dte_recep_v3.php";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TARGET"][$j] = "workFrame";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "DTE Recibidos V3(Beta)";
-  $j++;   // inclementa j
 
 /*
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ID"][$j] = "dte_recep_sii";
@@ -252,7 +244,7 @@ if(trim($_SESSION["_EMITE_WEB_"]) == "1" || trim($_SESSION["_COD_ROL_SESS"]) == 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ICONO"][$j] = "skins/" . $_SKINS . "/images/btn_manage_bg.gif";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "emitir/emitir.php?t=33";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TARGET"][$j] = "workFrame";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Factura Electrónica";
+  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Factura Electrï¿½nica";
   $j++;   // inclementa j
 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ID"][$j] = "dte34";
@@ -260,7 +252,7 @@ if(trim($_SESSION["_EMITE_WEB_"]) == "1" || trim($_SESSION["_COD_ROL_SESS"]) == 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ICONO"][$j] = "skins/" . $_SKINS . "/images/btn_manage_bg.gif";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "emitir/emitir.php?t=34";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TARGET"][$j] = "workFrame";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Factura No Afecta o Exenta Electrónica";
+  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Factura No Afecta o Exenta Electrï¿½nica";
   $j++;   // inclementa j
 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ID"][$j] = "dte39";
@@ -268,7 +260,7 @@ if(trim($_SESSION["_EMITE_WEB_"]) == "1" || trim($_SESSION["_COD_ROL_SESS"]) == 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ICONO"][$j] = "skins/" . $_SKINS . "/images/btn_manage_bg.gif";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "emitir/emitir.php?t=39";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TARGET"][$j] = "workFrame";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Boleta Electrónica";
+  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Boleta Electrï¿½nica";
   $j++;   // inclementa j
 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ID"][$j] = "dte41";
@@ -276,7 +268,7 @@ if(trim($_SESSION["_EMITE_WEB_"]) == "1" || trim($_SESSION["_COD_ROL_SESS"]) == 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ICONO"][$j] = "skins/" . $_SKINS . "/images/btn_manage_bg.gif";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "emitir/emitir.php?t=41";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TARGET"][$j] = "workFrame";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Boleta Exenta Electrónica";
+  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Boleta Exenta Electrï¿½nica";
   $j++;   // inclementa j
 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ID"][$j] = "dte56";
@@ -284,7 +276,7 @@ if(trim($_SESSION["_EMITE_WEB_"]) == "1" || trim($_SESSION["_COD_ROL_SESS"]) == 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ICONO"][$j] = "skins/" . $_SKINS . "/images/btn_manage_bg.gif";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "emitir/emitir.php?t=56";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TARGET"][$j] = "workFrame";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Nota de Débito Electrónica";
+  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Nota de Dï¿½bito Electrï¿½nica";
   $j++;   // inclementa j
 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ID"][$j] = "dte61";
@@ -292,7 +284,7 @@ if(trim($_SESSION["_EMITE_WEB_"]) == "1" || trim($_SESSION["_COD_ROL_SESS"]) == 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ICONO"][$j] = "skins/" . $_SKINS . "/images/btn_manage_bg.gif";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "emitir/emitir.php?t=61";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TARGET"][$j] = "workFrame";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Nota de Crédito Electrónica";
+  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Nota de Crï¿½dito Electrï¿½nica";
   $j++;   // inclementa j
 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ID"][$j] = "dte5-2";
@@ -300,7 +292,7 @@ if(trim($_SESSION["_EMITE_WEB_"]) == "1" || trim($_SESSION["_COD_ROL_SESS"]) == 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ICONO"][$j] = "skins/" . $_SKINS . "/images/btn_manage_bg.gif";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "emitir/emitir.php?t=52";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TARGET"][$j] = "workFrame";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Guía de Despacho Electrónica";
+  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Guï¿½a de Despacho Electrï¿½nica";
   $j++;   // inclementa j
 
   $i++;
@@ -315,7 +307,7 @@ if(trim($_SESSION["_EMITE_WEB_"]) == "1" || trim($_SESSION["_COD_ROL_SESS"]) == 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ID"][$j] = "cargado2";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["CLASS"][$j] = "node";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ICONO"][$j] = "skins/" . $_SKINS . "/images/btn_mpc_bg.gif";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "dte/list_dte_v2.php";
+  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "dte/list_dte_v3.php";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TARGET"][$j] = "workFrame";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "DTE Listado ";
   $j++;   // inclementa j 

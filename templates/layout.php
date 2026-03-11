@@ -114,10 +114,7 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
         'titulo' => 'Recepci&oacute;n DTE',
         'icon' => 'bi-inbox',
         'items' => [
-            ['link' => 'factura/list_dte_recep_v4.php', 'text' => 'DTE Recibidos', 'icon' => 'bi-file-earmark-text'],
-            ['link' => 'factura/list_dte_recep_v3.php', 'text' => 'DTE Recibidos V3 (Beta)', 'icon' => 'bi-file-earmark-text'],
-            ['link' => 'factura/list_dte_recep_v2.php', 'text' => 'DTE Recibidos V2 (Antiguo)', 'icon' => 'bi-file-earmark-text'],
-            ['link' => 'factura/list_dte_recep_v3.php', 'text' => 'DTE Recibidos V3 (Antiguo)', 'icon' => 'bi-file-earmark-text']
+            ['link' => 'factura/list_dte_recep_v4.php', 'text' => 'DTE Recibidos', 'icon' => 'bi-file-earmark-text']
         ]
     ];
 
@@ -214,8 +211,7 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
 
     // DTE Emitidos
     $dteItems = [
-        ['link' => 'dte/list_dte_v3.php', 'text' => 'DTE Listado', 'icon' => 'bi-list-ul'],
-        ['link' => 'dte/list_dte_v2.php', 'text' => 'DTE Listado (Antiguo)', 'icon' => 'bi-list-task']
+        ['link' => 'dte/list_dte_v3.php', 'text' => 'DTE Listado', 'icon' => 'bi-list-ul']
     ];
     if ($codRol == "1" || $codRol == "3") {
         $dteItems[] = ['link' => 'exportXML/consulta_xml_exportado.php', 'text' => 'Descarga XML', 'icon' => 'bi-download'];

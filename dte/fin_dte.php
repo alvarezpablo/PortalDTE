@@ -6,7 +6,7 @@ include("../include/tables.php");
 
 function h($value){ return htmlspecialchars((string)$value, ENT_QUOTES, 'ISO-8859-1'); }
 
-$returnHref = "dte/list_dte_v2.php";
+$returnHref = "dte/list_dte_v3.php";
 $msj = isset($_GET["msj"]) ? trim((string)$_GET["msj"]) : "";
 $messageLines = array();
 
@@ -50,7 +50,7 @@ if($msj !== ""){
 			<div class="confirm-body text-center">
 				<div class="icon-wrap mx-auto mb-3"><i class="bi bi-file-earmark-check"></i></div>
 				<h1 class="h3 mb-2">DTE</h1>
-				<p class="text-secondary mb-4">La operacion finalizo y la pantalla de termino mantiene el flujo historico del modulo.</p>
+					<p class="text-secondary mb-4">La operacion finalizo y la pantalla de termino retorna al listado activo del modulo.</p>
 				<?php if(sizeof($messageLines) > 0){ ?>
 				<div class="alert alert-warning text-start shadow-sm border-0 mx-auto" style="max-width:640px;">
 					<strong>Detalle del proceso:</strong>
