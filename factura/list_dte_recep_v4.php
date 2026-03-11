@@ -209,7 +209,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
         :root {
-            --primary-color: #0d6efd;
+            --primary-color: #0b5ed7;
+            --primary-dark: #001f3f;
             --secondary-color: #6c757d;
             --surface-color: #ffffff;
             --border-color: #dbe3ef;
@@ -225,7 +226,7 @@
         }
         .card + .card { margin-top: 0.9rem; }
         .card-header {
-            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
             color: white;
             font-weight: 600;
             padding: 0.65rem 0.9rem;
@@ -249,14 +250,14 @@
         .table thead th {
             position: sticky;
             top: 0;
-            background-color: #27364a;
+            background-color: var(--primary-dark);
             color: white;
             z-index: 10;
             white-space: nowrap;
             font-size: 0.78rem;
             letter-spacing: 0.01em;
             padding: 0.55rem 0.55rem;
-            border-color: #31445d;
+            border-color: #17385c;
         }
         .table tbody td {
             padding: 0.45rem 0.55rem;
@@ -264,7 +265,7 @@
             font-size: 0.83rem;
             border-color: #e2e8f0;
         }
-        .table tbody tr:hover { background-color: rgba(13, 110, 253, 0.1); }
+        .table tbody tr:hover { background-color: rgba(11, 94, 215, 0.08); }
         .table tbody tr:nth-child(even) { background-color: rgba(248, 250, 252, 0.85); }
         .btn-action { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
         .badge-status {
@@ -274,10 +275,10 @@
             padding: 0.28rem 0.38rem;
         }
         .type-badge {
-            background-color: #e0ecff !important;
-            color: #1f4f99 !important;
+            background-color: #e7f0ff !important;
+            color: #0f3d75 !important;
             font-weight: 600;
-            border: 1px solid #bfd4ff;
+            border: 1px solid #c6d9ff;
         }
         .filter-label {
             font-weight: 600;
@@ -348,13 +349,13 @@
             color: var(--muted-color);
         }
         .page-link {
-            color: #1d4ed8;
+            color: var(--primary-color);
             border-color: #d7e3f4;
             padding: 0.25rem 0.55rem;
         }
         .page-item.active .page-link {
-            background-color: #0d6efd;
-            border-color: #0d6efd;
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
         }
         .page-summary {
             font-size: 0.82rem;
@@ -368,7 +369,7 @@
         .loading-overlay.show { display: flex; }
         .spinner-text { color: white; margin-left: 1rem; font-size: 1.2rem; }
         a.sort-link { color: white; text-decoration: none; }
-        a.sort-link:hover { color: #ccc; }
+        a.sort-link:hover { color: #dbeafe; }
         @media (max-width: 991px) {
             body { padding: 0.8rem !important; }
             .card-body { padding: 0.8rem; }
