@@ -1,218 +1,75 @@
-<?php 
-	include("../include/config.php");  
-  include("../include/ver_aut.php");      
-  include("../include/ver_aut_adm.php");        
-	include("../include/db_lib.php"); 
-	include("../include/tables.php");  
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-<html>
-	<head>
-		<link rel="shortcut icon" href="/favicon.ico">
-		<title>OpenB</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-		<base href="<?php echo $_LINK_BASE; ?>" />
-
-		<script language="javascript" type="text/javascript" src="javascript/common.js"></script>
-    <script language="javascript" type="text/javascript" src="javascript/msg.js"></script>    
-		<link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/general.css">
-		<link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/main/custom.css">
-		<link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/main/layout.css">
-		<link rel="stylesheet" type="text/nonsense" href="skins/<?php echo $_SKINS; ?>/css/misc.css">
-
-
-		<script type="text/javascript">
-<!--
-function _body_onload()
-{
-	SetContext('clients');
-	setActiveButtonByName('clients');
-	loff();	
-}
-
-function _body_onunload()
-{
-	lon();	
-}
-
-var opt_no_frames = false;
-var opt_integrated_mode = false;
-setActiveButtonByName("clients");
-
-
-    function chListBoxSearch(){
-      var F = document._FSEARCH;
-      for(i=0; i < F._COLUM_SEARCH.length; i++){
-        if(F._COLUM_SEARCH.options[i].value == "<?php echo $_COLUM_SEARCH; ?>")
-          F._COLUM_SEARCH.options[i].selected = true;
-      }
-    }
-    
-    function chSelDelEmp(){
-      var F = document._FDEL;
-    
-      for(i=0; i < F.elements.length; i++){
-        if(F.elements[i].name == "del[]"){
-            if(F.elements[i].checked == true)
-              return true;
-          
-        }
-      }
-      return false;
-    }
-    
-    function chDelEmp(){
-      if(chSelDelEmp() == true){
-        if(confirm(_MSG_DEL_TDOC))
-          document._FDEL.submit();
-      }
-      else
-        alert(_MSG_SEL_TDOC_DEL);
-    }
-    
-    function chDchALL(){
-      var F = document._FDEL;
-      var obj = F.clientslistSelectAll;
-      
-      if(obj.checked == true){
-        for(i=0; i < F.elements.length; i++){
-           if(F.elements[i].name == "del[]")
-              F.elements[i].checked = true;                                 
-        }
-      }
-      else{
-        for(i=0; i < F.elements.length; i++){
-           if(F.elements[i].name == "del[]")
-              F.elements[i].checked = false;                                 
-        }
-      }
-    }
-    
-    
-//-->
-		</script>
-	</head>
-	<body onLoad="_body_onload();" onUnload="_body_onunload();" id="mainCP">
-
-	<a href="#" name="top" id="top"></a>
-	<table border="0" cellspacing="0" cellpadding="0" id="loaderContainer" onClick="return false;"><tr><td id="loaderContainerWH"><div id="loader"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><p><img src="skins/<?php echo $_SKINS; ?>/icons/loading.gif" height="32" width="32" alt=""/><strong>Por favor espere.<br>Cargando ...</strong></p></td></tr></table></div></td></tr></table>
-	<?php sTituloCabecera("Tipo Documento"); ?>
-	<?php sAgregaHerramienta("screenClientList", "Herramientas", $aBotonTipDocHerramienta); ?>
-<?php   
-        $conn = conn();
-        $sLinkActual = "mantencion/list_tip_doc.php";
-?>
-	<div class="screenBody">
-		<div class="listArea">
-			<fieldset>
-				<legend>Tipo Documento</legend>
-				<table width="100%" cellspacing="0" cellpadding="0" border="0">
-					<tr>
-						<td>
-              
-							<table width="100%" cellspacing="0" class="buttons">
-								<td class="main">&nbsp;</td>
-								<td class="misc">
-									<div>
-										<div class="commonButton">&nbsp;</div>
-
-										<div class="commonButton" id="bid-remove-selected" title="Eliminar seleccion"  name="bid-remove-selected">
-											<button name="bname_remove_selected" onclick="chDelEmp();">Eliminar seleccion</button><span>Eliminar seleccion</span>
-										</div>
-									</div>
-								</td>
-							</table>
-              
-            <form name="_FDEL" method="post" action="mantencion/pro_tc.php">
-              <input type="hidden" name="sAccion" value="E">							
-              
-              <table width="100%" cellspacing="0" class="list">
-<?php 
-                
-        $sql = "SELECT tipo_docu, desc_tipo_docu FROM dte_tipo WHERE 1=1 ";
-        
-        
-        if($_STRING_SEARCH != "")
-          $sql .= " AND UPPER(" . $_COLUM_SEARCH  . ") LIKE UPPER('" . str_replace("'","''",$_STRING_SEARCH) . "%') ";
-        
-        if(trim($_ORDER_BY_COLUM) == "")
-          $sql .= " ORDER BY desc_tipo_docu ";
-        else
-          $sql .= " ORDER BY " . $_ORDER_BY_COLUM . "  $_NIVEL_BY_ORDER ";          
-
-        
-        if($_ORDER_BY_COLUM == "desc_tipo_docu"){
-           $sClassDoc = "class='sort'";
-           $sImgDoc = "<img src='" . $_IMG_BY_ORDER . "'>";          
-        }
-        else{
-            if($_ORDER_BY_COLUM == "tipo_docu"){
-              $sClassCod = "class='sort'";
-              $sImgCod = "<img src='" . $_IMG_BY_ORDER . "'>";          
-            }
-            else{
-              $sClassDoc = "class='sort'";
-              $sImgDoc = "<img src='" . $_IMG_BY_ORDER . "'>";                     
-           }
-        }
-        
-        
-?>								
-                
-                <tr>
-									<th width="20%" <?php echo $sClassCod; ?>><a href="javascript:location.href='<?php echo $_LINK_BASE . $sLinkActual; ?>?_ORDER_BY_COLUM=tipo_docu&_NIVEL_BY_ORDER=<?php echo $_NIVEL_BY_ORDER; ?>&_COLUM_SEARCH=<?php echo $_COLUM_SEARCH; ?>&_STRING_SEARCH=<?php echo $_STRING_SEARCH; ?>&_ORDER_CAMBIA=Y';">Codigo Documento</a><?php echo $sImgCod; ?></th>						                
-									<th width="60%" <?php echo $sClassDoc; ?>><a href="javascript:location.href='<?php echo $_LINK_BASE . $sLinkActual; ?>?_ORDER_BY_COLUM=desc_tipo_docu&_NIVEL_BY_ORDER=<?php echo $_NIVEL_BY_ORDER; ?>&_COLUM_SEARCH=<?php echo $_COLUM_SEARCH; ?>&_STRING_SEARCH=<?php echo $_STRING_SEARCH; ?>&_ORDER_CAMBIA=Y';">Tipo Documento</a><?php echo $sImgDoc; ?></th>									
-                  <th width="0" class="select"><input type="checkbox" class="checkbox" name="clientslistSelectAll" value="true" onClick="chDchALL();"></th>
-								</tr>
-
-
-<?php 
-/********************** LISTA TIPO DE DOCUMENTO ****************************************/
-        
-        $result = $conn->selectLimit($sql, $_NUM_ROW_LIST, $_NUM_ROW_LIST * $_NUM_PAG_ACT);        
-        $sPaginaResult = sPagina($conn, $sql, $sLinkActual);        // string de paginacion
-        
-        $sClassRow = "evenrowbg";               // clase de la hoja de estilo 
-        
-        while (!$result->EOF) {
-          $nCodDoc = trim($result->fields["tipo_docu"]);
-          $sDescDoc = trim($result->fields["desc_tipo_docu"]);
-          
-          $strParamLink = "nCodDoc=" . urlencode($nCodDoc);
-          $strParamLink .= "&nCodDocNew=" . urlencode($nCodDoc);                    
-          $strParamLink .= "&sDescDoc=" . urlencode($sDescDoc);
-          $strParamLink .= "&sAccion=M";                                        
-
-?>																												
-								<tr class="<?php echo $sClassRow; ?>">
-									<td class="icon"><?php echo $nCodDoc; ?></td>
-									<td><a href="javascript:location.href='<?php echo $_LINK_BASE; ?>mantencion/form_tc.php?<?php echo $strParamLink; ?>';"><?php echo $sDescDoc; ?></a></td>
-                  <td class="select"><input type="checkbox" class="checkbox" name="del[]" value="<?php echo $nCodDoc; ?>"></td>
-								</tr>
-
 <?php
-          if($sClassRow == "oddrowbg")
-            $sClassRow = "evenrowbg";
-          else
-            $sClassRow = "oddrowbg";
-            
-          $result->MoveNext();
-        } 
-        
-/*********************** FIN LISTA TIPO DE DOCUMENTO ***********************************/
-?>								           
+include("../include/config.php");
+include("../include/ver_aut.php");
+include("../include/ver_aut_adm.php");
+include("../include/db_lib.php");
+include("../include/tables.php");
 
-							</table>
+$conn = conn();
+$sLinkActual = "mantencion/list_tip_doc.php";
+$baseListUrl = $_LINK_BASE . $sLinkActual;
+$searchOptions = array("desc_tipo_docu" => "Tipo Documento", "tipo_docu" => "Código Documento");
+$orderColumns = array("tipo_docu", "desc_tipo_docu");
+$searchColumn = trim($_COLUM_SEARCH);
+if(!isset($searchOptions[$searchColumn])) $searchColumn = "desc_tipo_docu";
+$stringSearch = trim($_STRING_SEARCH);
+$orderByColumn = trim($_ORDER_BY_COLUM);
+if(!in_array($orderByColumn, $orderColumns)) $orderByColumn = "";
+$nivelByOrder = strtoupper(trim($_NIVEL_BY_ORDER));
+if($nivelByOrder != "ASC" && $nivelByOrder != "DESC") $nivelByOrder = "";
+$_COLUM_SEARCH = $searchColumn; $_STRING_SEARCH = $stringSearch;
+$_ORDER_BY_COLUM = $orderByColumn; $_NIVEL_BY_ORDER = $nivelByOrder;
+function h($value){ return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8'); }
+function buildOrderUrl($baseListUrl, $column, $nivelByOrder, $searchColumn, $stringSearch){ return $baseListUrl . "?_ORDER_BY_COLUM=" . urlencode($column) . "&_NIVEL_BY_ORDER=" . urlencode($nivelByOrder) . "&_COLUM_SEARCH=" . urlencode($searchColumn) . "&_STRING_SEARCH=" . urlencode($stringSearch) . "&_ORDER_CAMBIA=Y"; }
 
-							<div class="paging"><?php echo $sPaginaResult; ?></div>
-						</td>
-					</tr>
-				</table>
-			</fieldset>
-		</div>
-	</div>
- 	
- </body>
+$sql = "SELECT tipo_docu, desc_tipo_docu FROM dte_tipo WHERE 1=1 ";
+if($stringSearch != ""){
+    if($searchColumn == "tipo_docu") $sql .= " AND UPPER(CAST(tipo_docu AS VARCHAR)) LIKE UPPER('" . str_replace("'", "''", $stringSearch) . "%') ";
+    else $sql .= " AND UPPER(desc_tipo_docu) LIKE UPPER('" . str_replace("'", "''", $stringSearch) . "%') ";
+}
+if($orderByColumn == "") $sql .= " ORDER BY desc_tipo_docu "; else $sql .= " ORDER BY " . $orderByColumn . " " . $nivelByOrder . " ";
+$activeSort = ($orderByColumn == "") ? "desc_tipo_docu" : $orderByColumn;
+$sortClasses = array("tipo_docu" => "", "desc_tipo_docu" => "");
+$sortIcons = array("tipo_docu" => "", "desc_tipo_docu" => "");
+$sortClasses[$activeSort] = "class=\"table-active\"";
+$sortIcons[$activeSort] = "<img src='" . $_IMG_BY_ORDER . "' alt='' class='ms-1'>";
+$result = $conn->selectLimit($sql, $_NUM_ROW_LIST, $_NUM_ROW_LIST * $_NUM_PAG_ACT);
+$sPaginaResult = sPagina($conn, $sql, $sLinkActual);
+$hayResultados = !$result->EOF;
+$cantidadHerramientas = isset($aBotonTipDocHerramienta["ID"]) ? count($aBotonTipDocHerramienta["ID"]) : 0;
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <title>Tipo Documento - Portal DTE</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <base href="<?php echo $_LINK_BASE; ?>" />
+    <script type="text/javascript" src="javascript/common.js"></script>
+    <script type="text/javascript" src="javascript/msg.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body{background:#eef2f7;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:#1f2937}.page-shell{max-width:1100px;margin:0 auto;padding:1rem}.page-hero{background:linear-gradient(135deg,#1e293b 0%,#0b5ed7 100%);color:#fff;border-radius:18px;padding:1.5rem;box-shadow:0 14px 34px rgba(15,23,42,.18);margin-bottom:1.25rem}.hero-icon{width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-size:1.4rem}.hero-pills,.quick-actions,.paging{display:flex;flex-wrap:wrap}.hero-pills{gap:.75rem}.hero-pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:.45rem .85rem;font-size:.82rem}.card{border:1px solid rgba(15,23,42,.06);border-radius:16px;box-shadow:0 10px 24px rgba(15,23,42,.08);overflow:hidden;margin-bottom:1rem}.card-header{background:#1e293b;color:#fff;padding:.9rem 1rem}.card-header .small{color:rgba(255,255,255,.75)}.quick-actions{gap:.65rem}.filter-summary{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:14px;padding:.9rem 1rem}.filter-chip{display:inline-flex;align-items:center;gap:.35rem;padding:.35rem .75rem;background:#fff;border:1px solid #dbe7f3;border-radius:999px;font-size:.8rem;color:#334155}.table thead th{background:#1e293b;color:#fff;white-space:nowrap;vertical-align:middle}.table thead th.table-active{background:#0b5ed7;color:#fff}.table tbody td{vertical-align:middle;font-size:.92rem}.table tbody tr:hover{background:#f8fbff}.sort-link{color:#fff;text-decoration:none}.sort-link:hover{color:#dbeafe}.doc-code{display:inline-flex;align-items:center;padding:.35rem .7rem;border-radius:999px;background:#e2e8f0;color:#0f172a;font-weight:700}.doc-meta{color:#64748b;font-size:.8rem}.empty-state{padding:4rem 1rem;text-align:center;color:#6b7280}.empty-state i{font-size:3rem}.paging{gap:.45rem;align-items:center}.paging a,.paging span{display:inline-flex;align-items:center;justify-content:center;min-width:2rem;height:2rem;border:1px solid #d0d7e2;border-radius:999px;padding:0 .7rem;background:#fff;color:#0f172a;text-decoration:none;font-size:.85rem}.paging a:hover{background:#eff6ff;border-color:#93c5fd}#loaderContainer{position:fixed;inset:0;background:rgba(15,23,42,.3);z-index:1050}#loaderContainerWH{vertical-align:middle;text-align:center}#loader{display:inline-block;background:#fff;border-radius:14px;padding:1rem 1.25rem;box-shadow:0 12px 28px rgba(15,23,42,.18)}@media (max-width:767.98px){.page-shell{padding:.75rem}.page-hero{padding:1.1rem}}
+    </style>
+    <script type="text/javascript">
+        function _body_onload(){ try{SetContext('clients');setActiveButtonByName('clients');}catch(e){} try{loff();}catch(e){} }
+        function _body_onunload(){ try{lon();}catch(e){} }
+        var opt_no_frames = false, opt_integrated_mode = false;
+        function chSelDelEmp(){ var F = document._FDEL; for(var i=0;i<F.elements.length;i++){ if(F.elements[i].name=='del[]' && F.elements[i].checked===true) return true; } return false; }
+        function chDelEmp(){ if(chSelDelEmp()){ if(confirm(_MSG_DEL_TDOC)) document._FDEL.submit(); } else alert(_MSG_SEL_TDOC_DEL); }
+        function chDchALL(){ var F = document._FDEL; var obj = document.getElementById('clientslistSelectAll'); for(var i=0;i<F.elements.length;i++){ if(F.elements[i].name=='del[]') F.elements[i].checked = obj.checked; } }
+    </script>
+</head>
+<body onload="_body_onload();" onunload="_body_onunload();" id="mainCP">
+    <a href="#" name="top" id="top"></a>
+    <table border="0" cellspacing="0" cellpadding="0" id="loaderContainer" onclick="return false;"><tr><td id="loaderContainerWH"><div id="loader"><p class="mb-0"><img src="skins/<?php echo $_SKINS; ?>/icons/loading.gif" height="32" width="32" alt="" class="me-2" /><strong>Por favor espere.<br>Cargando ...</strong></p></div></td></tr></table>
+    <div class="page-shell">
+        <div class="page-hero"><div class="row g-3 align-items-center"><div class="col-lg-7"><div class="d-flex align-items-start gap-3"><div class="hero-icon"><i class="bi bi-file-earmark-text"></i></div><div><h1 class="h3 mb-2">Administración de Tipos de Documento</h1><p class="mb-0 opacity-75">Mantenga el catálogo de tipos de documento preservando la edición, el borrado múltiple y la paginación original del módulo.</p></div></div></div><div class="col-lg-5"><div class="hero-pills justify-content-lg-end"><span class="hero-pill"><i class="bi bi-search me-1"></i>Filtro por código o descripción</span><span class="hero-pill"><i class="bi bi-grid-3x3-gap me-1"></i><?php echo $cantidadHerramientas; ?> acceso rápido</span><span class="hero-pill"><i class="bi bi-arrow-down-up me-1"></i>Orden por código o tipo</span></div></div></div></div>
+        <div class="card"><div class="card-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2"><div><div class="fw-semibold"><i class="bi bi-lightning-charge me-2"></i>Herramientas rápidas</div><div class="small mt-1">Se mantienen los accesos administrativos definidos para este módulo.</div></div><span class="badge rounded-pill text-bg-light text-primary-emphasis">Operaciones del módulo</span></div><div class="card-body"><div class="quick-actions"><?php if($cantidadHerramientas > 0): ?><?php for($i = 0; $i < $cantidadHerramientas; $i++): ?><button type="button" class="btn btn-outline-primary" onclick="<?php echo h($aBotonTipDocHerramienta['ONCLICK'][$i]); ?>"><i class="bi bi-arrow-right-circle me-1"></i><?php echo h($aBotonTipDocHerramienta['SETIQUETA'][$i]); ?></button><?php endfor; ?><?php else: ?><span class="text-muted">No hay herramientas configuradas para esta pantalla.</span><?php endif; ?></div></div></div>
+        <div class="card"><div class="card-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2"><div><div class="fw-semibold"><i class="bi bi-search me-2"></i>Búsqueda de tipos de documento</div><div class="small mt-1">Se conserva el filtrado legacy y la eliminación múltiple del listado.</div></div><button type="button" class="btn btn-danger btn-sm" onclick="chDelEmp();"><i class="bi bi-trash me-1"></i>Eliminar selección</button></div><div class="card-body"><?php if($stringSearch != ""): ?><div class="filter-summary mb-4"><span class="filter-chip"><i class="bi bi-funnel-fill"></i><?php echo h($searchOptions[$searchColumn]); ?>: <?php echo h($stringSearch); ?></span></div><?php endif; ?><form name="_FSEARCH" method="get" action="<?php echo h($baseListUrl); ?>" class="row g-3 align-items-end"><div class="col-md-4"><label class="form-label fw-semibold">Buscar por</label><select name="_COLUM_SEARCH" class="form-select"><?php foreach($searchOptions as $value => $label): ?><option value="<?php echo h($value); ?>"<?php if($searchColumn == $value) echo ' selected'; ?>><?php echo h($label); ?></option><?php endforeach; ?></select></div><div class="col-md-5"><label class="form-label fw-semibold">Texto de búsqueda</label><input type="text" name="_STRING_SEARCH" class="form-control" maxlength="100" value="<?php echo h($stringSearch); ?>" placeholder="Ingrese un criterio de búsqueda"></div><div class="col-md-3"><div class="d-flex flex-wrap gap-2 justify-content-md-end"><button type="submit" class="btn btn-primary"><i class="bi bi-search me-1"></i>Buscar</button><a href="<?php echo h($baseListUrl); ?>" class="btn btn-outline-secondary"><i class="bi bi-x-circle me-1"></i>Limpiar</a></div></div></form></div></div>
+        <div class="card"><div class="card-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2"><div><div class="fw-semibold"><i class="bi bi-table me-2"></i>Listado de tipos de documento</div><div class="small mt-1">Se conserva el enlace de edición a `form_tc.php`, el borrado y la paginación original.</div></div><span class="badge rounded-pill text-bg-light text-primary-emphasis">Paginación original preservada</span></div><div class="card-body p-0"><form name="_FDEL" method="post" action="mantencion/pro_tc.php"><input type="hidden" name="sAccion" value="E"><div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead><tr><th width="24%" <?php echo $sortClasses['tipo_docu']; ?>><a class="sort-link" href="<?php echo h(buildOrderUrl($baseListUrl, 'tipo_docu', $nivelByOrder, $searchColumn, $stringSearch)); ?>">Código Documento <?php echo $sortIcons['tipo_docu']; ?></a></th><th width="68%" <?php echo $sortClasses['desc_tipo_docu']; ?>><a class="sort-link" href="<?php echo h(buildOrderUrl($baseListUrl, 'desc_tipo_docu', $nivelByOrder, $searchColumn, $stringSearch)); ?>">Tipo Documento <?php echo $sortIcons['desc_tipo_docu']; ?></a></th><th width="8%" class="text-center"><input type="checkbox" class="form-check-input" name="clientslistSelectAll" id="clientslistSelectAll" value="true" onclick="chDchALL();"></th></tr></thead><tbody><?php if($hayResultados): ?><?php while(!$result->EOF): ?><?php $nCodDoc = trim($result->fields['tipo_docu']); $sDescDoc = trim($result->fields['desc_tipo_docu']); $strParamLink = 'nCodDoc=' . urlencode($nCodDoc); $strParamLink .= '&nCodDocNew=' . urlencode($nCodDoc); $strParamLink .= '&sDescDoc=' . urlencode($sDescDoc); $strParamLink .= '&sAccion=M'; $editUrl = $_LINK_BASE . 'mantencion/form_tc.php?' . $strParamLink; ?><tr><td><span class="doc-code"><?php echo h($nCodDoc); ?></span></td><td><a href="<?php echo h($editUrl); ?>" class="fw-semibold text-decoration-none"><?php echo h($sDescDoc); ?></a><div class="doc-meta mt-1">Edición legacy preservada en formulario de tipo de documento.</div></td><td class="text-center"><input type="checkbox" class="form-check-input" name="del[]" value="<?php echo h($nCodDoc); ?>"></td></tr><?php $result->MoveNext(); ?><?php endwhile; ?><?php else: ?><tr><td colspan="3"><div class="empty-state"><i class="bi bi-inbox"></i><h5 class="mt-3">No hay tipos de documento para mostrar</h5><p class="mb-0">Pruebe con otro criterio de búsqueda o limpie los filtros para revisar el listado completo.</p></div></td></tr><?php endif; ?></tbody></table></div></form></div><?php if(trim($sPaginaResult) != ""): ?><div class="card-footer bg-white"><div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2"><span class="text-muted small">La paginación original se mantiene para preservar la navegación del módulo.</span><div class="paging"><?php echo $sPaginaResult; ?></div></div></div><?php endif; ?></div>
+    </div>
+</body>
 </html>

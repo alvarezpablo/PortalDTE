@@ -8,8 +8,8 @@
 	include("../include/ver_aut.php");
     include("../include/ver_emp_adm.php"); 
 
-	$orden = trim($_GET["orden"]);	// orden campo
-	$descAsc = trim($_GET["orni"]); // orden nivel
+		$orden = trim($_GET["orden"] ?? "");	// orden campo
+		$descAsc = trim($_GET["orni"] ?? ""); // orden nivel
 
 	if($descAsc == "") $descAsc = "1";
 	if($orden == "") $orden = "X.fec_carg";	
@@ -21,29 +21,31 @@
 	if($descAsc == "1") $descAsc = "DESC";
 	if($descAsc == "2") $descAsc = "ASC";
 
-	$tipo = trim($_GET["tipo"]);
-	$folio = trim($_GET["folio"]);
-	$fecha1 = trim($_GET["fecha1"]);
-	$fecha2 = trim($_GET["fecha2"]);
-	$fechac1 = trim($_GET["fechac1"]);
-	$fechac2 = trim($_GET["fechac2"]);
-	$estado = trim($_GET["estado"]);
-	$rut = trim($_GET["rut"]);
-	$pagina = trim($_GET["pagina"]);
+		$tipo = trim($_GET["tipo"] ?? "");
+		$folio = trim($_GET["folio"] ?? "");
+		$fecha1 = trim($_GET["fecha1"] ?? "");
+		$fecha2 = trim($_GET["fecha2"] ?? "");
+		$fechac1 = trim($_GET["fechac1"] ?? "");
+		$fechac2 = trim($_GET["fechac2"] ?? "");
+		$estado = trim($_GET["estado"] ?? "");
+		$rutOriginal = trim($_GET["rut"] ?? "");
+		$rut = $rutOriginal;
+		$pagina = trim($_GET["pagina"] ?? "");
 
 	if($rut != ""){
 		$aRut = explode("-",$rut);
 		$rut = $aRut[0];
 	}
 
-	$AAR = trim($_GET["AAR"]);		// Acuse de recibo ok
-	$RAR = trim($_GET["RAR"]);		// acuse de recubi rechazado
-	$SAR = trim($_GET["SAR"]);		// sin acuse de recibo
-	$AAC = trim($_GET["AAC"]);		// acptado comercialmente
-	$RAC = trim($_GET["RAC"]);		// rechazado comercialmente
-	$SAC = trim($_GET["SAC"]);		// sin respuesta comercial
-	$CRM = trim($_GET["CRM"]);		// con recibo de mercaderia
-	$SRM = trim($_GET["SRM"]);		// sin recibo de mercaderia
+		$AAR = trim($_GET["AAR"] ?? "");		// Acuse de recibo ok
+		$RAR = trim($_GET["RAR"] ?? "");		// acuse de recubi rechazado
+		$SAR = trim($_GET["SAR"] ?? "");		// sin acuse de recibo
+		$AAC = trim($_GET["AAC"] ?? "");		// acptado comercialmente
+		$RAC = trim($_GET["RAC"] ?? "");		// rechazado comercialmente
+		$SAC = trim($_GET["SAC"] ?? "");		// sin respuesta comercial
+		$CRM = trim($_GET["CRM"] ?? "");		// con recibo de mercaderia
+		$SRM = trim($_GET["SRM"] ?? "");		// sin recibo de mercaderia
+		$hayBusqueda = !empty($_GET);
 
 	$qrstring = "&tipo=" . $tipo;
 	$qrstring .= "&folio=" . $folio;
@@ -213,6 +215,26 @@
 
 		return $sEstadoDte;
 	}
+
+		function h($value){
+			return htmlspecialchars((string)$value, ENT_QUOTES, 'ISO-8859-1');
+		}
+
+		$filtrosResumen = array();
+		if($tipo != "") $filtrosResumen[] = "Tipo: " . poneTipo($tipo);
+		if($estado != "") $filtrosResumen[] = "Estado: " . poneEstado($estado);
+		if($folio != "") $filtrosResumen[] = "Folio: " . $folio;
+		if($rutOriginal != "") $filtrosResumen[] = "RUT: " . $rutOriginal;
+		if($fecha1 != "" || $fecha2 != ""){
+			$filtrosResumen[] = "Emision: " . ($fecha1 != "" ? $fecha1 : $fecha2) . " a " . ($fecha2 != "" ? $fecha2 : $fecha1);
+		}
+		if($fechac1 != "" || $fechac2 != ""){
+			$filtrosResumen[] = "Carga: " . ($fechac1 != "" ? $fechac1 : $fechac2) . " a " . ($fechac2 != "" ? $fechac2 : $fechac1);
+		}
+		if($hayBusqueda && !($AAR == "1" && $RAR == "1" && $SAR == "1")) $filtrosResumen[] = "Acuse: filtro personalizado";
+		if($hayBusqueda && !($AAC == "1" && $RAC == "1" && $SAC == "1")) $filtrosResumen[] = "Respuesta comercial: filtro personalizado";
+		if($hayBusqueda && !($CRM == "1" && $SRM == "1")) $filtrosResumen[] = "Recibo mercaderia: filtro personalizado";
+		$cantidadFiltros = count($filtrosResumen);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -223,25 +245,57 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
-    <style>
-        :root { --primary-color: #001f3f; --secondary-color: #0074d9; }
-        body { background-color: #f4f6f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .card { border: none; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 20px; }
-        .card-header { background: var(--primary-color); color: white; border-radius: 8px 8px 0 0 !important; font-weight: 600; }
-        .table thead th { background: var(--primary-color); color: white; font-weight: 500; font-size: 0.85rem; white-space: nowrap; position: sticky; top: 0; }
-        .table tbody td { vertical-align: middle; font-size: 0.8rem; }
-        .table tbody tr:hover { background-color: #e9ecef; }
-        .btn-action { padding: 3px 8px; font-size: 0.75rem; margin: 1px; }
-        .sort-link { color: white; text-decoration: none; }
-        .sort-link:hover { color: #ccc; }
-        .form-label { font-weight: 500; font-size: 0.85rem; margin-bottom: 0.25rem; }
-        .form-control, .form-select { font-size: 0.85rem; }
-        .badge-estado { font-size: 0.7rem; }
-        .table-responsive { max-height: 65vh; overflow-y: auto; }
-        .ops-cell { white-space: nowrap; }
-        .ops-cell .btn { padding: 2px 5px; font-size: 0.7rem; }
-        .form-check-label { font-size: 0.8rem; }
-    </style>
+	    <style>
+	        :root { --primary-color: #001f3f; --secondary-color: #0074d9; }
+	        body { background: #eef2f7; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #1f2937; }
+	        .page-shell { max-width: 1600px; margin: 0 auto; }
+	        .page-hero { background: linear-gradient(135deg, #001f3f 0%, #0b5ed7 100%); color: #fff; border-radius: 18px; padding: 1.5rem; box-shadow: 0 12px 32px rgba(0, 31, 63, 0.18); margin-bottom: 1.25rem; }
+	        .page-hero h1 { font-size: 1.65rem; margin-bottom: 0.35rem; }
+	        .page-hero p { margin-bottom: 0; opacity: 0.92; }
+	        .hero-icon { width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.14); font-size: 1.45rem; }
+	        .hero-kpis { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+	        .hero-kpi { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; padding: 0.45rem 0.85rem; font-size: 0.82rem; }
+	        .card { border: 1px solid rgba(15,23,42,0.05); border-radius: 16px; box-shadow: 0 10px 25px rgba(15,23,42,0.08); margin-bottom: 20px; overflow: hidden; }
+	        .card-header { background: var(--primary-color); color: white; border-radius: 16px 16px 0 0 !important; font-weight: 600; padding: 0.9rem 1rem; }
+	        .table thead th { background: var(--primary-color); color: white; font-weight: 500; font-size: 0.85rem; white-space: nowrap; position: sticky; top: 0; z-index: 1; }
+	        .table tbody td { vertical-align: middle; font-size: 0.8rem; }
+	        .table tbody tr:hover { background-color: #eef4fb; }
+	        .btn-action { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
+	        .sort-link { color: white; text-decoration: none; }
+	        .sort-link:hover { color: #ccc; }
+	        .form-label { font-weight: 600; font-size: 0.85rem; margin-bottom: 0.35rem; }
+	        .form-control, .form-select { font-size: 0.85rem; }
+	        .badge-estado { font-size: 0.72rem; padding: 0.45rem 0.6rem; }
+	        .table-responsive { max-height: 68vh; overflow: auto; }
+	        .form-check-label { font-size: 0.8rem; }
+	        .filter-summary { background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 14px; padding: 0.9rem 1rem; }
+	        .filter-chip { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.75rem; background: #fff; border: 1px solid #dbe7f3; border-radius: 999px; font-size: 0.8rem; color: #334155; margin: 0.25rem 0.35rem 0 0; }
+	        .filter-chip i { color: var(--secondary-color); }
+	        .filter-section { height: 100%; border: 1px solid #e5e7eb; border-radius: 14px; padding: 0.9rem 1rem; background: #fff; }
+	        .filter-section-title { font-size: 0.85rem; font-weight: 600; color: #0f172a; margin-bottom: 0.7rem; display: flex; align-items: center; gap: 0.45rem; }
+	        .filter-options { display: flex; flex-wrap: wrap; gap: 0.8rem 1.2rem; }
+	        .quick-note { font-size: 0.8rem; color: #64748b; }
+	        .btn-toolbar-wrap { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
+	        .results-toolbar { background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+	        .hint-pill { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.75rem; background: #fff; border: 1px solid #dbe2ea; border-radius: 999px; font-size: 0.78rem; color: #475569; }
+	        .actions-stack { min-width: 150px; }
+	        .icon-links { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+	        .status-links { display: flex; gap: 0.5rem; align-items: center; }
+	        .track-box { min-width: 120px; }
+	        .empty-state { padding: 4rem 1rem; text-align: center; color: #6b7280; }
+	        .empty-state i { font-size: 3rem; }
+	        .pagination-wrap { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+	        @media (max-width: 991.98px) {
+	            .page-hero { padding: 1.2rem; }
+	            .table-responsive { max-height: none; }
+	        }
+	        @media (max-width: 767.98px) {
+	            body { padding: 1rem !important; }
+	            .page-hero h1 { font-size: 1.35rem; }
+	            .card-header { padding: 0.8rem 0.9rem; }
+	            .filter-options { gap: 0.75rem 1rem; }
+	        }
+	    </style>
 </head>
 <body class="p-3">
 
@@ -299,13 +353,18 @@ function valida() {
     return true;
 }
 
-function bajarExcel() {
-    if (confirm("Descargar a Excel? (maximo 10.000 registros)")) {
-        document._BUSCA.action = "excel_dte_v2.php";
-        document._BUSCA.target = "_blank";
-        document._BUSCA.submit();
-    }
-}
+	function bajarExcel() {
+	    if (confirm("Descargar a Excel? (maximo 10.000 registros)")) {
+	        var form = document._BUSCA;
+	        var prevAction = form.action;
+	        var prevTarget = form.target;
+	        form.action = "excel_dte_v2.php";
+	        form.target = "_blank";
+	        form.submit();
+	        form.action = prevAction;
+	        form.target = prevTarget;
+	    }
+	}
 
 function listar() {
     if (valida()) {
@@ -319,14 +378,51 @@ function limpiar() {
     window.location.href = 'list_dte_v3.php';
 }
 </script>
+	<div class="page-shell">
+	    <div class="page-hero">
+	        <div class="row g-3 align-items-center">
+	            <div class="col-lg-7">
+	                <div class="d-flex align-items-start gap-3">
+	                    <div class="hero-icon"><i class="bi bi-receipt-cutoff"></i></div>
+	                    <div>
+	                        <h1 class="h3 mb-2">DTE Emitidos</h1>
+	                        <p>Revise documentos emitidos, filtre por estado o receptor y acceda r&aacute;pidamente a PDF, XML, reenv&iacute;o, cesi&oacute;n y exportaci&oacute;n a Excel.</p>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="col-lg-5">
+	                <div class="hero-kpis justify-content-lg-end">
+	                    <span class="hero-kpi"><i class="bi bi-funnel me-1"></i>Filtros por tipo, fechas y receptor</span>
+	                    <span class="hero-kpi"><i class="bi bi-lightning-charge me-1"></i>Acciones directas por documento</span>
+	                    <span class="hero-kpi"><i class="bi bi-file-earmark-excel me-1"></i>Excel hasta 10.000 registros</span>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
 <!-- Formulario de Busqueda -->
 <div class="card mb-4">
-    <div class="card-header d-flex align-items-center">
-        <i class="bi bi-search me-2"></i>
-        <span>Filtros de B&uacute;squeda</span>
+	    <div class="card-header">
+	        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
+	            <div>
+	                <div class="d-flex align-items-center"><i class="bi bi-search me-2"></i><span>Filtros de B&uacute;squeda</span></div>
+	                <div class="small text-white-50 mt-1">Combine criterios para ubicar DTE emitidos sin alterar la operatoria actual del m&oacute;dulo.</div>
+	            </div>
+	            <span class="badge rounded-pill text-bg-light text-primary-emphasis">B&uacute;squeda compatible con exportaci&oacute;n Excel</span>
+	        </div>
     </div>
     <div class="card-body">
-        <form name="_BUSCA" method="get" action="">
+	        <?php if($hayBusqueda && $cantidadFiltros > 0): ?>
+	        <div class="filter-summary mb-4">
+	            <div class="d-flex flex-wrap align-items-center gap-2">
+	                <strong class="me-2">Filtros activos:</strong>
+	                <?php foreach($filtrosResumen as $filtroResumen): ?>
+	                    <span class="filter-chip"><i class="bi bi-funnel-fill"></i><?php echo h($filtroResumen); ?></span>
+	                <?php endforeach; ?>
+	            </div>
+	        </div>
+	        <?php endif; ?>
+	        <p class="quick-note mb-4">Utilice los estados de acuse, respuesta comercial y recibo de mercader&iacute;a para concentrar la gesti&oacute;n documental en los casos que realmente requieren seguimiento.</p>
+	        <form name="_BUSCA" id="_BUSCA" method="get" action="">
             <div class="row g-3">
                 <!-- Tipo DTE -->
                 <div class="col-md-4">
@@ -368,11 +464,11 @@ function limpiar() {
                 <!-- Folio y Rut -->
                 <div class="col-md-2">
                     <label class="form-label">Folio</label>
-                    <input type="text" name="folio" class="form-control form-control-sm" maxlength="18" value="<?php echo $folio; ?>">
+	                    <input type="text" name="folio" class="form-control form-control-sm" maxlength="18" value="<?php echo h($folio); ?>">
                 </div>
                 <div class="col-md-2">
                     <label class="form-label">RUT Receptor</label>
-                    <input type="text" name="rut" class="form-control form-control-sm" maxlength="12" placeholder="12345678-9" value="<?php echo trim($_GET["rut"]); ?>">
+	                    <input type="text" name="rut" class="form-control form-control-sm" maxlength="12" placeholder="12345678-9" value="<?php echo h($rutOriginal); ?>">
                 </div>
             </div>
 
@@ -380,86 +476,95 @@ function limpiar() {
                 <!-- Fecha Emision -->
                 <div class="col-md-3">
                     <label class="form-label">Fecha Emisi&oacute;n Desde</label>
-                    <input type="text" name="fecha1" id="fecha1" class="form-control form-control-sm datepicker" placeholder="YYYY-MM-DD" autocomplete="off" value="<?php echo $fecha1; ?>">
+	                    <input type="text" name="fecha1" id="fecha1" class="form-control form-control-sm datepicker" placeholder="YYYY-MM-DD" autocomplete="off" value="<?php echo h($fecha1); ?>">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Fecha Emisi&oacute;n Hasta</label>
-                    <input type="text" name="fecha2" id="fecha2" class="form-control form-control-sm datepicker" placeholder="YYYY-MM-DD" autocomplete="off" value="<?php echo $fecha2; ?>">
+	                    <input type="text" name="fecha2" id="fecha2" class="form-control form-control-sm datepicker" placeholder="YYYY-MM-DD" autocomplete="off" value="<?php echo h($fecha2); ?>">
                 </div>
                 <!-- Fecha Carga -->
                 <div class="col-md-3">
                     <label class="form-label">Fecha Carga Desde</label>
-                    <input type="text" name="fechac1" id="fechac1" class="form-control form-control-sm datepicker" placeholder="YYYY-MM-DD" autocomplete="off" value="<?php echo $fechac1; ?>">
+	                    <input type="text" name="fechac1" id="fechac1" class="form-control form-control-sm datepicker" placeholder="YYYY-MM-DD" autocomplete="off" value="<?php echo h($fechac1); ?>">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Fecha Carga Hasta</label>
-                    <input type="text" name="fechac2" id="fechac2" class="form-control form-control-sm datepicker" placeholder="YYYY-MM-DD" autocomplete="off" value="<?php echo $fechac2; ?>">
+	                    <input type="text" name="fechac2" id="fechac2" class="form-control form-control-sm datepicker" placeholder="YYYY-MM-DD" autocomplete="off" value="<?php echo h($fechac2); ?>">
                 </div>
             </div>
 
             <!-- Checkboxes de estado -->
             <div class="row g-3 mt-2">
-                <div class="col-md-4">
-                    <label class="form-label fw-bold">Acuse de Recibo</label>
-                    <div class="d-flex gap-3">
+	                <div class="col-lg-4">
+	                    <div class="filter-section">
+	                        <div class="filter-section-title"><i class="bi bi-envelope-paper"></i>Acuse de Recibo</div>
+	                        <div class="filter-options">
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="AAR" value="1" <?php echo ($AAR=="1"||!$_GET?"checked":""); ?>>
+	                            <input type="checkbox" class="form-check-input" name="AAR" value="1" <?php echo ($AAR=="1"||!$hayBusqueda?"checked":""); ?>>
                             <label class="form-check-label">Recibido</label>
                         </div>
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="RAR" value="1" <?php echo ($RAR=="1"||!$_GET?"checked":""); ?>>
+	                            <input type="checkbox" class="form-check-input" name="RAR" value="1" <?php echo ($RAR=="1"||!$hayBusqueda?"checked":""); ?>>
                             <label class="form-check-label">Rechazado</label>
                         </div>
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="SAR" value="1" <?php echo ($SAR=="1"||!$_GET?"checked":""); ?>>
+	                            <input type="checkbox" class="form-check-input" name="SAR" value="1" <?php echo ($SAR=="1"||!$hayBusqueda?"checked":""); ?>>
                             <label class="form-check-label">No Recibido</label>
                         </div>
+	                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <label class="form-label fw-bold">Respuesta Comercial</label>
-                    <div class="d-flex gap-3">
+	                <div class="col-lg-4">
+	                    <div class="filter-section">
+	                        <div class="filter-section-title"><i class="bi bi-chat-left-text"></i>Respuesta Comercial</div>
+	                        <div class="filter-options">
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="AAC" value="1" <?php echo ($AAC=="1"||!$_GET?"checked":""); ?>>
+	                            <input type="checkbox" class="form-check-input" name="AAC" value="1" <?php echo ($AAC=="1"||!$hayBusqueda?"checked":""); ?>>
                             <label class="form-check-label">Aceptado</label>
                         </div>
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="RAC" value="1" <?php echo ($RAC=="1"||!$_GET?"checked":""); ?>>
+	                            <input type="checkbox" class="form-check-input" name="RAC" value="1" <?php echo ($RAC=="1"||!$hayBusqueda?"checked":""); ?>>
                             <label class="form-check-label">Rechazado</label>
                         </div>
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="SAC" value="1" <?php echo ($SAC=="1"||!$_GET?"checked":""); ?>>
+	                            <input type="checkbox" class="form-check-input" name="SAC" value="1" <?php echo ($SAC=="1"||!$hayBusqueda?"checked":""); ?>>
                             <label class="form-check-label">No Recibida</label>
                         </div>
+	                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <label class="form-label fw-bold">Recibo de Mercader&iacute;a</label>
-                    <div class="d-flex gap-3">
+	                <div class="col-lg-4">
+	                    <div class="filter-section">
+	                        <div class="filter-section-title"><i class="bi bi-box-seam"></i>Recibo de Mercader&iacute;a</div>
+	                        <div class="filter-options">
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="CRM" value="1" <?php echo ($CRM=="1"||!$_GET?"checked":""); ?>>
+	                            <input type="checkbox" class="form-check-input" name="CRM" value="1" <?php echo ($CRM=="1"||!$hayBusqueda?"checked":""); ?>>
                             <label class="form-check-label">Recibido</label>
                         </div>
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="SRM" value="1" <?php echo ($SRM=="1"||!$_GET?"checked":""); ?>>
+	                            <input type="checkbox" class="form-check-input" name="SRM" value="1" <?php echo ($SRM=="1"||!$hayBusqueda?"checked":""); ?>>
                             <label class="form-check-label">No Recibido</label>
                         </div>
+	                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Botones -->
             <div class="row mt-4">
-                <div class="col-12 text-center">
+	                <div class="col-12 text-center">
+	                    <div class="btn-toolbar-wrap">
                     <button type="button" class="btn btn-primary" onclick="listar();">
                         <i class="bi bi-search me-1"></i> Buscar
                     </button>
-                    <button type="button" class="btn btn-success ms-2" onclick="bajarExcel();">
+	                    <button type="button" class="btn btn-success" onclick="bajarExcel();">
                         <i class="bi bi-file-earmark-excel me-1"></i> Excel
                     </button>
-                    <button type="button" class="btn btn-secondary ms-2" onclick="limpiar();">
+	                    <button type="button" class="btn btn-secondary" onclick="limpiar();">
                         <i class="bi bi-x-circle me-1"></i> Limpiar
                     </button>
+	                    </div>
+	                    <p class="quick-note text-center mt-3 mb-0">La b&uacute;squeda mantiene las acciones actuales del proceso: PDF, XML, reenv&iacute;o, cesi&oacute;n y eliminaci&oacute;n de seleccionados.</p>
                 </div>
             </div>
         </form>
@@ -467,21 +572,37 @@ function limpiar() {
 </div>
 
 <?php
-	if($_GET){
+		if($hayBusqueda){
 ?>
 <!-- Tabla de Resultados -->
 <div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <span><i class="bi bi-table me-2"></i>Resultados</span>
-        <button type="button" class="btn btn-danger btn-sm" onclick="chDelEmp();">
-            <i class="bi bi-trash"></i> Eliminar Seleccionados
-        </button>
+	    <div class="card-header">
+	        <div class="d-flex flex-column flex-xl-row justify-content-between align-items-xl-center gap-3">
+	            <div>
+	                <div class="d-flex align-items-center gap-2"><i class="bi bi-table"></i><span>Resultados de la B&uacute;squeda</span></div>
+	                <div class="small text-white-50 mt-1">Ordene por folio, emisi&oacute;n, carga, total o RUT y revise las respuestas disponibles para cada documento.</div>
+	            </div>
+	            <div class="d-flex flex-wrap gap-2 align-items-center">
+	                <span class="badge rounded-pill text-bg-light text-primary-emphasis">PDF, XML, reenv&iacute;o y cesi&oacute;n</span>
+	                <button type="button" class="btn btn-danger btn-sm" onclick="chDelEmp();">
+	                    <i class="bi bi-trash"></i> Eliminar Seleccionados
+	                </button>
+	            </div>
+	        </div>
     </div>
-    <div class="card-body p-0">
+	    <div class="results-toolbar px-3 py-2">
+	        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
+	            <div class="small text-muted">Seleccione documentos para eliminar solo cuando est&eacute;n cargados o rechazados. Los iconos inferiores muestran acuse, recibo de mercader&iacute;a y respuesta comercial.</div>
+	            <?php if($cantidadFiltros > 0): ?>
+	            <span class="hint-pill"><i class="bi bi-funnel"></i><?php echo $cantidadFiltros; ?> filtros aplicados</span>
+	            <?php endif; ?>
+	        </div>
+	    </div>
+	    <div class="card-body p-0">
         <form name="_FDEL" method="post" action="pro_dte.php">
             <input type="hidden" name="sAccion" value="E">
             <div class="table-responsive">
-                <table class="table table-striped table-hover table-sm mb-0">
+	                <table class="table table-striped table-hover table-sm align-middle mb-0">
                     <thead>
                         <tr>
                             <th class="text-center"><input type="checkbox" class="form-check-input" id="selectAllCheck" onclick="chDchALL();"></th>
@@ -743,28 +864,37 @@ function limpiar() {
                                 <input type="checkbox" class="form-check-input" name="del[]" value="<?php echo $folio_dte . "|" . $tipo_docu; ?>">
                             <?php endif; ?>
                             </td>
-                            <td>
-                                <div class="btn-group btn-group-sm" role="group">
+	                            <td class="actions-stack">
+	                                <div class="icon-links">
                                     <?php echo $linkPDF . $linkCedible . $linkXML . $linkReenviar . $linkCeder; ?>
                                 </div>
-                                <div class="mt-1">
+	                                <div class="status-links mt-2">
                                     <?php echo $linkAcuse . " " . $linkMerca . " " . $linkComer; ?>
                                 </div>
                             </td>
-                            <td><small><?php echo $trackid_xed; ?></small></td>
-                            <td><small><?php echo poneTipo($tipo_docu); ?></small></td>
+	                            <td class="track-box">
+	                            <?php if($trackid_xed != ""): ?>
+	                                <button type="button" class="btn btn-outline-secondary btn-sm w-100" onclick="trackDocumento('<?php echo h($folio_dte); ?>','<?php echo h($tipo_docu); ?>','<?php echo h($mont_tot_dte); ?>','<?php echo h($codEmp); ?>');">
+	                                    <i class="bi bi-diagram-3 me-1"></i> Track
+	                                </button>
+	                                <small class="d-block text-muted mt-1"><?php echo h($trackid_xed); ?></small>
+	                            <?php else: ?>
+	                                <span class="badge text-bg-light border">Sin track</span>
+	                            <?php endif; ?>
+	                            </td>
+	                            <td><small><?php echo h(poneTipo($tipo_docu)); ?></small></td>
                             <td class="text-end"><?php echo number_format($folio_dte,0,',','.'); ?></td>
-                            <td><span class="badge <?php echo $badgeClass; ?> badge-estado"><?php echo poneEstado($est_xdte); ?></span></td>
-                            <td><?php echo $fec_emi_dte; ?></td>
-                            <td><?php echo substr($fec_carg, 0, 10); ?></td>
+	                            <td><span class="badge <?php echo $badgeClass; ?> badge-estado"><?php echo h(poneEstado($est_xdte)); ?></span></td>
+	                            <td><?php echo h($fec_emi_dte); ?></td>
+	                            <td><?php echo h(substr($fec_carg, 0, 10)); ?></td>
                             <td class="text-end"><?php echo number_format($mnt_exen_dte,0,',','.'); ?></td>
                             <td class="text-end"><?php echo number_format($mntneto_dte,0,',','.'); ?></td>
                             <td class="text-end"><?php echo number_format($iva_dte,0,',','.'); ?></td>
                             <td class="text-end fw-bold"><?php echo number_format($mont_tot_dte,0,',','.'); ?></td>
-                            <td><?php echo $rut_rec_dte; ?></td>
-                            <td><small><?php echo $nom_rec_dte; ?></small></td>
-                            <td><small><?php echo $dir_rec_dte; ?></small></td>
-                            <td><small><?php echo $com_rec_dte; ?></small></td>
+	                            <td><?php echo h($rut_rec_dte); ?></td>
+	                            <td><small><?php echo h($nom_rec_dte); ?></small></td>
+	                            <td><small><?php echo h($dir_rec_dte); ?></small></td>
+	                            <td><small><?php echo h($com_rec_dte); ?></small></td>
                         </tr>
 <?php
                     $result->MoveNext();
@@ -773,9 +903,12 @@ function limpiar() {
             else{
 ?>
                         <tr>
-                            <td colspan="16" class="text-center py-5">
-                                <i class="bi bi-inbox text-muted" style="font-size: 3rem;"></i>
-                                <h5 class="text-muted mt-3">No hay resultados para su b&uacute;squeda</h5>
+	                            <td colspan="16">
+	                                <div class="empty-state">
+	                                    <i class="bi bi-inbox text-muted"></i>
+	                                    <h5 class="text-muted mt-3">No hay resultados para su b&uacute;squeda</h5>
+	                                    <p class="mb-0">Pruebe ampliando el rango de fechas, el tipo de DTE o los estados seleccionados para localizar documentos emitidos.</p>
+	                                </div>
                             </td>
                         </tr>
 <?php
@@ -787,18 +920,24 @@ function limpiar() {
         </form>
     </div>
     <!-- Paginacion -->
-    <?php if($totalFilas > 0): ?>
-    <div class="card-footer">
-        <nav aria-label="Paginacion">
-            <ul class="pagination pagination-sm justify-content-center mb-0">
+	    <?php
+	        if($totalFilas > 0):
+	            $total_paginas = ceil($totalFilas / $TAMANO_PAGINA);
+	            $paginasLista = min($total_paginas, 20);
+	            $qrstring .= "&orden=" . $orden . "&orni=" . $descAsc;
+
+	            $inicio = floor(($pagina - 1) / $paginasLista) * $paginasLista + 1;
+	            $fin = min($inicio + $paginasLista - 1, $total_paginas);
+	    ?>
+	    <div class="card-footer bg-white">
+	        <div class="pagination-wrap">
+	        <p class="text-muted small mb-0">
+	            Mostrando p&aacute;gina <?php echo $pagina; ?> de <?php echo $total_paginas; ?>
+	            (<?php echo $totalFilas; ?> registros encontrados)
+	        </p>
+	        <nav aria-label="Paginacion">
+	            <ul class="pagination pagination-sm mb-0">
 <?php
-    $total_paginas = ceil($totalFilas / $TAMANO_PAGINA);
-    $paginasLista = min($total_paginas, 20);
-    $qrstring .= "&orden=" . $orden . "&orni=" . $descAsc;
-
-    $inicio = floor(($pagina - 1) / $paginasLista) * $paginasLista + 1;
-    $fin = min($inicio + $paginasLista - 1, $total_paginas);
-
     if ($paginasLista > 1) {
         // Anterior
         if ($pagina > 1) {
@@ -822,10 +961,7 @@ function limpiar() {
 ?>
             </ul>
         </nav>
-        <p class="text-center text-muted small mb-0 mt-2">
-            Mostrando p&aacute;gina <?php echo $pagina; ?> de <?php echo $total_paginas; ?>
-            (<?php echo $totalFilas; ?> registros encontrados)
-        </p>
+	        </div>
     </div>
     <?php endif; ?>
 </div>
@@ -833,6 +969,7 @@ function limpiar() {
 <?php
     }
 ?>
+	</div>
 
 <!-- Bootstrap 5 JS y Flatpickr -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
