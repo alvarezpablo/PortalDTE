@@ -559,7 +559,7 @@
 		<div>
 			<p class="topbar-meta mb-2"><i class="bi bi-inbox me-2"></i>Recepci&oacute;n documental activa</p>
 			<h1 class="topbar-title">DTE Recibidos</h1>
-			<p class="panel-note mb-0">Consulte documentos recibidos, responda al SII, exporte a Excel y actualice el registro de compras sin alterar la operatoria actual del m&oacute;dulo.</p>
+			<p class="panel-note mb-0">Revise los documentos recibidos, responda al SII, exporte la informaci&oacute;n a Excel y actualice el registro de compras desde esta misma pantalla.</p>
 		</div>
 		<div class="d-flex flex-wrap gap-2 justify-content-xl-end">
 			<span class="topbar-chip"><i class="bi bi-funnel"></i><?php echo $hayBusqueda ? ($cantidadFiltros . ' filtros activos') : 'B&uacute;squeda inicial'; ?></span>
@@ -574,7 +574,7 @@
 	    <div class="panel-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
 	        <div>
 	            <div class="panel-header-title"><i class="bi bi-search"></i><span>B&uacute;squeda de DTE Recibidos</span></div>
-	            <div class="panel-note mt-1">Combine filtros por tipo, fechas y emisor; los botones de actualizaci&oacute;n, no recibidos y respuesta SII se mantienen intactos.</div>
+		            <div class="panel-note mt-1">Use filtros por tipo, fechas y emisor para encontrar r&aacute;pidamente los documentos; las acciones de actualizaci&oacute;n, no recibidos y respuesta al SII siguen disponibles.</div>
 	        </div>
 	        <span class="topbar-chip"><i class="bi bi-lightning-charge"></i>Acciones y respuestas preservadas</span>
 	    </div>

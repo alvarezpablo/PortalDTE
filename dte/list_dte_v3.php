@@ -440,7 +440,7 @@ function limpiar() {
 		    <div class="panel-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
 		        <div>
 		            <strong class="d-block text-primary-emphasis"><i class="bi bi-search me-2"></i>Filtros de B&uacute;squeda</strong>
-		            <span class="panel-note">Combine criterios para ubicar DTE emitidos sin alterar la operatoria actual del m&oacute;dulo.</span>
+		            <span class="panel-note">Use distintos filtros para encontrar r&aacute;pidamente los DTE emitidos que necesita revisar.</span>
 		        </div>
 		        <span class="topbar-chip"><i class="bi bi-file-earmark-excel"></i>B&uacute;squeda compatible con Excel</span>
 	    </div>
@@ -455,7 +455,7 @@ function limpiar() {
 	            </div>
 	        </div>
 	        <?php endif; ?>
-	        <p class="quick-note mb-4">Utilice los estados de acuse, respuesta comercial y recibo de mercader&iacute;a para concentrar la gesti&oacute;n documental en los casos que realmente requieren seguimiento.</p>
+	        <p class="quick-note mb-4">Ap&oacute;yese en los estados de acuse, respuesta comercial y recibo de mercader&iacute;a para priorizar los documentos que requieren seguimiento.</p>
 	        <form name="_BUSCA" id="_BUSCA" method="get" action="">
             <div class="row g-3">
                 <!-- Tipo DTE -->
@@ -598,7 +598,7 @@ function limpiar() {
                         <i class="bi bi-x-circle me-1"></i> Limpiar
                     </button>
 	                    </div>
-	                    <p class="quick-note text-center mt-3 mb-0">La b&uacute;squeda mantiene las acciones actuales del proceso: PDF, XML, reenv&iacute;o, cesi&oacute;n y eliminaci&oacute;n de seleccionados.</p>
+		                    <p class="quick-note text-center mt-3 mb-0">Despu&eacute;s de buscar, puede seguir usando las acciones disponibles: PDF, XML, reenv&iacute;o, cesi&oacute;n y eliminaci&oacute;n de seleccionados.</p>
                 </div>
             </div>
         </form>
