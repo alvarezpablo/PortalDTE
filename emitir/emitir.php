@@ -469,7 +469,7 @@ echo "<body class='fondo'><br><br><h2>$glosaRespuesta</h2><br><br>";
 		$e="<h3><a href=$pdf target='_blank'>Descargar PDF</a><br><br>";
 
 		if($nTipo == "33" || $nTipo == "34"  || $nTipo == "52"  || $nTipo == "43"  || $nTipo == "46")
-			$e.="<a href=$pdf_cedible target='_blank'>Descargar Cedible PDF</a><br><br>";
+			$e.="<a href=$pdf_cedible target='_blank'>Descargar PDF cedible</a><br><br>";
 
 		$e.="<a href='emitir.php?t=$nTipo'>Volver</a></h3>";
 
@@ -604,7 +604,7 @@ if (($m-1)<10){$f_ini=$y."0".($m-1)."20";}else{$f_ini=$y.($m-1)."20";}
 var f_ini="<?php echo $f_ini; ?>";
 var f_fin="<?php echo $f_fin; ?>";
 if (form.fecha_factura.value==""){
-	alert("Seleccione fecha para la factura...");
+	alert("Seleccione la fecha del documento...");
 	form.fecha_factura.focus();
 return false;
 }
@@ -612,12 +612,12 @@ var ff=form.fecha_factura.value.split("/")
 ff=ff[2]+""+ff[1]+""+ff[0];
 
 //if (parseInt(ff)<parseInt(f_ini) || parseInt(ff)>parseInt(f_fin)){
-//alert("La fecha de emision de la factura no puede ser menor al dia 20 del mes anterior, ni superior al dia 05 del mes siguiente...");
+	//alert("La fecha de emisi\u00f3n del documento no puede ser menor al d\u00eda 20 del mes anterior, ni superior al d\u00eda 05 del mes siguiente...");
 //return false;
 //}
 /*
 if (form.codigo_cliente.value==""){
-alert("Seleccione cliente para la factura...");
+	alert("Seleccione el cliente para el DTE...");
 return false;
 } */
 
@@ -625,40 +625,40 @@ return false;
 	
 	if (numerico(form.folio.value.trim(),"",1) == false){
 		form.folio.focus();
-			alert("Ingrese folio N\u00fam\u00e9rico del DTE...");
+				alert("Ingrese un folio num\u00e9rico del DTE...");
 		return false;
 	}
 <?php }	?>
 
 if ((form.rut_cliente.value.trim()=="")){
 	form.rut_cliente.focus();
-	alert("Ingrese RUT de cliente para el DTE...");
+		alert("Ingrese el RUT del cliente para el DTE...");
 	return false;
 }
   
-if(rut(form.rut_cliente.value.trim(),"Ingrese RUT Valido de cliente para el DTE...") == false){  
+	if(rut(form.rut_cliente.value.trim(),"Ingrese un RUT v\u00e1lido del cliente para el DTE...") == false){  
 	form.rut_cliente.focus();
 	return false;  
 }
 
 if ((form.razon_social.value.trim()=="")){
 	form.razon_social.focus();
-	alert("Ingrese nombre de cliente para la factura...");
+		alert("Ingrese la raz\u00f3n social del cliente...");
 	return false;
 }
 if ((form.giro.value.trim()=="")){
 	form.giro.focus();
-	alert("Ingrese giro de cliente para la factura...");
+		alert("Ingrese el giro del cliente...");
 	return false;
 }
 if ((form.direccion.value.trim()=="")){
 	form.direccion.focus();
-	alert("Ingrese direccion de cliente para la factura...");
+		alert("Ingrese la direcci\u00f3n del cliente...");
 	return false;
 }
 if ((form.comuna.value.trim()=="")){
 	form.comuna.focus();
-	alert("Ingrese comuna de cliente para la factura...");
+		alert("Ingrese la comuna del cliente...");
 	return false;
 }
 
@@ -674,19 +674,19 @@ err++;
 }
 
 if (conta==0){
-	alert("Debe incluir a lo menos un item...");
+		alert("Debe incluir al menos un \u00edtem...");
 	return false;
 }
 
 if (conta>err){
-alert("Recuerde indicar cantidades y precio para todos los items incluidos en la factura...");
+	alert("Recuerde indicar cantidades y precio para todos los \u00edtems incluidos en el DTE...");
 return false;
 }
 
 
 for (a=1;a<=15;a++){
 	if ((eval("document.formulario1.tpocodigo_"+a+".value") != "" && eval("document.formulario1.vlrcodigo_"+a+".value") == "" ) || (eval("document.formulario1.tpocodigo_"+a+".value") == "" && eval("document.formulario1.vlrcodigo_"+a+".value") != "" )){
-		alert("Linea " + a + " debe incluir el tipo y codigo del producto o bien ambos deben estar sin valor");
+			alert("La l\u00ednea " + a + " debe incluir el tipo y c\u00f3digo del producto, o bien ambos campos deben quedar vac\u00edos");
 		break;
 	}
 }
@@ -694,7 +694,7 @@ for (a=1;a<=15;a++){
 
 
 if (form.docto_ref1.value!='' && (form.fecha_ref1.value=='' || form.folio_ref1.value=='' || form.ref1.value=='')){
-alert("debe completar los datos de la referencia 1...");
+alert("Debe completar los datos de la referencia 1...");
 return false;
 }
 
@@ -702,19 +702,19 @@ return false;
 <?php if($nTipo == "61" || $nTipo == "56"){	?>
 
 	if(form.docto_ref1.options[form.docto_ref1.selectedIndex].value == ""){
-		alert("Debe Seleccionar el tipo de Documento de Referencia...");
+			alert("Debe seleccionar el tipo de documento de referencia...");
 		form.docto_ref1.focus();
 		return false;		
 	}
 
 	if(form.tipodocto_ref1.options[form.tipodocto_ref1.selectedIndex].value == ""){
-		alert("Debe Seleccionar el motivo del Documento...");
+			alert("Debe seleccionar el motivo del documento...");
 		form.tipodocto_ref1.focus();
 		return false;		
 	}
 
 	if(form.tipodocto_ref1.options[form.tipodocto_ref1.selectedIndex].value == "2" && parseFloat(eval("form.total_t.value")) > 0){
-			alert("Los Documentos de Correcci\u00f3n de Texto, administrativas, debe ser Emitida por un Monto Total de 0...");
+				alert("Los documentos de correcci\u00f3n de texto o administrativos deben emitirse con un monto total de 0...");
 		form.tipodocto_ref1.focus();
 		return false;		
 	}
@@ -722,29 +722,29 @@ return false;
 
 <?php } else { ?>
 	if (form.docto_ref2.value!='' && (form.fecha_ref2.value=='' || form.folio_ref2.value=='' || form.ref2.value=='')){
-		alert("debe completar los datos de la referencia 2...");
+			alert("Debe completar los datos de la referencia 2...");
 		return false;
 		}
 		if (form.docto_ref3.value!='' && (form.fecha_ref3.value=='' || form.folio_ref3.value=='' || form.ref3.value=='')){
-		alert("debe completar los datos de la referencia 3...");
+			alert("Debe completar los datos de la referencia 3...");
 		return false;
 		}
 		if (form.docto_ref4.value!='' && (form.fecha_ref4.value=='' || form.folio_ref4.value=='' || form.ref4.value=='')){
-			alert("debe completar los datos de la referencia 4...");
+				alert("Debe completar los datos de la referencia 4...");
 			return false;
 		}
 		if (form.docto_ref5.value!='' && (form.fecha_ref5.value=='' || form.folio_ref5.value=='' || form.ref5.value=='')){
-			alert("debe completar los datos de la referencia 5...");
+				alert("Debe completar los datos de la referencia 5...");
 			return false;
 		}
 		if (form.docto_ref6.value!='' && (form.fecha_ref6.value=='' || form.folio_ref6.value=='' || form.ref6.value=='')){
-			alert("debe completar los datos de la referencia 6...");
+				alert("Debe completar los datos de la referencia 6...");
 			return false;
 		}
 
 		for(iR = 7;iR < 20; iR++){   
 			if (eval("document.formulario1.docto_ref" + iR + ".value")!='' && (eval("document.formulario1.fecha_ref" + iR + ".value")=='' || eval("document.formulario1.folio_ref" + iR + ".value")=='' || eval("document.formulario1.ref" + iR + ".value")=='')){
-				alert("debe completar los datos de la referencia " + iR + "...");
+					alert("Debe completar los datos de la referencia " + iR + "...");
 				return false;
 			}
 		}
@@ -760,7 +760,7 @@ return true;
 function grabar(){
 var form=document.formulario1;
 if (valida()==true){
-a=confirm("Esta seguro que desea generar el DTE con los datos de pantalla...?");
+a=confirm("\u00bfEst\u00e1 seguro de que desea generar el DTE con los datos ingresados?");
 if (a==true){	
 	form.accion.value="grabar";
         form.action ="emitir.php";
@@ -842,8 +842,8 @@ function traeCliente(){
 	}
 
 	if(rutClie != "" && rutClie != rutClieOld){
-			if (rut(rutClie,"Formato de RUT Incorrecto, ingresar sin punto y con gui\u00f3n") == false){
-		//		alert("Formato de RUT Incorrecto, ingresar sin punto y con gui\u00f3n.");
+				if (rut(rutClie,"Formato de RUT incorrecto. Ingrese el RUT sin puntos y con gui\u00f3n") == false){
+			//		alert("Formato de RUT incorrecto. Ingrese el RUT sin puntos y con gui\u00f3n.");
 			document.getElementById('rut_cliente').value = "";
 		}
 		else{
@@ -1154,7 +1154,7 @@ function traeCliente(){
 if ($e!=''){
 echo "<table width='90%' align='center' cellspacing='3'>
 <tr>
-<td colspan='2' class='campo_cal' align='center'>".$e."&nbsp;&nbsp;&nbsp;<a href=\"Javascript:principal('emision_factura_afecta.php','etr1');\">Crear Nueva factura</a></td>
+<td colspan='2' class='campo_cal' align='center'>".$e."&nbsp;&nbsp;&nbsp;<a href=\"Javascript:principal('emision_factura_afecta.php','etr1');\">Crear nuevo DTE</a></td>
 </tr>
 </table>";
 exit();
@@ -1210,13 +1210,13 @@ exit();
 <td class='cab_campo' width="15%">&nbsp;Indicador de Traslado&nbsp;</td>
 <td class="texto" width="85%">&nbsp;
 <select class="campo" name="IndTraslado">
-<option value="1">Operacion Constituye Venta</option>
-<option value="2">Venta por Efectuar</option>
-<option value="3">Consignacion</option>
-<option value="4">Promocion  o Donacion (RUT Emisor = RUT Receptor)</option>
-<option value="5">Traslado Interno</option>
-<option value="6">Otros Traslados que no Constituyen Venta</option>
-<option value="7">Guia de Devolucion</option>
+<option value="1">Operaci&oacute;n constituye venta</option>
+<option value="2">Venta por efectuar</option>
+<option value="3">Consignaci&oacute;n</option>
+<option value="4">Promoci&oacute;n o donaci&oacute;n (RUT emisor = RUT receptor)</option>
+<option value="5">Traslado interno</option>
+<option value="6">Otros traslados que no constituyen venta</option>
+<option value="7">Gu&iacute;a de devoluci&oacute;n</option>
 </select>
 </td>
 </tr>
@@ -1267,12 +1267,12 @@ exit();
 				<div class="table-wrap">
 					<table class="legacy-items-table" width="96%" align="center" cellspacing="5">
 <tr>
-<td class='cab_campo' height="20" align='left' colspan='7'><b>Factura Afecta - Datos de &Iacute;tems</b></td>
+<td class='cab_campo' height="20" align='left' colspan='7'><b>Datos de &Iacute;tems</b></td>
 </tr>
 <tr>
 <td width="5%" align='center' class='cab_campo' valign="middle"><b>#</b></td>
 <td width="15%" align='center' class='cab_campo' valign="middle"><b>Tipo - C&oacute;digo</b></td>
-<td width="20%" align='center' class='cab_campo' valign="middle"><b>Item - Descripci&oacute;n</b></td>
+<td width="20%" align='center' class='cab_campo' valign="middle"><b>&Iacute;tem - Descripci&oacute;n</b></td>
 <td width="10%" align='center' class='cab_campo' valign="middle"><b>Cantidad</b></td>
 <td width="10%" align='center' class='cab_campo' valign="middle"><b>Valor Unit.</b></td>
 <!--<td width="10%" align='center' class='cab_campo' valign="middle"><b>% <br>Descuento<br>Recargo</b></td>
@@ -1391,13 +1391,13 @@ if ($a%2==0)$bgcolor="#ffffff"; else $bgcolor='#f3f3f3';
 			<div class="section-card">
 				<div class="reference-wrap">
 					<table class="legacy-ref-table" width="96%" align="center" cellspacing="5">
-<tr><td height="20" colspan="6" class="cab_campo">Referencia</td></tr>
+<tr><td height="20" colspan="6" class="cab_campo">Referencias</td></tr>
 <tr>
 <td height="20" class="cab_campo" align="center">N&uacute;.</td>
 <td height="20" class="cab_campo" align="center">Tipo Documento</td>
 
 <?php if($nTipo == "61" || $nTipo == "56"){	?>
-	<td height="20" class="cab_campo" align="center">Motivo.</td>
+	<td height="20" class="cab_campo" align="center">Motivo</td>
 <?php } ?>
 
 <td height="20" class="cab_campo" align="center">Fecha</td>
@@ -1411,16 +1411,16 @@ if ($a%2==0)$bgcolor="#ffffff"; else $bgcolor='#f3f3f3';
 
 
 <?php if($nTipo == "61"){	?>
-		<option value="33">Factura Afecta Electr&oacute;nica</option>
+			<option value="33">Factura Electr&oacute;nica</option>
 		<option value="34">Factura Exenta Electr&oacute;nica</option>
-		<option value="39">Boleta Afecta Electr&oacute;nica</option>
+			<option value="39">Boleta Electr&oacute;nica</option>
 		<option value="41">Boleta Exenta Electr&oacute;nica</option>
 		<option value="56">Nota de D&eacute;bito Electr&oacute;nica</option>
 <?php } ?>
 <?php if($nTipo == "56"){	?>
-		<option value="33">Factura Afecta Electr&oacute;nica</option>
+			<option value="33">Factura Electr&oacute;nica</option>
 		<option value="34">Factura Exenta Electr&oacute;nica</option>
-		<option value="39">Boleta Afecta Electr&oacute;nica</option>
+			<option value="39">Boleta Electr&oacute;nica</option>
 		<option value="41">Boleta Exenta Electr&oacute;nica</option>
 		<option value="61">Nota de Cr&eacute;dito Electr&oacute;nica</option>
 <?php } ?>
@@ -1428,9 +1428,9 @@ if ($a%2==0)$bgcolor="#ffffff"; else $bgcolor='#f3f3f3';
 </select></td>
 
 <td valign="top" align="center"><select class="campo" name="tipodocto_ref1">
-	<option value="1">Anula Documento de Referencia</option>
-	<option value="2">Corrigue Texto</option>
-	<option value="3">Corrigue Montos</option>
+		<option value="1">Anula documento de referencia</option>
+		<option value="2">Corrige texto</option>
+		<option value="3">Corrige montos</option>
 </select></td>
 
 
@@ -1450,19 +1450,19 @@ else{
 	<option value="52">Gu&iacute;a de Despacho Electr&oacute;nica</option>
 <?php } ?>
 <option value="801">Orden de Compra</option>
-<option value="802">Nota de pedido</option>
+<option value="802">Nota de Pedido</option>
 <option value="803">Contrato</option>
-<option value="804">Resolucion</option>
+<option value="804">Resoluci&oacute;n</option>
 <option value="805">Proceso ChileCompra</option>
 <option value="806">Ficha ChileCompra</option>
 <option value="807">DUS</option>
 <option value="808">B/L (Conocimiento de embarque)</option>
-<option value="809">AWB (Air Will Bill)</option>
+<option value="809">AWB (Air Waybill)</option>
 <option value="810">MIC/DTA</option>
 <option value="811">Carta de Porte</option>
-<option value="812">Resolucion del SNA donde califica Servicios de Exp.</option>
+<option value="812">Resoluci&oacute;n del SNA donde califica Servicios de Exp.</option>
 <option value="813">Pasaporte</option>
-<option value="814">Certificado de Deposito Bolsa Prod. Chile</option>
+<option value="814">Certificado de Dep&oacute;sito Bolsa Prod. Chile</option>
 <option value="815">Vale de Prenda Bolsa Prod. Chile</option>
 <option value="HES">HES</option>
 <option value="HEM">HEM</option>
@@ -1483,19 +1483,19 @@ else{
 	<option value="52">Gu&iacute;a de Despacho Electr&oacute;nica</option>
 <?php } ?>
 <option value="801">Orden de Compra</option>
-<option value="802">Nota de pedido</option>
+<option value="802">Nota de Pedido</option>
 <option value="803">Contrato</option>
-<option value="804">Resolucion</option>
+<option value="804">Resoluci&oacute;n</option>
 <option value="805">Proceso ChileCompra</option>
 <option value="806">Ficha ChileCompra</option>
 <option value="807">DUS</option>
 <option value="808">B/L (Conocimiento de embarque)</option>
-<option value="809">AWB (Air Will Bill)</option>
+<option value="809">AWB (Air Waybill)</option>
 <option value="810">MIC/DTA</option>
 <option value="811">Carta de Porte</option>
-<option value="812">Resolucion del SNA donde califica Servicios de Exp.</option>
+<option value="812">Resoluci&oacute;n del SNA donde califica Servicios de Exp.</option>
 <option value="813">Pasaporte</option>
-<option value="814">Certificado de Deposito Bolsa Prod. Chile</option>
+<option value="814">Certificado de Dep&oacute;sito Bolsa Prod. Chile</option>
 <option value="815">Vale de Prenda Bolsa Prod. Chile</option>
 <option value="HES">HES</option>
 <option value="HEM">HEM</option>
@@ -1513,19 +1513,19 @@ else{
 	<option value="52">Gu&iacute;a de Despacho Electr&oacute;nica</option>
 <?php } ?>
 <option value="801">Orden de Compra</option>
-<option value="802">Nota de pedido</option>
+<option value="802">Nota de Pedido</option>
 <option value="803">Contrato</option>
-<option value="804">Resolucion</option>
+<option value="804">Resoluci&oacute;n</option>
 <option value="805">Proceso ChileCompra</option>
 <option value="806">Ficha ChileCompra</option>
 <option value="807">DUS</option>
 <option value="808">B/L (Conocimiento de embarque)</option>
-<option value="809">AWB (Air Will Bill)</option>
+<option value="809">AWB (Air Waybill)</option>
 <option value="810">MIC/DTA</option>
 <option value="811">Carta de Porte</option>
-<option value="812">Resolucion del SNA donde califica Servicios de Exp.</option>
+<option value="812">Resoluci&oacute;n del SNA donde califica Servicios de Exp.</option>
 <option value="813">Pasaporte</option>
-<option value="814">Certificado de Deposito Bolsa Prod. Chile</option>
+<option value="814">Certificado de Dep&oacute;sito Bolsa Prod. Chile</option>
 <option value="815">Vale de Prenda Bolsa Prod. Chile</option>
 <option value="HES">HES</option>
 <option value="HEM">HEM</option>
@@ -1543,19 +1543,19 @@ else{
 	<option value="52">Gu&iacute;a de Despacho Electr&oacute;nica</option>
 <?php } ?>
 <option value="801">Orden de Compra</option>
-<option value="802">Nota de pedido</option>
+<option value="802">Nota de Pedido</option>
 <option value="803">Contrato</option>
-<option value="804">Resolucion</option>
+<option value="804">Resoluci&oacute;n</option>
 <option value="805">Proceso ChileCompra</option>
 <option value="806">Ficha ChileCompra</option>
 <option value="807">DUS</option>
 <option value="808">B/L (Conocimiento de embarque)</option>
-<option value="809">AWB (Air Will Bill)</option>
+<option value="809">AWB (Air Waybill)</option>
 <option value="810">MIC/DTA</option>
 <option value="811">Carta de Porte</option>
-<option value="812">Resolucion del SNA donde califica Servicios de Exp.</option>
+<option value="812">Resoluci&oacute;n del SNA donde califica Servicios de Exp.</option>
 <option value="813">Pasaporte</option>
-<option value="814">Certificado de Deposito Bolsa Prod. Chile</option>
+<option value="814">Certificado de Dep&oacute;sito Bolsa Prod. Chile</option>
 <option value="815">Vale de Prenda Bolsa Prod. Chile</option>
 <option value="HES">HES</option>
 <option value="HEM">HEM</option>
@@ -1573,19 +1573,19 @@ else{
 	<option value="52">Gu&iacute;a de Despacho Electr&oacute;nica</option>
 <?php } ?>
 <option value="801">Orden de Compra</option>
-<option value="802">Nota de pedido</option>
+<option value="802">Nota de Pedido</option>
 <option value="803">Contrato</option>
-<option value="804">Resolucion</option>
+<option value="804">Resoluci&oacute;n</option>
 <option value="805">Proceso ChileCompra</option>
 <option value="806">Ficha ChileCompra</option>
 <option value="807">DUS</option>
 <option value="808">B/L (Conocimiento de embarque)</option>
-<option value="809">AWB (Air Will Bill)</option>
+<option value="809">AWB (Air Waybill)</option>
 <option value="810">MIC/DTA</option>
 <option value="811">Carta de Porte</option>
-<option value="812">Resolucion del SNA donde califica Servicios de Exp.</option>
+<option value="812">Resoluci&oacute;n del SNA donde califica Servicios de Exp.</option>
 <option value="813">Pasaporte</option>
-<option value="814">Certificado de Deposito Bolsa Prod. Chile</option>
+<option value="814">Certificado de Dep&oacute;sito Bolsa Prod. Chile</option>
 <option value="815">Vale de Prenda Bolsa Prod. Chile</option>
 <option value="HES">HES</option>
 <option value="HEM">HEM</option>
@@ -1604,19 +1604,19 @@ else{
 	<option value="52">Gu&iacute;a de Despacho Electr&oacute;nica</option>
 <?php } ?>
 <option value="801">Orden de Compra</option>
-<option value="802">Nota de pedido</option>
+<option value="802">Nota de Pedido</option>
 <option value="803">Contrato</option>
-<option value="804">Resolucion</option>
+<option value="804">Resoluci&oacute;n</option>
 <option value="805">Proceso ChileCompra</option>
 <option value="806">Ficha ChileCompra</option>
 <option value="807">DUS</option>
 <option value="808">B/L (Conocimiento de embarque)</option>
-<option value="809">AWB (Air Will Bill)</option>
+<option value="809">AWB (Air Waybill)</option>
 <option value="810">MIC/DTA</option>
 <option value="811">Carta de Porte</option>
-<option value="812">Resolucion del SNA donde califica Servicios de Exp.</option>
+<option value="812">Resoluci&oacute;n del SNA donde califica Servicios de Exp.</option>
 <option value="813">Pasaporte</option>
-<option value="814">Certificado de Deposito Bolsa Prod. Chile</option>
+<option value="814">Certificado de Dep&oacute;sito Bolsa Prod. Chile</option>
 <option value="815">Vale de Prenda Bolsa Prod. Chile</option>
 <option value="HES">HES</option>
 <option value="HEM">HEM</option>
@@ -1638,19 +1638,19 @@ else{
 		<option value="52">Gu&iacute;a de Despacho Electr&oacute;nica</option>
 	<?php } ?>
 	<option value="801">Orden de Compra</option>
-	<option value="802">Nota de pedido</option>
+		<option value="802">Nota de Pedido</option>
 	<option value="803">Contrato</option>
-	<option value="804">Resolucion</option>
+		<option value="804">Resoluci&oacute;n</option>
 	<option value="805">Proceso ChileCompra</option>
 	<option value="806">Ficha ChileCompra</option>
 	<option value="807">DUS</option>
 	<option value="808">B/L (Conocimiento de embarque)</option>
-	<option value="809">AWB (Air Will Bill)</option>
+		<option value="809">AWB (Air Waybill)</option>
 	<option value="810">MIC/DTA</option>
 	<option value="811">Carta de Porte</option>
-	<option value="812">Resolucion del SNA donde califica Servicios de Exp.</option>
+		<option value="812">Resoluci&oacute;n del SNA donde califica Servicios de Exp.</option>
 	<option value="813">Pasaporte</option>
-	<option value="814">Certificado de Deposito Bolsa Prod. Chile</option>
+		<option value="814">Certificado de Dep&oacute;sito Bolsa Prod. Chile</option>
 	<option value="815">Vale de Prenda Bolsa Prod. Chile</option>
 	<option value="HES">HES</option>
 <option value="HEM">HEM</option>
@@ -1672,7 +1672,7 @@ else{
 
 			<div class="form-actions">
 				<input type="button" name="save" class="boton" value="Generar DTE" onClick="javascript:grabar();">
-				<input type="button" name="save" class="boton boton-secundario" value="Preview" onClick="javascript:preview();">
+					<input type="button" name="save" class="boton boton-secundario" value="Previsualizar" onClick="javascript:preview();">
 			</div>
 		</div>
 	</div>
