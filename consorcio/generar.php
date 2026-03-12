@@ -19,6 +19,18 @@ include("../include/tables.php");
 /** PhpSpreadsheet (reemplaza PHPExcel obsoleto) */
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
+
+if (!function_exists('h')) {
+	function h($value){
+		return htmlspecialchars((string)$value, ENT_QUOTES, 'ISO-8859-1');
+	}
+}
+
+function js_sq($value){
+	$value = str_replace(array("\\", "'", "\r", "\n"), array("\\\\", "\\'", "\\r", "\\n"), (string)$value);
+	return "'" . $value . "'";
+}
+
 $msjGlobal = "";
 $RUTEmisor = "99555660-K";
 $RUTEmisorSinDV="99555660";
@@ -32,6 +44,7 @@ $WSDL = $_LINK_BASE_WS . "OpenDTEWS/services/FirmaBoleta?wsdl";		// test
 //$rutaExcel = "/opt/opendte/httpdocs/consorcio/Boleta2015.xls";
 
 $rutaExcel = trim($_GET["r"]);
+	$sMsgJs = isset($_GET["sMsgJs"]) ? trim((string)$_GET["sMsgJs"]) : "";
 
 if($rutaExcel == ""){
       header("location:form_excel.php?sMsgJs=Error al subir excel");
@@ -55,8 +68,9 @@ function validaBoleta($rutaExcel){
 	$i=0;
 	$error=0;
 
-	echo '<table width="100%" cellspacing="0" class="list">' . "\n";
-	echo "<tr><th class='sort'>Resultado Revisi&oacute;n</tr>";
+		echo '<div class="table-responsive mb-3">' . "\n";
+		echo '<table width="100%" cellspacing="0" class="list table table-sm align-middle mb-0">' . "\n";
+		echo '<thead><tr><th class="sort">Validaci&oacute;n del archivo</th></tr></thead><tbody>' . "\n";
 	$sClassRow = "evenrowbg";
 
 	foreach ($objWorksheet->getRowIterator() as $row)
@@ -66,7 +80,7 @@ function validaBoleta($rutaExcel){
 		$i++;
 		continue;
 	  }
-	  echo '<tr class=' . $sClassRow . '>' . "\n";
+		  echo '<tr class="' . $sClassRow . '">' . "\n";
 	  $cellIterator = $row->getCellIterator();
 	  $cellIterator->setIterateOnlyExistingCells(false);
 
@@ -109,8 +123,11 @@ function validaBoleta($rutaExcel){
 	  $xmlBoleta=armaXML($i, $fechaFactura,$rutCliente,$dvCliente,$nombreCliente,$neto,$iva,$total,$dirCliente,$comunaCliente,$ciudadCliente,$montoEscrito);
 
 	  if($xmlBoleta == ""){
-		  echo '<td>Error en linea ' . $i . ' ' . $msjGlobal. '</td>' . "\n";
+			  echo '<td><span class="result-badge result-badge-danger">Error</span> L&iacute;nea ' . (int)$i . ': ' . h($msjGlobal) . '</td>' . "\n";
 		  $error++;
+		  }
+		  else{
+			  echo '<td><span class="result-badge result-badge-ok">OK</span> L&iacute;nea ' . (int)$i . ' validada correctamente.</td>' . "\n";
 	  }
 
 	  $i++;	
@@ -122,17 +139,20 @@ function validaBoleta($rutaExcel){
 	}
 
 	if($error > 0){
-		  echo '<tr><td><br><br><h2>El archivo tiene errores, no se procesa.</h2></td></tr>' . "\n";
-		  exit;
+			  echo '<tr class="summary-row"><td><div class="alert alert-danger mb-0 py-2 px-3">El archivo tiene errores y no se procesa.</div></td></tr>' . "\n";
+			  echo '</tbody></table></div>' . "\n";
+			  return false;
 	}
 
-	echo '</table>' . "\n";
+		echo '</tbody></table></div>' . "\n";
+
+		return true;
 
 
 }
 
 function generaBoleta($rutaExcel){
-	global $RUTEmisorSinDV,$DVRutEmisor, $WSDL;
+		global $RUTEmisorSinDV,$DVRutEmisor, $WSDL, $msjGlobal;
 //	$rutaExcel = "/opt/opendte/httpdocs/consorcio/Boleta2015.xls";
 	$XLFileType = IOFactory::identify($rutaExcel);
 	$objReader = IOFactory::createReader($XLFileType);
@@ -145,12 +165,14 @@ function generaBoleta($rutaExcel){
 	// encabezado excel
 	//Cuenta;Fecha Facturaci�n; Rut Completo ; RUT ; DV ;Nombre;Neto;IVA;Total;Direcci�n;Comuna;Ciudad;Periodo;Monto en palabras
 
-	validaBoleta($rutaExcel);		// valida que no tenga errores.
+		if(!validaBoleta($rutaExcel))
+			return;		// valida que no tenga errores.
 
 	$i=0;
 
-	echo '<table width="100%" cellspacing="0" class="list">' . "\n";
-	echo "<tr><th class='sort'>Resultado Revisi&oacute;n</tr>";
+		echo '<div class="table-responsive">' . "\n";
+		echo '<table width="100%" cellspacing="0" class="list table table-sm align-middle mb-0">' . "\n";
+		echo '<thead><tr><th class="sort">Resultado de la generaci&oacute;n</th></tr></thead><tbody>' . "\n";
 	$sClassRow = "evenrowbg";
 
 	foreach ($objWorksheet->getRowIterator() as $row)
@@ -160,7 +182,7 @@ function generaBoleta($rutaExcel){
 		$i++;
 		continue;
 	  }
-	  echo '<tr class=' . $sClassRow . '>' . "\n";
+		  echo '<tr class="' . $sClassRow . '">' . "\n";
 	  $cellIterator = $row->getCellIterator();
 	  $cellIterator->setIterateOnlyExistingCells(false);
 
@@ -203,7 +225,7 @@ function generaBoleta($rutaExcel){
 	  $xmlBoleta=armaXML($i, $fechaFactura,$rutCliente,$dvCliente,$nombreCliente,$neto,$iva,$total,$dirCliente,$comunaCliente,$ciudadCliente,$montoEscrito);
 
 	  if($xmlBoleta == ""){
-		  echo '<td>Error en linea ' . $i . ' ' . $msjGlobal. '</td>' . "\n";
+			  echo '<td><span class="result-badge result-badge-danger">Error</span> L&iacute;nea ' . (int)$i . ': ' . h($msjGlobal) . '</td>' . "\n";
 	  }
 	  else{
 		echo '<td>';  
@@ -212,12 +234,12 @@ function generaBoleta($rutaExcel){
 		  $glosaRespuesta=$respuesta->getResulGlosa();
 
 		  if($respuesta->getEstado() != 1){ 
-			echo "Error en Linea $i ." . $glosaRespuesta; 
+				echo '<span class="result-badge result-badge-danger">Error</span> L&iacute;nea ' . (int)$i . ': ' . h($glosaRespuesta); 
 		  }
 		  else{
 			$pdf = $respuesta->getPDF();
 			$pdf_cedible=str_replace("/dte-","/cedible-dte-",$pdf);
-			echo "OK Linea $i <a href=$pdf target='_blank'>Descargar PDF</a>";
+				echo '<span class="result-badge result-badge-ok">OK</span> L&iacute;nea ' . (int)$i . ' procesada correctamente. <a href="' . h($pdf) . '" target="_blank" class="result-link">Descargar PDF</a>';
 //			$e.="<a href=$pdf_cedible target='_blank'>Descargar Cedible PDF</a>";  
 		  }
 		  
@@ -232,7 +254,7 @@ function generaBoleta($rutaExcel){
 	  echo '</tr>' . "\n";
 	}
 
-	echo '</table>' . "\n";
+		echo '</tbody></table></div>' . "\n";
 }
 
 function armaXML($i, $fechaFactura,$rutCliente,$dvCliente,$nombreCliente,$neto,$iva,$total,$dirCliente,$comunaCliente,$ciudadCliente,$montoEscrito){
@@ -480,69 +502,108 @@ function getEstado(){return $this->Estado;}
 
 ?>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 
-<html>
-	
+<html lang="es">
 	<head>
 		<link rel="shortcut icon" href="/favicon.ico">
-		<title>OpenB</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<base href="<?php echo $_LINK_BASE; ?>" />
+		<title>Carga de Boletas - Resultado</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<base href="<?php echo h($_LINK_BASE); ?>" />
 		<script language="javascript" type="text/javascript" src="javascript/common.js"></script>
-		<script language="javascript" type="text/javascript" src="javascript/msg.js"></script>		
-		<link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/general.css">
-		<link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/main/custom.css">
-		<link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/main/layout.css">
-		<link rel="stylesheet" type="text/nonsense" href="skins/<?php echo $_SKINS; ?>/css/misc.css">
+		<script language="javascript" type="text/javascript" src="javascript/msg.js"></script>
+		<link rel="stylesheet" type="text/css" href="skins/<?php echo h($_SKINS); ?>/css/general.css">
+		<link rel="stylesheet" type="text/css" href="skins/<?php echo h($_SKINS); ?>/css/main/custom.css">
+		<link rel="stylesheet" type="text/css" href="skins/<?php echo h($_SKINS); ?>/css/main/layout.css">
+		<link rel="stylesheet" type="text/nonsense" href="skins/<?php echo h($_SKINS); ?>/css/misc.css">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+		<style>
+			body{background:#eef2f7;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:#1f2937;}
+			.page-shell{max-width:1100px;margin:0 auto;padding:16px;}
+			.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;}
+			.topbar-title{margin:0;font-size:1.55rem;font-weight:700;color:#001f3f;}
+			.topbar-meta{font-size:.85rem;color:#64748b;margin-bottom:2px;}
+			.topbar-chip{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:#e8f1ff;color:#0b5ed7;font-weight:600;font-size:.85rem;}
+			.panel{background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:18px;box-shadow:0 14px 32px rgba(15,23,42,.08);overflow:hidden;}
+			.panel-header{padding:16px 20px;background:linear-gradient(135deg,#001f3f 0%,#0b5ed7 100%);color:#fff;}
+			.panel-header h2{margin:0;font-size:1.05rem;font-weight:700;}
+			.panel-header p{margin:6px 0 0;font-size:.9rem;opacity:.9;}
+			.panel-body{padding:20px;}
+			.panel-note{background:#f8fbff;border:1px solid #d7e3f0;border-radius:14px;padding:12px 14px;margin-bottom:16px;color:#475569;}
+			.list.table{border-color:#d7e3f0;}
+			.list.table thead th,.list.table tr:first-child th{background:#001f3f;color:#fff;border-color:#17385c;font-size:.84rem;letter-spacing:.01em;}
+			.list.table tbody td{vertical-align:middle;}
+			.list.table tr.evenrowbg td{background:#f8fbff;}
+			.list.table tr.oddrowbg td{background:#fff;}
+			.result-badge{display:inline-flex;align-items:center;border-radius:999px;padding:3px 10px;font-size:.76rem;font-weight:700;margin-right:8px;}
+			.result-badge-ok{background:#e8fff1;color:#157347;}
+			.result-badge-danger{background:#fff1f2;color:#b42318;}
+			.result-link{color:#0b5ed7;font-weight:600;text-decoration:none;}
+			.result-link:hover{text-decoration:underline;}
+			.summary-row td{background:#fff !important;}
+			#loaderContainer{position:fixed;inset:0;background:rgba(15,23,42,.3);z-index:1050;}
+			#loaderContainerWH{text-align:center;vertical-align:middle;}
+			#loader{display:inline-block;background:#fff;border-radius:14px;padding:16px 20px;box-shadow:0 12px 28px rgba(15,23,42,.18);}
+		</style>
 
+		<script type="text/javascript">
+		<!--
 
-<script type="text/javascript">
-<!--
+		function _body_onload()
+		{
+			loff();
 
+		 <?php
+		  if($sMsgJs != "")
+		    echo "alert(" . js_sq($sMsgJs) . ");\n";
+		 ?>
 
-function _body_onload()
-{
-	loff();
-  
- <?php 
-  if($sMsgJs != "")
-    echo "alert('" . $sMsgJs . "');\n";
- 
- ?>   
-   
-	SetContext('cl_ed');
-		
-}
+			SetContext('cl_ed');
+		}
 
-function _body_onunload()
-{
-	lon();
-	
-}
+		function _body_onunload()
+		{
+			lon();
+		}
 
-//-->
+		//-->
 		</script>
 	</head>
 
 	<body onLoad="_body_onload();" onUnload="_body_onunload();" id="mainCP" class="visibilityAdminMode">
-	
-	<a href="#" name="top" id="top"></a>
-	<table border="0" cellspacing="0" cellpadding="0" id="loaderContainer" onClick="return false;"><tr><td id="loaderContainerWH"><div id="loader"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><p><img src="skins/<?php echo $_SKINS; ?>/icons/loading.gif" height="32" width="32" alt=""/><strong>Por favor espere.<br>Cargando ...</strong></p></td></tr></table></div></td></tr></table>
+		<a href="#" name="top" id="top"></a>
+		<table border="0" cellspacing="0" cellpadding="0" id="loaderContainer" onClick="return false;"><tr><td id="loaderContainerWH"><div id="loader"><p class="mb-0"><img src="skins/<?php echo h($_SKINS); ?>/icons/loading.gif" height="32" width="32" alt="" style="margin-right:10px;vertical-align:middle;"/><strong>Por favor espere.<br>Cargando ...</strong></p></div></td></tr></table>
 
-	<div class="screenBody">
-		<div class="listArea">
-			<fieldset>
-				<legend>Boletas</legend>
-<?php 
-	generaBoleta($rutaExcel);
-	unlink($rutaExcel);
-?>
+		<div class="page-shell">
+			<div class="topbar">
+				<div>
+					<div class="topbar-meta">Consorcio &gt; Carga de Boletas</div>
+					<h1 class="topbar-title">Resultado de la carga</h1>
+				</div>
+				<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+					<span class="topbar-chip"><i class="bi bi-file-earmark-spreadsheet"></i> Flujo activo</span>
+					<a href="consorcio/form_excel.php" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left-circle me-1"></i>Volver</a>
+				</div>
+			</div>
 
-			</fieldset>
+			<div class="panel">
+				<div class="panel-header">
+					<h2><i class="bi bi-check2-square me-2"></i>Validaci&oacute;n y firma de boletas</h2>
+					<p>Se mantiene intacta la lectura del Excel, la validaci&oacute;n por l&iacute;nea y la firma SOAP del flujo legacy.</p>
+				</div>
+				<div class="panel-body">
+					<div class="panel-note small">
+						<strong style="color:#0f172a;">Nota:</strong> esta pantalla muestra primero la revisi&oacute;n del archivo y luego el resultado de la generaci&oacute;n de cada boleta procesada.
+					</div>
+	<?php
+		generaBoleta($rutaExcel);
+		unlink($rutaExcel);
+	?>
+				</div>
+			</div>
 		</div>
-	</div>
-
 	</body>
 
 	<script type="text/javascript">

@@ -44,22 +44,22 @@ COMMENT ON COLUMN menu_reglas.operador IS 'Operador: ==, !=, IN, NOT IN';
 INSERT INTO menu_reglas (menu, opcion, link, icono, tipo_regla, variable, operador, valor, descripcion, orden)
 VALUES ('Consorcio', 'Carga Boletas', 'consorcio/carga_boleta.php', 'bi-upload', 'empresa', '_COD_EMP_USU_SESS', '==', '85', 'Solo visible para empresa Consorcio (ID 85)', 10);
 
--- Carga DTE (Grupo Puerto)
+-- Grupo Puerto
 INSERT INTO menu_reglas (menu, opcion, link, icono, tipo_regla, variable, operador, valor, descripcion, orden)
-VALUES ('Carga DTE', 'Carga Excel DTE', 'dte/carga_excel_dte.php', 'bi-file-earmark-excel', 'especial', '_GPUERTO_', '==', '1', 'Grupo Puerto o Administradores', 20);
+VALUES ('Grupo Puerto', 'Carga Excel DTE', 'laudus/gpuerto.php', 'bi-file-earmark-excel', 'especial', '_GPUERTO_', '==', '1', 'Grupo Puerto o Administradores', 20);
 
 INSERT INTO menu_reglas (menu, opcion, link, icono, tipo_regla, variable, operador, valor, descripcion, orden)
-VALUES ('Carga DTE', 'Reenviar DTE', 'dte/reenviar_dte.php', 'bi-envelope-arrow-up', 'especial', '_GPUERTO_', '==', '1', 'Grupo Puerto o Administradores', 21);
+VALUES ('Grupo Puerto', 'Reenviar DTE', 'laudus/gpuerto_resend.php', 'bi-arrow-repeat', 'especial', '_GPUERTO_', '==', '1', 'Grupo Puerto o Administradores', 21);
 
 -- VGM Emite DTE (RUTs específicos)
 INSERT INTO menu_reglas (menu, opcion, link, icono, tipo_regla, variable, operador, valor, descripcion, orden)
-VALUES ('VGM Emite DTE', 'Carga Excel', 'vgm/carga_excel.php', 'bi-file-earmark-excel', 'rut', 'RUT_EMP', 'IN', '77648628,77648624,77239803', 'RUTs específicos de VGM', 30);
+VALUES ('VGM Emite DTE', 'Carga Excel DTE', 'vgm/vgm.php', 'bi-file-earmark-excel', 'rut', 'RUT_EMP', 'IN', '77648628,77648624,77239803', 'RUTs específicos de VGM', 30);
 
 INSERT INTO menu_reglas (menu, opcion, link, icono, tipo_regla, variable, operador, valor, descripcion, orden)
-VALUES ('VGM Emite DTE', 'Excel Softland', 'vgm/excel_softland.php', 'bi-file-earmark-spreadsheet', 'rut', 'RUT_EMP', 'IN', '77648628,77648624,77239803', 'RUTs específicos de VGM', 31);
+VALUES ('VGM Emite DTE', 'Excel Softland', 'vgm/vgm_excel.php', 'bi-file-earmark-spreadsheet', 'rut', 'RUT_EMP', 'IN', '77648628,77648624,77239803', 'RUTs específicos de VGM', 31);
 
 INSERT INTO menu_reglas (menu, opcion, link, icono, tipo_regla, variable, operador, valor, descripcion, orden)
-VALUES ('VGM Emite DTE', 'Reenviar Email', 'vgm/reenviar_email.php', 'bi-envelope', 'rut', 'RUT_EMP', 'IN', '77648628,77648624,77239803', 'RUTs específicos de VGM', 32);
+VALUES ('VGM Emite DTE', 'Reenviar Email', 'vgm/vgm_reenviar.php', 'bi-envelope-arrow-up', 'rut', 'RUT_EMP', 'IN', '77648628,77648624,77239803', 'RUTs específicos de VGM', 32);
 
 -- DTE No Enviado a SII (Empresas específicas)
 INSERT INTO menu_reglas (menu, opcion, link, icono, tipo_regla, variable, operador, valor, descripcion, orden)

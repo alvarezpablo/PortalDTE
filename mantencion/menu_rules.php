@@ -23,6 +23,13 @@ $gpuerto = $_SESSION["_GPUERTO_"] ?? '';
 $emiteWeb = $_SESSION["_EMITE_WEB_"] ?? '';
 $codRol = $_SESSION["_COD_ROL_SESS"] ?? '';
 
+if (!function_exists('h')) {
+    function h($value)
+    {
+        return htmlspecialchars((string)$value, ENT_QUOTES, 'ISO-8859-1');
+    }
+}
+
 // Verificar si existe la tabla menu_reglas
 $tablaExiste = false;
 $menuRules = [];
@@ -61,7 +68,77 @@ if ($checkTable && !$checkTable->EOF && $checkTable->fields['existe'] != '') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        body { background-color: #f8f9fa; }
+        :root { color-scheme: light; }
+        body {
+            background: #f4f7fb;
+            color: #16324f;
+        }
+        .page-shell {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 24px 16px 32px;
+        }
+        .topbar,
+        .panel,
+        .modal-content {
+            background: #fff;
+            border: 1px solid #dbe7f3;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 31, 63, 0.08);
+        }
+        .topbar {
+            padding: 22px 24px;
+            margin-bottom: 20px;
+        }
+        .topbar-title {
+            color: #001f3f;
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        .topbar-meta,
+        .panel-note,
+        .legend-note {
+            color: #5b7088;
+        }
+        .topbar-chip,
+        .legend-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+        .topbar-chip {
+            background: #eef4fb;
+            color: #0b5ed7;
+        }
+        .panel {
+            margin-bottom: 18px;
+            overflow: hidden;
+        }
+        .panel-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e4edf6;
+            background: linear-gradient(180deg, #f8fbff 0%, #f1f6fc 100%);
+        }
+        .panel-body {
+            padding: 18px 20px;
+        }
+        .session-grid > div {
+            margin-bottom: 12px;
+        }
+        .session-label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.82rem;
+            color: #5b7088;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
         .badge-rol { background-color: #0d6efd; }
         .badge-empresa { background-color: #198754; }
         .badge-rut { background-color: #6f42c1; }
@@ -69,9 +146,13 @@ if ($checkTable && !$checkTable->EOF && $checkTable->fields['existe'] != '') {
         .badge-especial { background-color: #dc3545; }
         .badge-siempre { background-color: #6c757d; }
         .variable-box {
-            background: #e9ecef;
-            padding: 4px 8px;
-            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            min-height: 34px;
+            background: #eef4fb;
+            color: #16324f;
+            padding: 6px 10px;
+            border-radius: 10px;
             font-family: monospace;
             font-size: 0.85em;
         }
@@ -84,142 +165,200 @@ if ($checkTable && !$checkTable->EOF && $checkTable->fields['existe'] != '') {
         }
         .btn-action { padding: 0.25rem 0.5rem; font-size: 0.875rem; }
         .row-inactive { opacity: 0.5; }
+        .legend-chip {
+            color: #fff;
+            margin: 0 8px 8px 0;
+        }
+        .legend-chip.text-dark { color: #212529 !important; }
+        .table thead.table-dark th {
+            background: #001f3f;
+            border-color: #001f3f;
+            white-space: nowrap;
+        }
+        .table > :not(caption) > * > * {
+            vertical-align: middle;
+        }
+        .table tbody td {
+            font-size: 0.93rem;
+        }
+        .modal-header-accent {
+            background: linear-gradient(135deg, #001f3f 0%, #0b5ed7 100%);
+            color: #fff;
+            border-bottom: 0;
+            border-radius: 16px 16px 0 0;
+        }
+        .modal-footer {
+            border-top-color: #e4edf6;
+        }
+        pre.sql-preview {
+            max-height: 300px;
+            overflow: auto;
+            margin-top: 12px;
+            margin-bottom: 0;
+            border-radius: 12px;
+        }
     </style>
 </head>
 <body>
-<div class="container-fluid py-4">
-    <div class="row mb-4">
-        <div class="col">
-            <h2><i class="bi bi-shield-lock"></i> Reglas de Men&uacute;</h2>
-            <p class="text-muted">Administraci&oacute;n de visibilidad de opciones del men&uacute; seg&uacute;n roles, empresas y permisos.</p>
+<div class="page-shell">
+    <div class="topbar">
+        <div class="d-flex flex-column flex-xl-row justify-content-between align-items-xl-center gap-3">
+            <div>
+                <p class="topbar-meta mb-2"><i class="bi bi-shield-lock me-2"></i>Administraci&oacute;n avanzada</p>
+                <h1 class="topbar-title">Reglas de Men&uacute;</h1>
+                <p class="panel-note mb-0">Administraci&oacute;n de visibilidad de opciones del men&uacute; seg&uacute;n roles, empresas y permisos.</p>
+            </div>
+            <div class="d-flex flex-wrap gap-2 justify-content-xl-end">
+                <span class="topbar-chip"><i class="bi bi-person-badge"></i>Rol <?php echo h($codRol); ?></span>
+                <span class="topbar-chip"><i class="bi bi-building"></i>Empresa <?php echo h($codEmp); ?></span>
+                <?php if($tablaExiste): ?><span class="topbar-chip"><i class="bi bi-list-check"></i><?php echo count($menuRules); ?> regla(s)</span><?php endif; ?>
+            </div>
         </div>
     </div>
 
-    <!-- Info de sesión actual -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card border-info">
-                <div class="card-header bg-info text-white">
-                    <i class="bi bi-info-circle"></i> Variables de Sesi&oacute;n Actuales
+    <div class="panel">
+        <div class="panel-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
+            <div>
+                <strong class="d-block text-primary-emphasis"><i class="bi bi-info-circle me-2"></i>Variables de sesi&oacute;n actuales</strong>
+                <span class="legend-note">Referencia r&aacute;pida para construir y validar las condiciones de visibilidad.</span>
+            </div>
+            <span class="topbar-chip"><i class="bi bi-sliders"></i>Contexto activo</span>
+        </div>
+        <div class="panel-body">
+            <div class="row session-grid">
+                <div class="col-sm-6 col-lg-2">
+                    <span class="session-label">Rol</span>
+                    <span class="variable-box"><?php echo h($codRol); ?></span>
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-2"><strong>Rol:</strong> <span class="variable-box"><?php echo $codRol; ?></span></div>
-                        <div class="col-md-2"><strong>Empresa ID:</strong> <span class="variable-box"><?php echo $codEmp; ?></span></div>
-                        <div class="col-md-3"><strong>RUT Empresa:</strong> <span class="variable-box"><?php echo $rutEmp ?: '(vac&iacute;o)'; ?></span></div>
-                        <div class="col-md-2"><strong>GPuerto:</strong> <span class="variable-box"><?php echo $gpuerto ?: '0'; ?></span></div>
-                        <div class="col-md-3"><strong>Emite Web:</strong> <span class="variable-box"><?php echo $emiteWeb ?: '0'; ?></span></div>
-                    </div>
+                <div class="col-sm-6 col-lg-2">
+                    <span class="session-label">Empresa ID</span>
+                    <span class="variable-box"><?php echo h($codEmp); ?></span>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <span class="session-label">RUT Empresa</span>
+                    <span class="variable-box"><?php echo h($rutEmp ?: '(vac&iacute;o)'); ?></span>
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                    <span class="session-label">GPuerto</span>
+                    <span class="variable-box"><?php echo h($gpuerto ?: '0'); ?></span>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <span class="session-label">Emite Web</span>
+                    <span class="variable-box"><?php echo h($emiteWeb ?: '0'); ?></span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Leyenda y boton agregar -->
-    <div class="row mb-3">
-        <div class="col-8">
-            <span class="badge bg-primary me-2">Rol</span>
-            <span class="badge bg-success me-2">Empresa</span>
-            <span class="badge me-2" style="background-color:#6f42c1">RUT</span>
-            <span class="badge bg-warning text-dark me-2">Permiso</span>
-            <span class="badge bg-danger me-2">Especial</span>
-            <span class="badge bg-secondary me-2">Siempre</span>
-        </div>
-        <div class="col-4 text-end">
-<?php if($tablaExiste): ?>
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalRegla" onclick="limpiarModal()">
-                <i class="bi bi-plus-circle"></i> Nueva Regla
-            </button>
-<?php endif; ?>
+    <div class="panel">
+        <div class="panel-body">
+            <div class="d-flex flex-column flex-xl-row justify-content-between align-items-xl-center gap-3">
+                <div>
+                    <div class="mb-2">
+                        <span class="legend-chip bg-primary">Rol</span>
+                        <span class="legend-chip bg-success">Empresa</span>
+                        <span class="legend-chip" style="background-color:#6f42c1">RUT</span>
+                        <span class="legend-chip bg-warning text-dark">Permiso</span>
+                        <span class="legend-chip bg-danger">Especial</span>
+                        <span class="legend-chip bg-secondary">Siempre</span>
+                    </div>
+                    <p class="legend-note mb-0">Cada regla controla la aparici&oacute;n de una opci&oacute;n del men&uacute; seg&uacute;n el contexto activo.</p>
+                </div>
+                <?php if($tablaExiste): ?>
+                <div class="text-xl-end">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalRegla" onclick="limpiarModal()">
+                        <i class="bi bi-plus-circle me-1"></i>Nueva Regla
+                    </button>
+                </div>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 
 <?php if(!$tablaExiste): ?>
-    <!-- Mensaje para crear tabla -->
-    <div class="row">
-        <div class="col-12">
-            <div class="alert alert-warning">
+    <div class="panel">
+        <div class="panel-body">
+            <div class="alert alert-warning mb-0">
                 <i class="bi bi-exclamation-triangle"></i> <strong>Tabla no encontrada:</strong>
                 La tabla <code>menu_reglas</code> no existe en la base de datos.
                 <br><br>
                 <strong>Para crearla, ejecute el siguiente script SQL:</strong>
-                <pre class="bg-dark text-light p-3 mt-2" style="max-height:300px;overflow:auto;"><?php echo htmlspecialchars(file_get_contents("../sql/menu_reglas.sql")); ?></pre>
+                <pre class="bg-dark text-light p-3 sql-preview"><?php echo h(file_get_contents("../sql/menu_reglas.sql")); ?></pre>
                 <a href="menu_rules.php" class="btn btn-primary mt-2"><i class="bi bi-arrow-clockwise"></i> Recargar</a>
             </div>
         </div>
     </div>
 <?php else: ?>
-    <!-- Tabla de reglas -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <span><i class="bi bi-list-check"></i> Reglas de Visibilidad (<?php echo count($menuRules); ?>)</span>
-                </div>
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover mb-0" id="tablaReglas">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th style="width:5%">#</th>
-                                    <th style="width:12%">Men&uacute;</th>
-                                    <th style="width:15%">Opci&oacute;n</th>
-                                    <th style="width:8%">Tipo</th>
-                                    <th style="width:10%">Variable</th>
-                                    <th style="width:8%">Op.</th>
-                                    <th style="width:12%">Valor</th>
-                                    <th style="width:5%">Act.</th>
-                                    <th style="width:12%">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+    <div class="panel">
+        <div class="panel-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
+            <div>
+                <strong class="d-block text-primary-emphasis"><i class="bi bi-list-check me-2"></i>Reglas de visibilidad</strong>
+                <span class="legend-note">Edite, active o elimine reglas sin salir de esta pantalla.</span>
+            </div>
+            <span class="topbar-chip"><i class="bi bi-collection"></i><?php echo count($menuRules); ?> registro(s)</span>
+        </div>
+        <div class="panel-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-sm mb-0" id="tablaReglas">
+                    <thead class="table-dark">
+                        <tr>
+                            <th style="width:5%">#</th>
+                            <th style="width:12%">Men&uacute;</th>
+                            <th style="width:15%">Opci&oacute;n</th>
+                            <th style="width:8%">Tipo</th>
+                            <th style="width:10%">Variable</th>
+                            <th style="width:8%">Op.</th>
+                            <th style="width:12%">Valor</th>
+                            <th style="width:5%">Act.</th>
+                            <th style="width:12%">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 <?php foreach($menuRules as $rule): ?>
-                                <tr class="<?php echo $rule['activo']=='N' ? 'row-inactive' : ''; ?>" id="row-<?php echo $rule['id']; ?>">
-                                    <td><?php echo $rule['id']; ?></td>
-                                    <td><strong><?php echo htmlspecialchars($rule['menu']); ?></strong></td>
-                                    <td><?php echo htmlspecialchars($rule['opcion']); ?></td>
-                                    <td>
-                                        <span class="badge <?php
-                                            switch($rule['tipo_regla']) {
-                                                case 'rol': echo 'bg-primary'; break;
-                                                case 'empresa': echo 'bg-success'; break;
-                                                case 'rut': echo 'bg-purple'; break;
-                                                case 'permiso': echo 'bg-warning text-dark'; break;
-                                                case 'especial': echo 'bg-danger'; break;
-                                                default: echo 'bg-secondary';
-                                            }
-                                        ?>" style="<?php echo $rule['tipo_regla']=='rut' ? 'background-color:#6f42c1' : ''; ?>">
-                                            <?php echo ucfirst($rule['tipo_regla']); ?>
-                                        </span>
-                                    </td>
-                                    <td><code><?php echo htmlspecialchars($rule['variable']); ?></code></td>
-                                    <td><code><?php echo htmlspecialchars($rule['operador']); ?></code></td>
-                                    <td><span class="variable-box"><?php echo htmlspecialchars($rule['valor']); ?></span></td>
-                                    <td>
-                                        <span class="badge <?php echo $rule['activo']=='S' ? 'bg-success' : 'bg-secondary'; ?>">
-                                            <?php echo $rule['activo']=='S' ? 'S&iacute;' : 'No'; ?>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-primary btn-action" onclick="editarRegla(<?php echo htmlspecialchars(json_encode($rule)); ?>)" title="Editar">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-sm btn-<?php echo $rule['activo']=='S' ? 'warning' : 'success'; ?> btn-action" onclick="toggleActivo(<?php echo $rule['id']; ?>)" title="<?php echo $rule['activo']=='S' ? 'Desactivar' : 'Activar'; ?>">
-                                            <i class="bi bi-<?php echo $rule['activo']=='S' ? 'pause' : 'play'; ?>"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-sm btn-danger btn-action" onclick="eliminarRegla(<?php echo $rule['id']; ?>)" title="Eliminar">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+                        <tr class="<?php echo $rule['activo']=='N' ? 'row-inactive' : ''; ?>" id="row-<?php echo $rule['id']; ?>">
+                            <td><?php echo $rule['id']; ?></td>
+                            <td><strong><?php echo htmlspecialchars($rule['menu']); ?></strong></td>
+                            <td><?php echo htmlspecialchars($rule['opcion']); ?></td>
+                            <td>
+                                <span class="badge <?php
+                                    switch($rule['tipo_regla']) {
+                                        case 'rol': echo 'bg-primary'; break;
+                                        case 'empresa': echo 'bg-success'; break;
+                                        case 'rut': echo 'bg-purple'; break;
+                                        case 'permiso': echo 'bg-warning text-dark'; break;
+                                        case 'especial': echo 'bg-danger'; break;
+                                        default: echo 'bg-secondary';
+                                    }
+                                ?>" style="<?php echo $rule['tipo_regla']=='rut' ? 'background-color:#6f42c1' : ''; ?>">
+                                    <?php echo ucfirst($rule['tipo_regla']); ?>
+                                </span>
+                            </td>
+                            <td><code><?php echo htmlspecialchars($rule['variable']); ?></code></td>
+                            <td><code><?php echo htmlspecialchars($rule['operador']); ?></code></td>
+                            <td><span class="variable-box"><?php echo htmlspecialchars($rule['valor']); ?></span></td>
+                            <td>
+                                <span class="badge <?php echo $rule['activo']=='S' ? 'bg-success' : 'bg-secondary'; ?>">
+                                    <?php echo $rule['activo']=='S' ? 'S&iacute;' : 'No'; ?>
+                                </span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-primary btn-action" onclick="editarRegla(<?php echo htmlspecialchars(json_encode($rule)); ?>)" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-<?php echo $rule['activo']=='S' ? 'warning' : 'success'; ?> btn-action" onclick="toggleActivo(<?php echo $rule['id']; ?>)" title="<?php echo $rule['activo']=='S' ? 'Desactivar' : 'Activar'; ?>">
+                                    <i class="bi bi-<?php echo $rule['activo']=='S' ? 'pause' : 'play'; ?>"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-danger btn-action" onclick="eliminarRegla(<?php echo $rule['id']; ?>)" title="Eliminar">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
 <?php endforeach; ?>
 <?php if(empty($menuRules)): ?>
-                                <tr><td colspan="9" class="text-center text-muted py-4">No hay reglas configuradas. Haga clic en "Nueva Regla" para agregar.</td></tr>
+                        <tr><td colspan="9" class="text-center text-muted py-4">No hay reglas configuradas. Haga clic en "Nueva Regla" para agregar.</td></tr>
 <?php endif; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -230,7 +369,7 @@ if ($checkTable && !$checkTable->EOF && $checkTable->fields['existe'] != '') {
 <div class="modal fade" id="modalRegla" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
+            <div class="modal-header modal-header-accent">
                 <h5 class="modal-title" id="modalReglaTitle"><i class="bi bi-plus-circle"></i> Nueva Regla</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>

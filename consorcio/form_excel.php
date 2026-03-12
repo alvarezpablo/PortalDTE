@@ -1,127 +1,102 @@
-<?php 
-  include("../include/config.php");  
-  include("../include/ver_aut.php");      
-  include("../include/ver_emp_adm.php"); 
+<?php
+include("../include/config.php");
+include("../include/ver_aut.php");
+include("../include/ver_emp_adm.php");
+include("../include/tables.php");
 
-  include("../include/tables.php");  
-  $sMsgJs = trim($_GET["sMsgJs"]);  
+function h($value){ return htmlspecialchars((string)$value, ENT_QUOTES, 'ISO-8859-1'); }
+function jsq($value){ return str_replace(array("\\", "'", "\r", "\n"), array("\\\\", "\\'", "", "\\n"), (string)$value); }
+function alertExpr($value){
+	$value = trim((string)$value);
+	if($value === "") return "";
+	if(preg_match('/^[_A-Za-z][_A-Za-z0-9]*$/', $value)) return "alert(" . $value . ");";
+	return "alert('" . jsq($value) . "');";
+}
+
+$sMsgJs = isset($_GET["sMsgJs"]) ? trim((string)$_GET["sMsgJs"]) : "";
+$alertCall = alertExpr($sMsgJs);
 ?>
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-<html>
-	
-	<head>
-		<link rel="shortcut icon" href="/favicon.ico">
-		<title>OpenB</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<base href="<?php echo $_LINK_BASE; ?>" />
-		<script language="javascript" type="text/javascript" src="javascript/common.js"></script>
-		<script language="javascript" type="text/javascript" src="javascript/msg.js"></script>		
-		<link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/general.css">
-		<link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/main/custom.css">
-		<link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/main/layout.css">
-		<link rel="stylesheet" type="text/nonsense" href="skins/<?php echo $_SKINS; ?>/css/misc.css">
-
-
-<script type="text/javascript">
-<!--
-
-
-function _body_onload()
-{
-	loff();
-  
- <?php 
-  if($sMsgJs != "")
-    echo "alert('" . $sMsgJs . "');\n";
- 
- ?>   
-   
-	SetContext('cl_ed');
-		
-}
-
-function _body_onunload()
-{
-	lon();
-	
-}
-
-//-->
-		</script>
-	</head>
-
-	<body onLoad="_body_onload();" onUnload="_body_onunload();" id="mainCP" class="visibilityAdminMode">
-	
-	<a href="#" name="top" id="top"></a>
-	<table border="0" cellspacing="0" cellpadding="0" id="loaderContainer" onClick="return false;"><tr><td id="loaderContainerWH"><div id="loader"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><p><img src="skins/<?php echo $_SKINS; ?>/icons/loading.gif" height="32" width="32" alt=""/><strong>Por favor espere.<br>Cargando ...</strong></p></td></tr></table></div></td></tr></table>
-
-	<table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td id="screenWH">
-	<div class="pathbar"><a href="javascript:void(0);">Carga de Boletas Electr&oacute;nica</a> &gt;</div>
-	<div class="screenTitle">
-		<table width="100%" cellspacing="0">
-		<tr>
-			<td>Carga de Boletas Electr&oacute;nica:</td>
-			<td class="uplevel"><div class="commonButton" id="bid-up-level" title="Subir nivel"><button name="bname_up_level">Subir nivel</button><span>Subir nivel</span></div></td>
-		</tr>
-		</table>
-	</div>
-	<div id="screenSubTitle"></div>
-	<div id="screenTabs">
-		<div id="tabs">
-			
-		</div>
-
-	</div>
-	<div class="screenBody" id="">
-
-  <form name="_FFORM" enctype="multipart/form-data" action="consorcio/pro_excel.php" method="post">
-      <input type="hidden" name="MAX_FILE_SIZE" value="100000000"> 
-  		
-	<div class="formArea">
-		<fieldset>
-
-<legend>Formulario de Carga de Boletas </legend>
-<table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td>
-
-<table class="formFields" cellspacing="0" width="100%">
-	<tr>
-		<td class="name"><label for="fid-cname">Archivo Excel Boletas:</label>&nbsp;*</td>
-		<td><input type="file" name="sFileCaf" id="fid-cname" value="" size="25" maxlength="1000"></td>
-	</tr>
-</table>
-
-
-</td></tr></table></fieldset>
-
-
-	</div>
-	
-	<div class="formArea">
-		<table width="100%" class="buttons" cellspacing="0" cellpadding="0"><tr>
-			<td class="main" width="0"></td>
-			<td class="footnote"><span class="required">*</span> Campos requeridos.</td>
-			<td class="misc" width="0">
-				<div class="commonButton" id="bid-ok" title="Aceptar" onClick="document._FFORM.submit();" onMouseOver="" onMouseOut=""><button name="bname_ok">Aceptar</button><span>Aceptar</span></div>
-				<div class="commonButton" id="bid-cancel" title="Cancelar" onClick="location.href='<?php echo $_LINK_BASE; ?>main.php';" onMouseOver="" onMouseOut=""><button name="bname_cancel">Cancelar</button><span>Cancelar</span></div>
-			</td>
-		</tr></table>
-
-
-
-	</div>
-
-</form>
-
-	</div>
-	</td></tr></table>
-	</body>
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<link rel="shortcut icon" href="/favicon.ico">
+	<title>Carga de Boletas - Portal DTE</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<base href="<?php echo h($_LINK_BASE); ?>" />
+	<script type="text/javascript" src="javascript/common.js"></script>
+	<script type="text/javascript" src="javascript/msg.js"></script>
+	<link rel="stylesheet" type="text/css" href="skins/<?php echo h($_SKINS); ?>/css/general.css">
+	<link rel="stylesheet" type="text/css" href="skins/<?php echo h($_SKINS); ?>/css/main/custom.css">
+	<link rel="stylesheet" type="text/css" href="skins/<?php echo h($_SKINS); ?>/css/main/layout.css">
+	<link rel="stylesheet" type="text/nonsense" href="skins/<?php echo h($_SKINS); ?>/css/misc.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+	<style>
+		body{background:#eef2f7;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:#1f2937}
+		.page-shell{max-width:920px;margin:0 auto;padding:1rem}
+		.form-card{border:0;border-radius:18px;box-shadow:0 18px 40px rgba(15,23,42,.12);overflow:hidden}
+		.form-card .card-header{background:linear-gradient(135deg,#001f3f 0%,#0b5ed7 100%);color:#fff;padding:1.1rem 1.35rem}
+		.section-note{background:#f8fafc;border:1px solid #dbe5f1;border-radius:14px;padding:1rem}
+		.upload-panel{border:1px dashed #bfd0e5;border-radius:16px;background:#f8fbff;padding:1.25rem}
+		#loaderContainer{position:fixed;inset:0;background:rgba(15,23,42,.3);z-index:1050}
+		#loaderContainerWH{vertical-align:middle;text-align:center}
+		#loader{display:inline-block;background:#fff;border-radius:14px;padding:1rem 1.25rem;box-shadow:0 12px 28px rgba(15,23,42,.18)}
+	</style>
 	<script type="text/javascript">
-		try {
-			lsetup();
-		} catch (e) {
-		}
+	function _body_onload(){ try{ loff(); }catch(e){} <?php if($alertCall !== ""){ echo $alertCall; } ?> try{ SetContext('cl_ed'); }catch(e){} }
+	function _body_onunload(){ try{ lon(); }catch(e){} }
 	</script>
+</head>
+<body onload="_body_onload();" onunload="_body_onunload();" id="mainCP" class="visibilityAdminMode">
+	<form name="_FFORM" enctype="multipart/form-data" action="consorcio/pro_excel.php" method="post">
+		<input type="hidden" name="MAX_FILE_SIZE" value="100000000">
+		<a href="#" name="top" id="top"></a>
+		<table border="0" cellspacing="0" cellpadding="0" id="loaderContainer" onclick="return false;"><tr><td id="loaderContainerWH"><div id="loader"><p class="mb-0"><img src="skins/<?php echo h($_SKINS); ?>/icons/loading.gif" height="32" width="32" alt="" class="me-2"/><strong>Por favor espere.<br>Cargando ...</strong></p></div></td></tr></table>
+		<div class="page-shell">
+			<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+				<div>
+					<div class="small text-secondary">Consorcio &gt; Carga de Boletas</div>
+					<h1 class="h3 mb-0">Carga de Boletas Electronicas</h1>
+				</div>
+				<a href="main.php" class="btn btn-outline-secondary"><i class="bi bi-arrow-left-circle me-2"></i>Volver</a>
+			</div>
+			<div class="card form-card">
+				<div class="card-header"><i class="bi bi-file-earmark-spreadsheet me-2"></i>Formulario de carga</div>
+				<div class="card-body p-4">
+					<div class="section-note mb-4 small text-secondary">Se conserva el flujo original hacia <strong>consorcio/pro_excel.php</strong>, el campo <code>sFileCaf</code> y el limite legado definido para esta carga.</div>
+					<div class="upload-panel">
+						<div class="row g-4 align-items-center">
+							<div class="col-lg-8">
+								<label for="sFileCaf" class="form-label fw-semibold">Archivo Excel Boletas <span class="text-danger">*</span></label>
+								<input type="file" class="form-control" name="sFileCaf" id="sFileCaf" size="25" maxlength="1000">
+								<div class="form-text">Seleccione el archivo Excel que sera enviado al proceso de carga existente.</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="small text-secondary">
+									<div class="fw-semibold text-dark mb-2">Recomendaciones</div>
+									<ul class="mb-0 ps-3">
+										<li>Use la plantilla vigente del modulo.</li>
+										<li>Revise el mensaje final del proceso.</li>
+										<li>No cambie los nombres de columnas.</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-footer bg-white border-0 px-4 pb-4 pt-0">
+					<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+						<div class="small text-secondary"><span class="text-danger">*</span> Campos requeridos.</div>
+						<div class="d-flex gap-2">
+							<button type="submit" class="btn btn-primary"><i class="bi bi-check-circle me-2"></i>Aceptar</button>
+							<a href="main.php" class="btn btn-outline-secondary"><i class="bi bi-x-circle me-2"></i>Cancelar</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<script type="text/javascript">try{ lsetup(); }catch(e){}</script>
+</body>
 </html>

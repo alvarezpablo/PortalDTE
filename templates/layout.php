@@ -164,11 +164,11 @@ function generarMenu($skins, $codRol, $codEmp, $rutEmp, $gpuerto, $emiteWeb) {
         'items' => $cafItems
     ];
 
-    // Carga DTE (Grupo Puerto - gpuerto=1 o admin)
+    // Grupo Puerto (gpuerto=1 o admin)
     if ($gpuerto == "1" || $codRol == "1") {
         $menu[] = [
-            'id' => 'carga_dte',
-            'titulo' => 'Carga DTE',
+            'id' => 'grupo_puerto',
+            'titulo' => 'Grupo Puerto',
             'icon' => 'bi-cloud-upload',
             'items' => [
                 ['link' => 'laudus/gpuerto.php', 'text' => 'Carga Excel DTE', 'icon' => 'bi-file-earmark-excel'],

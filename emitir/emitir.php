@@ -25,20 +25,20 @@
 	}
 
 	function tipoDTE($nTipo){
-		if($nTipo == "33") $nTipo = "Factura Electrónica";
-		if($nTipo == "34") $nTipo = "Factura No Afecta o Exenta Electrónica";
-		if($nTipo == "39") $nTipo = "Boleta Electrónica";
-		if($nTipo == "41") $nTipo = "Boleta Exenta Electrónica";
-		if($nTipo == "43") $nTipo = "Liquidación Factura Electrónica";
-		if($nTipo == "46") $nTipo = "Factura de Compra Electrónica";
-		if($nTipo == "52") $nTipo = "Guía de Despacho Electrónica";
-		if($nTipo == "56") $nTipo = "Nota de Débito Electrónica";
-		if($nTipo == "61") $nTipo = "Nota de Crédito Electrónica";
+		if($nTipo == "33") $nTipo = "Factura Electrï¿½nica";
+		if($nTipo == "34") $nTipo = "Factura No Afecta o Exenta Electrï¿½nica";
+		if($nTipo == "39") $nTipo = "Boleta Electrï¿½nica";
+		if($nTipo == "41") $nTipo = "Boleta Exenta Electrï¿½nica";
+		if($nTipo == "43") $nTipo = "Liquidaciï¿½n Factura Electrï¿½nica";
+		if($nTipo == "46") $nTipo = "Factura de Compra Electrï¿½nica";
+		if($nTipo == "52") $nTipo = "Guï¿½a de Despacho Electrï¿½nica";
+		if($nTipo == "56") $nTipo = "Nota de Dï¿½bito Electrï¿½nica";
+		if($nTipo == "61") $nTipo = "Nota de Crï¿½dito Electrï¿½nica";
 
 		return $nTipo;
-//		if($nTipo == "110") $nTipo = "Factura Electrónica";
-//		if($nTipo == "111") $nTipo = "Factura Electrónica";
-//		if($nTipo == "112") $nTipo = "Factura Electrónica";
+//		if($nTipo == "110") $nTipo = "Factura Electrï¿½nica";
+//		if($nTipo == "111") $nTipo = "Factura Electrï¿½nica";
+//		if($nTipo == "112") $nTipo = "Factura Electrï¿½nica";
 	}
 
 
@@ -489,6 +489,8 @@ else{
 <title>OpenDTE</title>
 
 <link rel="stylesheet" type="text/css" href="inc/estilo.css" media="all"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 <script language="JavaScript" type="text/JavaScript" src="inc/funciones.js"></script>
 
 <!--script de cada pagina-->
@@ -623,7 +625,7 @@ return false;
 	
 	if (numerico(form.folio.value.trim(),"",1) == false){
 		form.folio.focus();
-		alert("Ingrese folio Númerico del DTE...");
+		alert("Ingrese folio Nï¿½merico del DTE...");
 		return false;
 	}
 <?php }	?>
@@ -712,7 +714,7 @@ return false;
 	}
 
 	if(form.tipodocto_ref1.options[form.tipodocto_ref1.selectedIndex].value == "2" && parseFloat(eval("form.total_t.value")) > 0){
-		alert("Los Documentos de Corrección de Texto, administrativas, debe ser Emitida por un Monto Total de 0...");
+		alert("Los Documentos de Correcciï¿½n de Texto, administrativas, debe ser Emitida por un Monto Total de 0...");
 		form.tipodocto_ref1.focus();
 		return false;		
 	}
@@ -840,8 +842,8 @@ function traeCliente(){
 	}
 
 	if(rutClie != "" && rutClie != rutClieOld){
-		if (rut(rutClie,"Formato de RUT Incorrecto, ingresar sin punto y con guión") == false){
-	//		alert("Formato de RUT Incorrecto, ingresar sin punto y con guión.");
+		if (rut(rutClie,"Formato de RUT Incorrecto, ingresar sin punto y con guiï¿½n") == false){
+	//		alert("Formato de RUT Incorrecto, ingresar sin punto y con guiï¿½n.");
 			document.getElementById('rut_cliente').value = "";
 		}
 		else{
@@ -852,15 +854,15 @@ function traeCliente(){
 
 			// Realizar la solicitud POST utilizando fetch
 			fetch('<?php echo $_LINK_BASE; ?>emitir/ws_clie.php', {
-				method: 'POST', // Método HTTP
+				method: 'POST', // Mï¿½todo HTTP
 				headers: {
-					'Content-Type': 'application/json' // Indica que se envían datos JSON
+					'Content-Type': 'application/json' // Indica que se envï¿½an datos JSON
 				},
 				body: JSON.stringify(data) // Convierte el objeto de datos a JSON
 			})
 			.then(response => response.json()) // Procesar la respuesta como JSON
 			.then(data => {
-				// Aquí accedes a los datos del JSON
+				// Aquï¿½ accedes a los datos del JSON
 				if (data.status === 'error') {
 		//            console.error('Error:', data.message);
 					if(rutClie != rutClieOld && rutClieOld != ""){
@@ -872,7 +874,7 @@ function traeCliente(){
 						document.getElementById('comuna').value = "";
 					}
 				} else {
-		  //          console.log('Éxito:', data);
+		  //          console.log('ï¿½xito:', data);
 					  document.getElementById('codigo_cliente').value = data.data.cod_clie;
 					  document.getElementById('razon_social').value = data.data.raz_social;
 					  document.getElementById('giro').value = data.data.giro_clie;
@@ -919,27 +921,225 @@ function traeCliente(){
 <!---fin de script de cada pagina-->
 
 <style type="text/css">
-	
-.fondo{
-	background-color: #FBFCFC; 
-	background-image: url("../skins/aqua/images/main_bg.gif"); 
-	background-repeat: repeat-y;
-}
+	body{
+		background:#eef2f7;
+		font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+		color:#1f2937;
+	}
+	.fondo{
+		background:#eef2f7;
+	}
+	.page-shell{
+		max-width:1400px;
+		margin:0 auto;
+		padding:16px;
+	}
+	.topbar{
+		display:flex;
+		justify-content:space-between;
+		align-items:flex-start;
+		gap:16px;
+		flex-wrap:wrap;
+		margin-bottom:16px;
+	}
+	.topbar-eyebrow{
+		font-size:11px;
+		font-weight:700;
+		letter-spacing:.08em;
+		text-transform:uppercase;
+		color:#0b5ed7;
+		margin-bottom:4px;
+	}
+	.topbar-title{
+		margin:0;
+		font-size:28px;
+		font-weight:700;
+		color:#001f3f;
+	}
+	.topbar-meta{
+		margin-top:6px;
+		max-width:720px;
+		font-size:13px;
+		color:#64748b;
+	}
+	.topbar-chip{
+		display:inline-flex;
+		align-items:center;
+		gap:8px;
+		padding:8px 14px;
+		border:1px solid #cfe0f5;
+		border-radius:999px;
+		background:#f8fbff;
+		color:#0b5ed7;
+		font-size:12px;
+		font-weight:700;
+	}
+	.panel{
+		border:1px solid rgba(15,23,42,.08);
+		border-radius:20px;
+		box-shadow:0 16px 40px rgba(15,23,42,.08);
+		overflow:hidden;
+		background:#fff;
+	}
+	.panel-header{
+		padding:16px 20px;
+		background:linear-gradient(135deg,#001f3f 0%,#0b5ed7 100%);
+		color:#fff;
+	}
+	.panel-title{
+		font-size:18px;
+		font-weight:700;
+	}
+	.panel-subtitle{
+		margin-top:4px;
+		font-size:13px;
+		opacity:.92;
+	}
+	.panel-body{
+		padding:20px;
+	}
+	.section-card{
+		background:#f8fbff;
+		border:1px solid #d8e4f0;
+		border-radius:16px;
+		padding:14px 16px;
+		margin-bottom:16px;
+	}
+	.legacy-form-table,
+	.legacy-items-table,
+	.legacy-totals-table,
+	.legacy-ref-table{
+		width:100% !important;
+		margin:0 auto !important;
+	}
+	.legacy-items-table,
+	.legacy-ref-table{
+		min-width:980px;
+	}
+	.table-wrap{
+		overflow-x:auto;
+	}
+	.reference-wrap{
+		overflow:auto;
+		max-height:320px;
+	}
+	.cab_campo{
+		background:#001f3f;
+		color:#fff;
+		font-weight:600;
+		border-radius:10px;
+		padding:10px 12px;
+	}
+	.texto{
+		background:#fff;
+		border:1px solid #d9e2ec;
+		border-radius:10px;
+		padding:10px 12px;
+	}
+	.ttitulo{
+		color:#001f3f;
+		font-size:15px;
+		font-weight:700;
+	}
+	.campo,
+	.texto input:not([type='hidden']),
+	.texto textarea,
+	.texto select{
+		width:auto;
+		max-width:100%;
+		border:1px solid #cbd5e1;
+		border-radius:10px;
+		padding:7px 10px;
+		font-size:13px;
+		background:#fff;
+		color:#0f172a;
+	}
+	.texto textarea{
+		width:100%;
+		resize:vertical;
+	}
+	.texto input[disabled],
+	.texto textarea[disabled],
+	.texto select[disabled],
+	.campo[disabled]{
+		background:#f8fafc;
+		color:#475569;
+		opacity:1;
+	}
+	.texto img{
+		vertical-align:middle;
+		margin-left:6px;
+	}
+	.nota{
+		color:#dc2626;
+		font-weight:700;
+	}
+	.legacy-items-table td,
+	.legacy-ref-table td,
+	.legacy-form-table td,
+	.legacy-totals-table td{
+		padding:5px 6px;
+		vertical-align:top;
+	}
+	.legacy-items-table tr[bgcolor] td.texto{
+		background:#fff;
+	}
+	.legacy-totals-table .ttitulo{
+		white-space:nowrap;
+	}
+	.form-actions{
+		display:flex;
+		justify-content:flex-end;
+		gap:12px;
+		flex-wrap:wrap;
+	}
+	.boton{
+		border:1px solid #0b5ed7;
+		border-radius:999px;
+		padding:10px 18px;
+		background:#0b5ed7;
+		color:#fff;
+		font-size:13px;
+		font-weight:700;
+		cursor:pointer;
+	}
+	.boton:hover{
+		background:#0a58ca;
+	}
+	.boton-secundario{
+		background:#fff;
+		color:#0b5ed7;
+	}
+	.boton-secundario:hover{
+		background:#eff6ff;
+	}
+	@media (max-width: 768px){
+		.page-shell{
+			padding:12px;
+		}
+		.topbar-title{
+			font-size:24px;
+		}
+		.panel-body{
+			padding:16px;
+		}
+		.form-actions{
+			justify-content:stretch;
+		}
+		.form-actions .boton{
+			width:100%;
+		}
+	}
 </style>
 
 <?php //require('dos_up.php');?>
 <!--inicio cuerpo pagina-->
 
-<body topmargin="0" rightmargin="0" bottommargin="0" leftmargin="0">
+<body class="fondo" topmargin="0" rightmargin="0" bottommargin="0" leftmargin="0">
 <form name="formulario1" action="" method="post" enctype="multipart/form-data">
 <input type="hidden" name="accion" value="" readonly>
 <input type="hidden" name="t" value="<?php echo $nTipo; ?>" readonly>
 
-
-<table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0">
-<tr height="100%"><td>
-
-<!---cuerpo total con menu -->
 
 <input type="hidden" name="codigo" value="" readonly>
 <input type="hidden" name="codigo2" value="" readonly>
@@ -954,13 +1154,24 @@ exit();
 }
 ?>
 
-<table width="96%" align="center" cellspacing="3">
-<tr>
-<td align="left" class="ttitulo"><b><?php echo tipoDTE($nTipo); ?></b></td>
-<tr>
-</table>
+<div class="page-shell">
+	<div class="topbar">
+		<div>
+			<div class="topbar-eyebrow">Emision de DTE</div>
+			<h1 class="topbar-title"><?php echo tipoDTE($nTipo); ?></h1>
+			<div class="topbar-meta">Complete los datos del documento, del cliente, de los items y de las referencias usando el mismo flujo legacy de generacion y previsualizacion.</div>
+		</div>
+		<div class="topbar-chip"><i class="bi bi-hash"></i> Tipo <?php echo $nTipo; ?></div>
+	</div>
 
-<table width="96%" align="center" cellspacing="5">
+	<div class="card panel">
+		<div class="panel-header">
+			<div class="panel-title"><i class="bi bi-file-earmark-text me-2"></i><?php echo tipoDTE($nTipo); ?></div>
+			<div class="panel-subtitle">Vista compacta para emitir documentos sin alterar validaciones, acciones, hooks JavaScript ni firma XML.</div>
+		</div>
+		<div class="card-body panel-body">
+			<div class="section-card">
+				<table class="legacy-form-table" width="96%" align="center" cellspacing="5">
 
 <?php 	if($sRepetaFolio == "S"){	?>
 <tr>
@@ -1044,16 +1255,17 @@ exit();
 
 
 </table>
+			</div>
 
-<!-- <div style="max-height: 600px; overflow-y: auto; width: 100%;"> -->
-
-<table width="96%" align="center" cellspacing="5">
+			<div class="section-card">
+				<div class="table-wrap">
+					<table class="legacy-items-table" width="96%" align="center" cellspacing="5">
 <tr>
 <td class='cab_campo' height="20" align='left' colspan='7'><b>Factura Afecta - Datos de Items</b></td>
 </tr>
 <tr>
 <td width="5%" align='center' class='cab_campo' valign="middle"><b>#</b></td>
-<td width="15%" align='center' class='cab_campo' valign="middle"><b>Tipo - Código</b></td>
+<td width="15%" align='center' class='cab_campo' valign="middle"><b>Tipo - Cï¿½digo</b></td>
 <td width="20%" align='center' class='cab_campo' valign="middle"><b>Item - Descripcion</b></td>
 <td width="10%" align='center' class='cab_campo' valign="middle"><b>Cantidad</b></td>
 <td width="10%" align='center' class='cab_campo' valign="middle"><b>Valor Unit.</b></td>
@@ -1152,8 +1364,8 @@ if ($a%2==0)$bgcolor="#ffffff"; else $bgcolor='#f3f3f3';
 </tr>
 <?php } ?>
 </table>
-<!-- </div> -->
-<table width="96%" align="center" cellspacing="5">
+				</div>
+				<table class="legacy-totals-table" width="96%" align="center" cellspacing="5">
 <tr height="40px">
 <td align="right" class="ttitulo">Neto&nbsp;</td>
 <td align="left"><input type='text' name='neto' value='0' dir="rtl" class='campo' size='18'  maxlength='15' readonly></td>
@@ -1168,13 +1380,14 @@ if ($a%2==0)$bgcolor="#ffffff"; else $bgcolor='#f3f3f3';
 <td align="left"><input type='text' name='total_t' value='0'  class='campo' dir="rtl" size='18' maxlength='15' readonly></td>
 </tr>
 </table>
+			</div>
 
-<div style="width: 100%;border-collapse: collapse;height: 200px;overflow-y: auto;">
-
-<table width="96%" align="center" cellspacing="5">
+			<div class="section-card">
+				<div class="reference-wrap">
+					<table class="legacy-ref-table" width="96%" align="center" cellspacing="5">
 <tr><td height="20" colspan="6" class="cab_campo">Referencia</td></tr>
 <tr>
-<td height="20" class="cab_campo" align="center">Nº.</td>
+<td height="20" class="cab_campo" align="center">Nï¿½.</td>
 <td height="20" class="cab_campo" align="center">Tipo Docto.</td>
 
 <?php if($nTipo == "61" || $nTipo == "56"){	?>
@@ -1192,18 +1405,18 @@ if ($a%2==0)$bgcolor="#ffffff"; else $bgcolor='#f3f3f3';
 
 
 <?php if($nTipo == "61"){	?>
-	<option value="33">Factura Afecta Electrónica</option>
-	<option value="34">Factura Exenta Electrónica</option>
-	<option value="39">Boleta Afecta Electrónica</option>
-	<option value="41">Boleta Exenta Electrónica</option>
-	<option value="56">Nota de Débito Electrónica</option>
+	<option value="33">Factura Afecta Electrï¿½nica</option>
+	<option value="34">Factura Exenta Electrï¿½nica</option>
+	<option value="39">Boleta Afecta Electrï¿½nica</option>
+	<option value="41">Boleta Exenta Electrï¿½nica</option>
+	<option value="56">Nota de Dï¿½bito Electrï¿½nica</option>
 <?php } ?>
 <?php if($nTipo == "56"){	?>
-	<option value="33">Factura Afecta Electrónica</option>
-	<option value="34">Factura Exenta Electrónica</option>
-	<option value="39">Boleta Afecta Electrónica</option>
-	<option value="41">Boleta Exenta Electrónica</option>
-	<option value="61">Nota Crédito Electrónica</option>
+	<option value="33">Factura Afecta Electrï¿½nica</option>
+	<option value="34">Factura Exenta Electrï¿½nica</option>
+	<option value="39">Boleta Afecta Electrï¿½nica</option>
+	<option value="41">Boleta Exenta Electrï¿½nica</option>
+	<option value="61">Nota Crï¿½dito Electrï¿½nica</option>
 <?php } ?>
 
 </select></td>
@@ -1448,22 +1661,16 @@ else{
 <?php } ?>
 
 </table>
-</div> <!-- referencia -->
-<table width="96%" align="center" cellspacing="5">
-<tr>
-<td colspan='6' align="right">
-<input type="button" name="save" class="boton" value="Generar DTE" onClick="javascript:grabar();">&nbsp;&nbsp;
-<input type="button" name="save" class="boton" value="Preview" onClick="javascript:preview();">&nbsp;&nbsp;
-</td>
-</tr>
-</table>
+				</div>
+			</div>
 
-</div></td>
-</tr>
-</table>
-<!---fin del cuerpo total-->
-<br><br></td></tr>
-</table>
+			<div class="form-actions">
+				<input type="button" name="save" class="boton" value="Generar DTE" onClick="javascript:grabar();">
+				<input type="button" name="save" class="boton boton-secundario" value="Preview" onClick="javascript:preview();">
+			</div>
+		</div>
+	</div>
+</div>
 </form>
 
 

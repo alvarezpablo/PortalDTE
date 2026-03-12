@@ -246,23 +246,65 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
 	    <style>
-	        :root { --primary-color: #001f3f; --secondary-color: #0074d9; }
-	        body { background: #eef2f7; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #1f2937; }
-	        .page-shell { max-width: 1600px; margin: 0 auto; }
-	        .page-hero { background: linear-gradient(135deg, #001f3f 0%, #0b5ed7 100%); color: #fff; border-radius: 18px; padding: 1.5rem; box-shadow: 0 12px 32px rgba(0, 31, 63, 0.18); margin-bottom: 1.25rem; }
-	        .page-hero h1 { font-size: 1.65rem; margin-bottom: 0.35rem; }
-	        .page-hero p { margin-bottom: 0; opacity: 0.92; }
-	        .hero-icon { width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.14); font-size: 1.45rem; }
-	        .hero-kpis { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-	        .hero-kpi { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; padding: 0.45rem 0.85rem; font-size: 0.82rem; }
-	        .card { border: 1px solid rgba(15,23,42,0.05); border-radius: 16px; box-shadow: 0 10px 25px rgba(15,23,42,0.08); margin-bottom: 20px; overflow: hidden; }
-	        .card-header { background: var(--primary-color); color: white; border-radius: 16px 16px 0 0 !important; font-weight: 600; padding: 0.9rem 1rem; }
+	        :root { --primary-color: #001f3f; --secondary-color: #0b5ed7; color-scheme: light; }
+	        body { background: #f4f7fb; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #16324f; }
+	        .page-shell { max-width: 1600px; margin: 0 auto; padding: 24px 16px 32px; }
+	        .topbar,
+	        .panel {
+	            background: #fff;
+	            border: 1px solid #dbe7f3;
+	            border-radius: 16px;
+	            box-shadow: 0 10px 30px rgba(0, 31, 63, 0.08);
+	        }
+	        .topbar {
+	            padding: 22px 24px;
+	            margin-bottom: 20px;
+	        }
+	        .topbar-title {
+	            color: #001f3f;
+	            font-size: 1.35rem;
+	            font-weight: 700;
+	            margin: 0;
+	        }
+	        .topbar-meta,
+	        .panel-note,
+	        .quick-note {
+	            color: #5b7088;
+	        }
+	        .topbar-chip {
+	            display: inline-flex;
+	            align-items: center;
+	            gap: 8px;
+	            border-radius: 999px;
+	            padding: 6px 12px;
+	            font-size: 0.88rem;
+	            font-weight: 600;
+	            background: #eef4fb;
+	            color: #0b5ed7;
+	        }
+	        .panel {
+	            margin-bottom: 18px;
+	            overflow: hidden;
+	        }
+	        .panel-header {
+	            padding: 16px 20px;
+	            border-bottom: 1px solid #e4edf6;
+	            background: linear-gradient(180deg, #f8fbff 0%, #f1f6fc 100%);
+	        }
+	        .panel-body {
+	            padding: 18px 20px;
+	        }
+	        .panel-footer {
+	            padding: 14px 20px;
+	            border-top: 1px solid #e4edf6;
+	            background: #fff;
+	        }
 	        .table thead th { background: var(--primary-color); color: white; font-weight: 500; font-size: 0.85rem; white-space: nowrap; position: sticky; top: 0; z-index: 1; }
 	        .table tbody td { vertical-align: middle; font-size: 0.8rem; }
 	        .table tbody tr:hover { background-color: #eef4fb; }
 	        .btn-action { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
 	        .sort-link { color: white; text-decoration: none; }
-	        .sort-link:hover { color: #ccc; }
+	        .sort-link:hover { color: #dbe7f3; }
 	        .form-label { font-weight: 600; font-size: 0.85rem; margin-bottom: 0.35rem; }
 	        .form-control, .form-select { font-size: 0.85rem; }
 	        .badge-estado { font-size: 0.72rem; padding: 0.45rem 0.6rem; }
@@ -274,7 +316,6 @@
 	        .filter-section { height: 100%; border: 1px solid #e5e7eb; border-radius: 14px; padding: 0.9rem 1rem; background: #fff; }
 	        .filter-section-title { font-size: 0.85rem; font-weight: 600; color: #0f172a; margin-bottom: 0.7rem; display: flex; align-items: center; gap: 0.45rem; }
 	        .filter-options { display: flex; flex-wrap: wrap; gap: 0.8rem 1.2rem; }
-	        .quick-note { font-size: 0.8rem; color: #64748b; }
 	        .btn-toolbar-wrap { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
 	        .results-toolbar { background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
 	        .hint-pill { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.75rem; background: #fff; border: 1px solid #dbe2ea; border-radius: 999px; font-size: 0.78rem; color: #475569; }
@@ -286,18 +327,19 @@
 	        .empty-state i { font-size: 3rem; }
 	        .pagination-wrap { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
 	        @media (max-width: 991.98px) {
-	            .page-hero { padding: 1.2rem; }
 	            .table-responsive { max-height: none; }
 	        }
 	        @media (max-width: 767.98px) {
-	            body { padding: 1rem !important; }
-	            .page-hero h1 { font-size: 1.35rem; }
-	            .card-header { padding: 0.8rem 0.9rem; }
+	            .page-shell { padding: 16px 12px 24px; }
+	            .topbar,
+	            .panel-header,
+	            .panel-body,
+	            .panel-footer { padding-left: 14px; padding-right: 14px; }
 	            .filter-options { gap: 0.75rem 1rem; }
 	        }
 	    </style>
 </head>
-<body class="p-3">
+<body>
 
 <script>
 function cederDocumento(folio, tipo, monto, codEmp) {
@@ -378,39 +420,31 @@ function limpiar() {
     window.location.href = 'list_dte_v3.php';
 }
 </script>
-	<div class="page-shell">
-	    <div class="page-hero">
-	        <div class="row g-3 align-items-center">
-	            <div class="col-lg-7">
-	                <div class="d-flex align-items-start gap-3">
-	                    <div class="hero-icon"><i class="bi bi-receipt-cutoff"></i></div>
-	                    <div>
-	                        <h1 class="h3 mb-2">DTE Emitidos</h1>
-	                        <p>Revise documentos emitidos, filtre por estado o receptor y acceda r&aacute;pidamente a PDF, XML, reenv&iacute;o, cesi&oacute;n y exportaci&oacute;n a Excel.</p>
-	                    </div>
-	                </div>
-	            </div>
-	            <div class="col-lg-5">
-	                <div class="hero-kpis justify-content-lg-end">
-	                    <span class="hero-kpi"><i class="bi bi-funnel me-1"></i>Filtros por tipo, fechas y receptor</span>
-	                    <span class="hero-kpi"><i class="bi bi-lightning-charge me-1"></i>Acciones directas por documento</span>
-	                    <span class="hero-kpi"><i class="bi bi-file-earmark-excel me-1"></i>Excel hasta 10.000 registros</span>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
+		<div class="page-shell">
+		    <div class="topbar">
+		        <div class="d-flex flex-column flex-xl-row justify-content-between align-items-xl-center gap-3">
+		            <div>
+		                <p class="topbar-meta mb-2"><i class="bi bi-receipt-cutoff me-2"></i>Gesti&oacute;n documental activa</p>
+		                <h1 class="topbar-title">DTE Emitidos</h1>
+		                <p class="panel-note mb-0">Revise documentos emitidos, filtre por estado o receptor y acceda r&aacute;pidamente a PDF, XML, reenv&iacute;o, cesi&oacute;n y exportaci&oacute;n a Excel.</p>
+		            </div>
+		            <div class="d-flex flex-wrap gap-2 justify-content-xl-end">
+		                <span class="topbar-chip"><i class="bi bi-funnel"></i><?php echo $hayBusqueda ? ($cantidadFiltros . ' filtros activos') : 'B&uacute;squeda inicial'; ?></span>
+		                <span class="topbar-chip"><i class="bi bi-lightning-charge"></i>Acciones por documento</span>
+		                <span class="topbar-chip"><i class="bi bi-file-earmark-excel"></i>Excel hasta 10.000 registros</span>
+		            </div>
+		        </div>
+		    </div>
 <!-- Formulario de Busqueda -->
-<div class="card mb-4">
-	    <div class="card-header">
-	        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
-	            <div>
-	                <div class="d-flex align-items-center"><i class="bi bi-search me-2"></i><span>Filtros de B&uacute;squeda</span></div>
-	                <div class="small text-white-50 mt-1">Combine criterios para ubicar DTE emitidos sin alterar la operatoria actual del m&oacute;dulo.</div>
-	            </div>
-	            <span class="badge rounded-pill text-bg-light text-primary-emphasis">B&uacute;squeda compatible con exportaci&oacute;n Excel</span>
-	        </div>
-    </div>
-    <div class="card-body">
+<div class="panel mb-4">
+		    <div class="panel-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
+		        <div>
+		            <strong class="d-block text-primary-emphasis"><i class="bi bi-search me-2"></i>Filtros de B&uacute;squeda</strong>
+		            <span class="panel-note">Combine criterios para ubicar DTE emitidos sin alterar la operatoria actual del m&oacute;dulo.</span>
+		        </div>
+		        <span class="topbar-chip"><i class="bi bi-file-earmark-excel"></i>B&uacute;squeda compatible con Excel</span>
+	    </div>
+	    <div class="panel-body">
 	        <?php if($hayBusqueda && $cantidadFiltros > 0): ?>
 	        <div class="filter-summary mb-4">
 	            <div class="d-flex flex-wrap align-items-center gap-2">
@@ -575,21 +609,19 @@ function limpiar() {
 		if($hayBusqueda){
 ?>
 <!-- Tabla de Resultados -->
-<div class="card">
-	    <div class="card-header">
-	        <div class="d-flex flex-column flex-xl-row justify-content-between align-items-xl-center gap-3">
-	            <div>
-	                <div class="d-flex align-items-center gap-2"><i class="bi bi-table"></i><span>Resultados de la B&uacute;squeda</span></div>
-	                <div class="small text-white-50 mt-1">Ordene por folio, emisi&oacute;n, carga, total o RUT y revise las respuestas disponibles para cada documento.</div>
-	            </div>
-	            <div class="d-flex flex-wrap gap-2 align-items-center">
-	                <span class="badge rounded-pill text-bg-light text-primary-emphasis">PDF, XML, reenv&iacute;o y cesi&oacute;n</span>
-	                <button type="button" class="btn btn-danger btn-sm" onclick="chDelEmp();">
-	                    <i class="bi bi-trash"></i> Eliminar Seleccionados
-	                </button>
-	            </div>
-	        </div>
-    </div>
+	<div class="panel">
+		    <div class="panel-header d-flex flex-column flex-xl-row justify-content-between align-items-xl-center gap-3">
+		        <div>
+		            <strong class="d-block text-primary-emphasis"><i class="bi bi-table me-2"></i>Resultados de la B&uacute;squeda</strong>
+		            <span class="panel-note">Ordene por folio, emisi&oacute;n, carga, total o RUT y revise las respuestas disponibles para cada documento.</span>
+		        </div>
+		        <div class="d-flex flex-wrap gap-2 align-items-center">
+		            <span class="topbar-chip"><i class="bi bi-files"></i>PDF, XML, reenv&iacute;o y cesi&oacute;n</span>
+		            <button type="button" class="btn btn-danger btn-sm" onclick="chDelEmp();">
+		                <i class="bi bi-trash"></i> Eliminar Seleccionados
+		            </button>
+		        </div>
+	    </div>
 	    <div class="results-toolbar px-3 py-2">
 	        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
 	            <div class="small text-muted">Seleccione documentos para eliminar solo cuando est&eacute;n cargados o rechazados. Los iconos inferiores muestran acuse, recibo de mercader&iacute;a y respuesta comercial.</div>
@@ -598,7 +630,7 @@ function limpiar() {
 	            <?php endif; ?>
 	        </div>
 	    </div>
-	    <div class="card-body p-0">
+		    <div class="panel-body p-0">
         <form name="_FDEL" method="post" action="pro_dte.php">
             <input type="hidden" name="sAccion" value="E">
             <div class="table-responsive">
@@ -929,7 +961,7 @@ function limpiar() {
 	            $inicio = floor(($pagina - 1) / $paginasLista) * $paginasLista + 1;
 	            $fin = min($inicio + $paginasLista - 1, $total_paginas);
 	    ?>
-	    <div class="card-footer bg-white">
+		    <div class="panel-footer">
 	        <div class="pagination-wrap">
 	        <p class="text-muted small mb-0">
 	            Mostrando p&aacute;gina <?php echo $pagina; ?> de <?php echo $total_paginas; ?>

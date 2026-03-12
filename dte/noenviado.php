@@ -8,8 +8,20 @@
 	include("../include/ver_aut.php");
     include("../include/ver_emp_adm.php"); 
 
-	$orden = trim($_GET["orden"]);	// orden campo
-	$descAsc = trim($_GET["orni"]); // orden nivel
+		function requestValue($key){
+			return isset($_GET[$key]) ? trim($_GET[$key]) : "";
+		}
+
+		function h($value){
+			return htmlspecialchars((string)$value, ENT_QUOTES, 'ISO-8859-1');
+		}
+
+		function selectedAttr($value, $current){
+			return ((string)$value === (string)$current) ? ' selected="selected"' : '';
+		}
+
+		$orden = requestValue("orden");	// orden campo
+		$descAsc = requestValue("orni"); // orden nivel
 
 	if($descAsc == "") $descAsc = "1";
 	if($orden == "") $orden = "X.fec_carg";	
@@ -21,30 +33,33 @@
 	if($descAsc == "1") $descAsc = "DESC";
 	if($descAsc == "2") $descAsc = "ASC";
 
-	$tipo = trim($_GET["tipo"]);
-	$folio = trim($_GET["folio"]);
-	$fecha1 = trim($_GET["fecha1"]);
-	$fecha2 = trim($_GET["fecha2"]);
-	$fechac1 = trim($_GET["fechac1"]);
-	$fechac2 = trim($_GET["fechac2"]);
-	$estado = trim($_GET["estado"]);
-	$rut = trim($_GET["rut"]);
-	$pagina = trim($_GET["pagina"]);
-	$nCodEmprSel = $_GET["nCodEmprSel"];
+		$tipo = requestValue("tipo");
+		$folio = requestValue("folio");
+		$fecha1 = requestValue("fecha1");
+		$fecha2 = requestValue("fecha2");
+		$fechac1 = requestValue("fechac1");
+		$fechac2 = requestValue("fechac2");
+		$estado = requestValue("estado");
+		$rutInput = requestValue("rut");
+		$rut = $rutInput;
+		$pagina = requestValue("pagina");
+		$nCodEmprSel = requestValue("nCodEmprSel");
 
 	if($rut != ""){
 		$aRut = explode("-",$rut);
 		$rut = $aRut[0];
 	}
 
-	$AAR = trim($_GET["AAR"]);		// Acuse de recibo ok
-	$RAR = trim($_GET["RAR"]);		// acuse de recubi rechazado
-	$SAR = trim($_GET["SAR"]);		// sin acuse de recibo
-	$AAC = trim($_GET["AAC"]);		// acptado comercialmente
-	$RAC = trim($_GET["RAC"]);		// rechazado comercialmente
-	$SAC = trim($_GET["SAC"]);		// sin respuesta comercial
-	$CRM = trim($_GET["CRM"]);		// con recibo de mercaderia
-	$SRM = trim($_GET["SRM"]);		// sin recibo de mercaderia
+		$AAR = requestValue("AAR");		// Acuse de recibo ok
+		$RAR = requestValue("RAR");		// acuse de recubi rechazado
+		$SAR = requestValue("SAR");		// sin acuse de recibo
+		$AAC = requestValue("AAC");		// acptado comercialmente
+		$RAC = requestValue("RAC");		// rechazado comercialmente
+		$SAC = requestValue("SAC");		// sin respuesta comercial
+		$CRM = requestValue("CRM");		// con recibo de mercaderia
+		$SRM = requestValue("SRM");		// sin recibo de mercaderia
+		$hasSearch = !empty($_GET);
+		$tipoSeleccionado = $hasSearch ? $tipo : "33";
 
 	$qrstring = "&tipo=" . $tipo;
 	$qrstring .= "&folio=" . $folio;
@@ -159,7 +174,7 @@
 			$sEstadoDte = "Con Reparo Aceptado por Cliente";
 			break; 
 			case 1181:
-			$sEstadoDte = "Rechazado Automáticamente";
+			$sEstadoDte = "Rechazado Automï¿½ticamente";
 			break; 
 			case 1437:
 			$sEstadoDte = "Rechazado Comercialmente";
@@ -172,6 +187,7 @@
 	}
 
 	function poneTipo($tipo_docu){
+			$sEstadoDte = "";
 
 		switch ($tipo_docu) {
 			case 33:
@@ -220,103 +236,72 @@
 	}
 ?>
 <!doctype html>
-<html lang="en">
+	<html lang="es">
  <head>
   <meta charset="latin1">
-  <meta name="Generator" content="EditPlus®">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="Generator" content="EditPlusï¿½">
   <meta name="Author" content="">
   <meta name="Keywords" content="">
   <meta name="Description" content="">
-  <title>Busqueda</title>
+	  <title>DTE no enviados</title>
+	  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
   <style>
- .datagrid table { border-collapse: collapse; text-align: left; width: 100%;} 
- .datagrid {font: normal 12px/150% Arial, Helvetica, sans-serif; background: #fff; overflow: hidden; border: 1px solid #006699; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }
- .datagrid table td, .datagrid table th { padding: 3px 10px; }
- .datagrid table thead th {background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; color:#FFFFFF; font-size: 15px; font-weight: bold; border-left: 1px solid #0070A8; } 
- .datagrid table thead th:first-child { border: none; }
- .datagrid table tbody td { color: #00557F; border-left: 1px solid #E1EEF4;font-size: 12px;font-weight: normal; }
- .datagrid table tbody .alt td { background: #E1EEf4; color: #00557F; }
- .datagrid table tbody td:first-child { border-left: none; }
- .datagrid table tbody tr:last-child td { border-bottom: none; }
- .datagrid table tfoot td div { border-top: 1px solid #006699;background: #E1EEf4;} 
- .datagrid table tfoot td { padding: 0; font-size: 12px } 
- .datagrid table tfoot td div{ padding: 2px; }
- .datagrid table tfoot td ul { margin: 0; padding:0; list-style: none; text-align: left; }
- .datagrid table tfoot  li { display: inline; }
- .datagrid table tfoot li a { text-decoration: none; display: inline-block;  padding: 2px 8px; margin: 1px;color: #FFFFFF;border: 1px solid #006699;-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; }
- .datagrid table tfoot ul.active, .datagrid table tfoot ul a:hover { text-decoration: none;border-color: #00557F; color: #FFFFFF; background: none; background-color:#006699;}div.dhtmlx_window_active, div.dhx_modal_cover_dv { position: fixed !important; } 
-
- .container {
-	width: 30em;
-	overflow-x: auto;
-	white-space: nowrap;
-	border-collapse: collapse; text-align: left; width: 100%;
-	font: normal 12px/150% Arial, Helvetica, sans-serif; background: #fff; overflow: hidden; border: 1px solid #006699; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; 
-}
- .container td, .container th { padding: 3px 10px; }
- .container thead th {background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; color:#FFFFFF; font-size: 12px; font-weight: bold; border-left: 1px solid #0070A8; } 
- .container thead th:first-child { border: none; }
- .container tbody td { color: #00557F; border-left: 1px solid #E1EEF4;font-size: 10px;font-weight: normal; }
- .alink {background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; color:#FFFFFF; font-size: 12px; font-weight: bold; border-left: 1px solid #0070A8; } 
- .container tbody .alt td { background: #E1EEf4; color: #00557F; }
- .container tbody td:first-child { border-left: none; }
- .container tbody tr:last-child td { border-bottom: none; }
- .container tfoot td div { border-top: 1px solid #006699;background: #E1EEf4;} 
- .container tfoot td { padding: 0; font-size: 12px } 
- .container tfoot td div{ padding: 2px; }
- .container tfoot td ul { margin: 0; padding:0; list-style: none; text-align: left; }
- .container tfoot  li { display: inline; }
- .container tfoot li a { text-decoration: none; display: inline-block;  padding: 2px 8px; margin: 1px;color: #FFFFFF;border: 1px solid #006699;-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; }
- .container tfoot ul.active, .container tfoot ul a:hover { text-decoration: none;border-color: #00557F; color: #FFFFFF; background: none; background-color:#006699;}div.dhtmlx_window_active, div.dhx_modal_cover_dv { position: fixed !important; } 
-
-
-.myButton {
-	-moz-box-shadow:inset 0px 1px 0px 0px #dcecfb;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #dcecfb;
-	box-shadow:inset 0px 1px 0px 0px #dcecfb;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #bddbfa), color-stop(1, #80b5ea));
-	background:-moz-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
-	background:-webkit-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
-	background:-o-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
-	background:-ms-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
-	background:linear-gradient(to bottom, #bddbfa 5%, #80b5ea 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#bddbfa', endColorstr='#80b5ea',GradientType=0);
-	background-color:#bddbfa;
-	-moz-border-radius:6px;
-	-webkit-border-radius:6px;
-	border-radius:6px;
-	border:1px solid #84bbf3;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:6px 24px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #528ecc;
-}
-.myButton:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #80b5ea), color-stop(1, #bddbfa));
-	background:-moz-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
-	background:-webkit-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
-	background:-o-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
-	background:-ms-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
-	background:linear-gradient(to bottom, #80b5ea 5%, #bddbfa 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#80b5ea', endColorstr='#bddbfa',GradientType=0);
-	background-color:#80b5ea;
-}
-.myButton:active {
-	position:relative;
-	top:1px;
-}
-
-.fondo{
-	background-color: #FBFCFC; 
-	background-image: url("../skins/aqua/images/main_bg.gif"); 
-	background-repeat: repeat-y;
-}
+	 :root{
+		--primary-dark:#001f3f;
+		--primary-color:#0b5ed7;
+		--border-color:#dbe5f0;
+		--soft-bg:#f8fbff;
+		--text-muted:#64748b;
+	 }
+	 body{background:#eef3f8;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:#1f2937}
+	 .page-shell{max-width:1600px;margin:0 auto}
+	 .topbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+	 .eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--primary-color);margin-bottom:.2rem}
+	 .summary-chip{display:inline-flex;align-items:center;gap:.45rem;padding:.5rem .85rem;border-radius:999px;background:#fff;border:1px solid var(--border-color);color:#334155;font-size:.82rem;box-shadow:0 6px 18px rgba(15,23,42,.05)}
+	 .panel{background:#fff;border:1px solid rgba(15,23,42,.06);border-radius:18px;box-shadow:0 14px 32px rgba(15,23,42,.08);overflow:hidden}
+	 .panel + .panel{margin-top:1rem}
+	 .panel-header{background:linear-gradient(135deg,var(--primary-dark) 0%,var(--primary-color) 100%);color:#fff;padding:.95rem 1.15rem}
+	 .panel-header-title{display:flex;align-items:center;gap:.55rem;font-weight:600}
+	 .panel-header-note{font-size:.82rem;color:rgba(255,255,255,.82);margin-top:.2rem}
+	 .panel-body{padding:1rem 1.15rem}
+	 .form-label{font-size:.82rem;font-weight:700;color:#0f172a;margin-bottom:.35rem}
+	 .form-control,.form-select{font-size:.85rem;border-color:#cbd5e1}
+	 .form-control:focus,.form-select:focus{border-color:#86b7fe;box-shadow:0 0 0 .2rem rgba(13,110,253,.12)}
+	 .date-range{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap}
+	 .date-field{display:flex;align-items:center;gap:.45rem;flex:1 1 180px;min-width:180px}
+	 .range-separator{font-size:.82rem;color:var(--text-muted);font-weight:600}
+	 .calendar-trigger{cursor:pointer;border:1px solid #93c5fd;border-radius:.5rem;background:#eff6ff;padding:.2rem}
+	 .note-card{background:var(--soft-bg);border:1px solid var(--border-color);border-radius:14px;padding:.85rem .95rem;color:#334155;font-size:.83rem}
+	 .note-card strong{color:#0f172a}
+	 .action-bar{display:flex;justify-content:space-between;align-items:center;gap:.75rem;flex-wrap:wrap;margin-top:1rem}
+	 .table-responsive{max-height:70vh;overflow:auto}
+	 .table thead th{background:var(--primary-dark);color:#fff;font-size:.78rem;font-weight:700;white-space:nowrap;vertical-align:middle;position:sticky;top:0;z-index:1}
+	 .table tbody td{font-size:.78rem;vertical-align:middle}
+	 .table tbody tr.alt td{background:#f8fbff}
+	 .table tbody tr:hover td{background:#eef6ff}
+	 .sort-link{display:inline-flex;align-items:center;gap:.35rem;color:#fff;text-decoration:none}
+	 .sort-link:hover{color:#dbeafe}
+	 .action-links{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;min-width:120px}
+	 .action-links img{display:block}
+	 .status-pill{display:inline-flex;align-items:center;padding:.3rem .65rem;border-radius:999px;background:#e8f1ff;color:#0b5ed7;font-weight:700;font-size:.74rem}
+	 .results-toolbar{display:flex;justify-content:space-between;align-items:center;gap:.75rem;flex-wrap:wrap;padding:.85rem 1.15rem;border-bottom:1px solid #e5edf5;background:#f8fbff}
+	 .results-footer{display:flex;justify-content:space-between;align-items:center;gap:.9rem;flex-wrap:wrap;padding:.9rem 1.15rem;border-top:1px solid #e5edf5;background:#fff}
+	 .paging{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap}
+	 .paging a,.paging span{display:inline-flex;align-items:center;justify-content:center;min-width:2rem;height:2rem;border-radius:999px;border:1px solid #d0d7e2;background:#fff;color:#0f172a;text-decoration:none;padding:0 .75rem;font-size:.82rem}
+	 .paging a:hover{background:#eff6ff;border-color:#93c5fd}
+	 .paging .current{background:var(--primary-dark);border-color:var(--primary-dark);color:#fff}
+	 .empty-state{padding:3.5rem 1rem;text-align:center;color:#64748b}
+	 .empty-state i{font-size:2.5rem;display:block;margin-bottom:.75rem;color:#94a3b8}
+	 #tooltip{position:absolute;visibility:hidden;z-index:2000;max-width:260px;padding:.45rem .65rem;border-radius:.6rem;background:rgba(15,23,42,.92);color:#fff;font-size:.75rem;box-shadow:0 10px 24px rgba(15,23,42,.2)}
+	 div.dhtmlx_window_active,div.dhx_modal_cover_dv{position:fixed !important}
+	 @media (max-width: 767.98px){
+		body{padding:1rem !important}
+		.panel-header,.panel-body,.results-toolbar,.results-footer{padding:.9rem}
+		.table-responsive{max-height:none}
+	 }
 
   </style>
 <script type="text/javascript">
@@ -362,7 +347,7 @@ function Reenviar(nFolioDte,nTipDoc) {
     
     function chDelEmp(){
       if(chSelDelEmp() == true){
-        if(confirm("Confirma la eliminación de los DTE ? "))
+        if(confirm("Confirma la eliminaciï¿½n de los DTE ? "))
           document._FDEL.submit();
       }
       else
@@ -422,7 +407,7 @@ function Reenviar(nFolioDte,nTipDoc) {
 	function bajarExcel(){
 		var F = document._BUSCA;
 
-		if(confirm("Bajar a Excel el resultado de la busqueda?. Se descargan un máximo de 10.000 registros.")){
+		if(confirm("Bajar a Excel el resultado de la busqueda?. Se descargan un mï¿½ximo de 10.000 registros.")){
 			document._BUSCA.action = "excel_dte_v2.php";
 			document._BUSCA.target = "_blank";
 			document._BUSCA.submit();
@@ -493,175 +478,154 @@ function Reenviar(nFolioDte,nTipDoc) {
 		  <!-- calendar fin -->
 
  </head>
- <body class="fondo">
+	 <body class="p-3">
+	<div class="page-shell">
+		<div id="tooltip"></div>
+		<div class="topbar">
+			<div>
+				<div class="eyebrow">DTE Emitidos</div>
+				<h1 class="h4 mb-0">DTE no enviados al SII</h1>
+				<div class="text-secondary small mt-1">Listado operativo con filtros, ordenamiento, paginacion y acciones legacy preservadas.</div>
+			</div>
+			<div class="summary-chip"><i class="bi bi-shield-check"></i> Estructura visual compacta compatible con la operatoria actual</div>
+		</div>
 
-<form name="_BUSCA" method="get" action="">
-<table class="datagrid" align="center">
-<tr>
-	<td>
-	<table class="datagrid">
-	<tr>
-		<th>Tipo DTE</th>
-		<td><select name="tipo">
-			<option value="33" selected>Factura Electrónica</option>
-			<option value="34">Factura No Afecta o Exenta Electrónica</option>
-			<option value="39">Boleta Electrónica</option>
-			<option value="41">Boleta Exenta Electrónica</option>
-			<option value="43">Liquidación Factura Electrónica</option>
-			<option value="46">Factura de Compra Electrónica</option>
-			<option value="52">Guía de Despacho Electrónica</option>
-			<option value="56">Nota de Débito Electrónica</option>
-			<option value="61">Nota de Crédito Electrónica</option>
-			<option value="110">Factura de Exportación Electrónica</option>
-			<option value="111">Nota de Débito de Exportación Electrónica</option>
-			<option value="112">Nota de Crédito de Exportación Electrónica</option>
-			<option value="">Todos</option>
-		</select>
-		<?php 	if($_GET){ ?>
-		<script> chListBoxSelect(document._BUSCA.tipo, "<?php echo $tipo; ?>"); </script>
-		<?php 	} ?>
-		</td>
-	</tr>
-	<tr>
-		<th>Folio DTE</th>
-		<td><input type="text" name="folio" maxlength="18" value="<?php echo $folio; ?>"></td>
-	</tr>
-	<tr>
-		<th>Fecha Emisión</th>
-		<td>
-			<table>
-				<tr>
-					<td><input type="text" name="fecha1" id="fecha1" maxlength="10" value="<?php echo $fecha1; ?>">
-		<img src="../img.gif" id="f_trigger_ini" style="cursor: pointer; border: 1px solid red;" title="Date selector" onmouseover="this.style.background='red';" onmouseout="this.style.background=''" / >		
-		<script type="text/javascript">
-			Calendar.setup({
-				inputField     :    "fecha1",     // id of the input field
-				ifFormat       :    "%Y-%m-%d",      // format of the input field
-				button         :    "f_trigger_ini",  // trigger for the calendar (button ID)
-				align          :    "Tl",           // alignment (defaults to "Bl")
-				singleClick    :    true
-			});
-		</script>					
-					</td>
-					<td>a</td>
-					<td><input type="text" name="fecha2" id="fecha2" maxlength="10" value="<?php echo $fecha2; ?>">
-		<img src="../img.gif" id="f_trigger_fin" style="cursor: pointer; border: 1px solid red;" title="Date selector" onmouseover="this.style.background='red';" onmouseout="this.style.background=''" / >		
-		<script type="text/javascript">
-			Calendar.setup({
-				inputField     :    "fecha2",     // id of the input field
-				ifFormat       :    "%Y-%m-%d",      // format of the input field
-				button         :    "f_trigger_fin",  // trigger for the calendar (button ID)
-				align          :    "Tl",           // alignment (defaults to "Bl")
-				singleClick    :    true
-			});
-		</script>					
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<th>Fecha Carga</th>
-		<td>
-			<table border="0" width="100%">
-				<tr>
-					<td><input type="text" name="fechac1" id="fechac1" maxlength="10" value="<?php echo $fechac1; ?>">
-		<img src="../img.gif" id="f_trigger_c_ini" style="cursor: pointer; border: 1px solid red;" title="Date selector" onmouseover="this.style.background='red';" onmouseout="this.style.background=''" / >		
-		<script type="text/javascript">
-			Calendar.setup({
-				inputField     :    "fechac1",     // id of the input field
-				ifFormat       :    "%Y-%m-%d",      // format of the input field
-				button         :    "f_trigger_c_ini",  // trigger for the calendar (button ID)
-				align          :    "Tl",           // alignment (defaults to "Bl")
-				singleClick    :    true
-			});
-		</script>					</td>
-					<td>a</td>
-					<td><input type="text" name="fechac2"  id="fechac2" maxlength="10" value="<?php echo $fechac2; ?>">
-		<img src="../img.gif" id="f_trigger_c_fin" style="cursor: pointer; border: 1px solid red;" title="Date selector" onmouseover="this.style.background='red';" onmouseout="this.style.background=''" / >		
-		<script type="text/javascript">
-			Calendar.setup({
-				inputField     :    "fechac2",     // id of the input field
-				ifFormat       :    "%Y-%m-%d",      // format of the input field
-				button         :    "f_trigger_c_fin",  // trigger for the calendar (button ID)
-				align          :    "Tl",           // alignment (defaults to "Bl")
-				singleClick    :    true
-			});
-		</script>							</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-
-	<tr>
-		<th>Rut Receptor</th>
-		<td><input type="text" name="rut" maxlength="10" value="<?php echo trim($_GET["rut"]); ?>"></td>
-	</tr>
-
-	<tr>
-		<th>Ver Empresa</th>
-		<td>
-			<select name="nCodEmprSel" size="1">
-				<option value="" selected>Todas las Empresas</option>					
-				<option value="72">AGRICOLA NACIONAL SAC E I</option>
-				<option value="73">ANASAC AMBIENTAL SA</option>
-				<option value="70">ANASAC CHILE S.A.</option>
-				<option value="74">ANASAC COMERCIAL SPA</option>
-				<option value="151">ANASAC COMERCIAL DOS SPA</option>
-				<option value="318">DFM PHARMA SPA</option>
-				<option value="71">DIFEM LABORATORIOS S A</option>
-			</select>
-		<?php 	if($_GET){ ?>
-					<script> chListBoxSelect(document._BUSCA.nCodEmprSel, "<?php echo $nCodEmprSel; ?>"); </script>
-		<?php 	} ?>
-		</td>
-	</tr>
-
-<tr>
-	<td align="center" colspan="2">
-		<input type="button" class="myButton" text="Listar" Value="Listar" onclick="listar();"> <!-- &nbsp; &nbsp; &nbsp; <input type="button" class="myButton" text="Excel" Value="Excel" onclick="bajarExcel();"> -->
-		&nbsp; &nbsp; &nbsp; <input type="button" onclick="location.href='noenviado.php';" class="myButton" text="Limpiar" Value="Limpiar">
-	</td>
-</tr>
-</table>
-</td>
-</tr>
-</table>
-</form>
-<br><br>
-<?php
-	if($_GET){
-?>
-<form name="_FDEL" method="post" action="pro_dte.php">
-<!-- <form name="_FDEL" method="post" action="dte/pro_dte.php"> -->
-	<input type="hidden" name="sAccion" value="E">
-
-<input type="button" class="myButton" name="bname_remove_selected" onclick="chDelEmp();" value="X">
-
-	<table class="container">
-		<thead>
-			<tr>
-				<th><input type="checkbox" class="checkbox" name="clientslistSelectAll" value="true" onclick="chDchALL();"></th>
-				<th>Operaciones</th>
-				<th>Empresa</th>
-				<th>Tipo</th>
-				<th><table border="0" style="border-collapse: collapse;"><tr style="padding: 0px;line-height:0"><td style="padding: 0px;line-height:0"><a class="alink" href="noenviado.php?a=1<?php echo $qrsFolio; ?>">Folio</a></td><td style="padding: 0px;line-height:0"><?php echo $fleFolio; ?></td></tr></table></th>
-				<th>Estado</th>
-				<th><table border="0" style="border-collapse: collapse;"><tr style="padding: 0px;line-height:0"><td style="padding: 0px;line-height:0"><a class="alink" href="noenviado.php?a=1<?php echo $qrsFech; ?>">F.Emisión</a></td><td style="padding: 0px;line-height:0"><?php echo $fleFech; ?></td></tr></table></th>
-				<th><table border="0" style="border-collapse: collapse;"><tr style="padding: 0px;line-height:0"><td style="padding: 0px;line-height:0"><a class="alink" href="noenviado.php?a=1<?php echo $qrsCarga; ?>">F.Carga</a></td><td style="padding: 0px;line-height:0"><?php echo $fleCarga; ?></td></tr></table></th>
-				
-				<th>Exento</th>
-				<th>Neto</th>
-				<th>IVA</th>
-				<th><table border="0" style="border-collapse: collapse;"><tr style="padding: 0px;line-height:0"><td style="padding: 0px;line-height:0"><a class="alink" href="noenviado.php?a=1<?php echo $qrsTotal; ?>">Total</a></td><td style="padding: 0px;line-height:0"><?php echo $fleTotal; ?></td></tr></table></th>
-				<th><table border="0" style="border-collapse: collapse;"><tr style="padding: 0px;line-height:0"><td style="padding: 0px;line-height:0"><a class="alink" href="noenviado.php?a=1<?php echo $qrsRut; ?>">Rut</a></td><td style="padding: 0px;line-height:0"><?php echo $fleRut; ?></td></tr></table></th>
-				<th>Receptor</th>
-				<th>Dirección</th>
-				<th>Comuna</th>
-			</tr>
-		</thead>
-
-		<tbody>
+		<form name="_BUSCA" method="get" action="">
+			<div class="panel">
+				<div class="panel-header">
+					<div class="panel-header-title"><i class="bi bi-funnel"></i><span>Filtros de busqueda</span></div>
+					<div class="panel-header-note">Puede combinar tipo, folio, rangos de fecha, RUT receptor y empresa sin alterar el contrato GET del modulo.</div>
+				</div>
+				<div class="panel-body">
+					<div class="row g-3">
+						<div class="col-xl-3 col-md-6">
+							<label class="form-label" for="tipo">Tipo DTE</label>
+							<select name="tipo" id="tipo" class="form-select form-select-sm">
+								<option value="33"<?php echo selectedAttr("33", $tipoSeleccionado); ?>>Factura Electr&oacute;nica</option>
+								<option value="34"<?php echo selectedAttr("34", $tipoSeleccionado); ?>>Factura No Afecta o Exenta Electr&oacute;nica</option>
+								<option value="39"<?php echo selectedAttr("39", $tipoSeleccionado); ?>>Boleta Electr&oacute;nica</option>
+								<option value="41"<?php echo selectedAttr("41", $tipoSeleccionado); ?>>Boleta Exenta Electr&oacute;nica</option>
+								<option value="43"<?php echo selectedAttr("43", $tipoSeleccionado); ?>>Liquidaci&oacute;n Factura Electr&oacute;nica</option>
+								<option value="46"<?php echo selectedAttr("46", $tipoSeleccionado); ?>>Factura de Compra Electr&oacute;nica</option>
+								<option value="52"<?php echo selectedAttr("52", $tipoSeleccionado); ?>>Gu&iacute;a de Despacho Electr&oacute;nica</option>
+								<option value="56"<?php echo selectedAttr("56", $tipoSeleccionado); ?>>Nota de D&eacute;bito Electr&oacute;nica</option>
+								<option value="61"<?php echo selectedAttr("61", $tipoSeleccionado); ?>>Nota de Cr&eacute;dito Electr&oacute;nica</option>
+								<option value="110"<?php echo selectedAttr("110", $tipoSeleccionado); ?>>Factura de Exportaci&oacute;n Electr&oacute;nica</option>
+								<option value="111"<?php echo selectedAttr("111", $tipoSeleccionado); ?>>Nota de D&eacute;bito de Exportaci&oacute;n Electr&oacute;nica</option>
+								<option value="112"<?php echo selectedAttr("112", $tipoSeleccionado); ?>>Nota de Cr&eacute;dito de Exportaci&oacute;n Electr&oacute;nica</option>
+								<option value=""<?php echo selectedAttr("", $tipoSeleccionado); ?>>Todos</option>
+							</select>
+						</div>
+						<div class="col-xl-2 col-md-6">
+							<label class="form-label" for="folio">Folio DTE</label>
+							<input type="text" name="folio" id="folio" maxlength="18" value="<?php echo h($folio); ?>" class="form-control form-control-sm">
+						</div>
+						<div class="col-xl-3 col-md-6">
+							<label class="form-label" for="rut">RUT Receptor</label>
+							<input type="text" name="rut" id="rut" maxlength="10" value="<?php echo h($rutInput); ?>" class="form-control form-control-sm">
+						</div>
+						<div class="col-xl-4 col-md-6">
+							<label class="form-label" for="nCodEmprSel">Ver Empresa</label>
+							<select name="nCodEmprSel" id="nCodEmprSel" class="form-select form-select-sm">
+								<option value=""<?php echo selectedAttr("", $nCodEmprSel); ?>>Todas las Empresas</option>
+								<option value="72"<?php echo selectedAttr("72", $nCodEmprSel); ?>>AGRICOLA NACIONAL SAC E I</option>
+								<option value="73"<?php echo selectedAttr("73", $nCodEmprSel); ?>>ANASAC AMBIENTAL SA</option>
+								<option value="70"<?php echo selectedAttr("70", $nCodEmprSel); ?>>ANASAC CHILE S.A.</option>
+								<option value="74"<?php echo selectedAttr("74", $nCodEmprSel); ?>>ANASAC COMERCIAL SPA</option>
+								<option value="151"<?php echo selectedAttr("151", $nCodEmprSel); ?>>ANASAC COMERCIAL DOS SPA</option>
+								<option value="318"<?php echo selectedAttr("318", $nCodEmprSel); ?>>DFM PHARMA SPA</option>
+								<option value="71"<?php echo selectedAttr("71", $nCodEmprSel); ?>>DIFEM LABORATORIOS S A</option>
+							</select>
+						</div>
+						<div class="col-xl-6">
+							<label class="form-label">Fecha Emision</label>
+							<div class="date-range">
+								<div class="date-field">
+									<input type="text" name="fecha1" id="fecha1" maxlength="10" value="<?php echo h($fecha1); ?>" class="form-control form-control-sm">
+									<img src="../img.gif" id="f_trigger_ini" class="calendar-trigger" title="Date selector" onmouseover="this.style.background='#bfdbfe';" onmouseout="this.style.background=''" alt="Calendario">
+									<script type="text/javascript">Calendar.setup({inputField:"fecha1",ifFormat:"%Y-%m-%d",button:"f_trigger_ini",align:"Tl",singleClick:true});</script>
+								</div>
+								<span class="range-separator">a</span>
+								<div class="date-field">
+									<input type="text" name="fecha2" id="fecha2" maxlength="10" value="<?php echo h($fecha2); ?>" class="form-control form-control-sm">
+									<img src="../img.gif" id="f_trigger_fin" class="calendar-trigger" title="Date selector" onmouseover="this.style.background='#bfdbfe';" onmouseout="this.style.background=''" alt="Calendario">
+									<script type="text/javascript">Calendar.setup({inputField:"fecha2",ifFormat:"%Y-%m-%d",button:"f_trigger_fin",align:"Tl",singleClick:true});</script>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6">
+							<label class="form-label">Fecha Carga</label>
+							<div class="date-range">
+								<div class="date-field">
+									<input type="text" name="fechac1" id="fechac1" maxlength="10" value="<?php echo h($fechac1); ?>" class="form-control form-control-sm">
+									<img src="../img.gif" id="f_trigger_c_ini" class="calendar-trigger" title="Date selector" onmouseover="this.style.background='#bfdbfe';" onmouseout="this.style.background=''" alt="Calendario">
+									<script type="text/javascript">Calendar.setup({inputField:"fechac1",ifFormat:"%Y-%m-%d",button:"f_trigger_c_ini",align:"Tl",singleClick:true});</script>
+								</div>
+								<span class="range-separator">a</span>
+								<div class="date-field">
+									<input type="text" name="fechac2" id="fechac2" maxlength="10" value="<?php echo h($fechac2); ?>" class="form-control form-control-sm">
+									<img src="../img.gif" id="f_trigger_c_fin" class="calendar-trigger" title="Date selector" onmouseover="this.style.background='#bfdbfe';" onmouseout="this.style.background=''" alt="Calendario">
+									<script type="text/javascript">Calendar.setup({inputField:"fechac2",ifFormat:"%Y-%m-%d",button:"f_trigger_c_fin",align:"Tl",singleClick:true});</script>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="note-card mt-3">
+						<strong>Nota operativa:</strong> se conserva el mismo envio GET hacia <code>noenviado.php</code>, asi como la exportacion Excel disponible en el JavaScript legacy aunque el boton permanezca oculto tal como estaba en la vista original.
+					</div>
+					<div class="action-bar">
+						<div class="small text-secondary">Use rangos de fechas para acotar el listado de documentos pendientes de envio.</div>
+						<div class="d-flex gap-2 flex-wrap">
+							<button type="button" class="btn btn-primary btn-sm" onclick="listar();"><i class="bi bi-search me-1"></i>Listar</button>
+							<button type="button" class="btn btn-outline-secondary btn-sm" onclick="location.href='noenviado.php';"><i class="bi bi-x-circle me-1"></i>Limpiar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<?php
+			if($hasSearch){
+		?>
+		<div class="panel">
+			<div class="panel-header">
+				<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
+					<div>
+						<div class="panel-header-title"><i class="bi bi-table"></i><span>Resultados de la busqueda</span></div>
+						<div class="panel-header-note">Se mantienen el borrado selectivo, el orden por columnas y los accesos a PDF, XML y track del documento.</div>
+					</div>
+					<span class="badge rounded-pill text-bg-light text-primary-emphasis">40 registros por pagina</span>
+				</div>
+			</div>
+			<form name="_FDEL" method="post" action="pro_dte.php">
+			<!-- <form name="_FDEL" method="post" action="dte/pro_dte.php"> -->
+				<input type="hidden" name="sAccion" value="E">
+				<div class="results-toolbar">
+					<div class="small text-secondary">Seleccione documentos solo cuando corresponda el flujo de eliminacion legacy.</div>
+					<button type="button" class="btn btn-outline-danger btn-sm" name="bname_remove_selected" onclick="chDelEmp();"><i class="bi bi-trash me-1"></i>Eliminar seleccionados</button>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-striped table-hover table-sm align-middle mb-0">
+						<thead>
+							<tr>
+								<th class="text-center"><input type="checkbox" class="form-check-input" name="clientslistSelectAll" value="true" onclick="chDchALL();"></th>
+								<th>Operaciones</th>
+								<th>Empresa</th>
+								<th>Tipo</th>
+								<th><a class="sort-link" href="noenviado.php?a=1<?php echo $qrsFolio; ?>">Folio <?php echo $fleFolio; ?></a></th>
+								<th>Estado</th>
+								<th><a class="sort-link" href="noenviado.php?a=1<?php echo $qrsFech; ?>">F.Emision <?php echo $fleFech; ?></a></th>
+								<th><a class="sort-link" href="noenviado.php?a=1<?php echo $qrsCarga; ?>">F.Carga <?php echo $fleCarga; ?></a></th>
+								<th class="text-end">Exento</th>
+								<th class="text-end">Neto</th>
+								<th class="text-end">IVA</th>
+								<th class="text-end"><a class="sort-link justify-content-end" href="noenviado.php?a=1<?php echo $qrsTotal; ?>">Total <?php echo $fleTotal; ?></a></th>
+								<th><a class="sort-link" href="noenviado.php?a=1<?php echo $qrsRut; ?>">Rut <?php echo $fleRut; ?></a></th>
+								<th>Receptor</th>
+								<th>Direccion</th>
+								<th>Comuna</th>
+							</tr>
+						</thead>
+						<tbody>
 <?php
 //		print_r($_POST);
 		$conn = conn();
@@ -852,8 +816,8 @@ function Reenviar(nFolioDte,nTipDoc) {
 				if($mont_tot_dte == "")	$mont_tot_dte = "0";
 
 	//			number_format($nMntNeto,0,',','.');
-				$linkMerca = "<a href=\"javascript:alert('Recibo de Mercadería No Recepcionado');\" onMouseover=\"nm_mostra_hint(this, event, 'Recibo de Mercadería No Recepcionado')\" onMouseOut=\"nm_apaga_hint()\"><img src='../img/rm_no.png' alt='Recibo No Recepcionado'></a>";
-				if($est_recibo_mercaderias == "R")	$linkMerca = "<a href=\"view_xml_resp.php?c=" . trim($_SESSION["_COD_EMP_USU_SESS"]) . "&f=" . $folio_dte . "&t=" . $tipo_docu . "&o=RM\" target='_blank' onMouseover=\"nm_mostra_hint(this, event, 'Recibo de Mercadería OK')\" onMouseOut=\"nm_apaga_hint()\"><img src='../img/rm_ok.png' alt='Recibo Mercadería OK'></a>";
+				$linkMerca = "<a href=\"javascript:alert('Recibo de Mercaderï¿½a No Recepcionado');\" onMouseover=\"nm_mostra_hint(this, event, 'Recibo de Mercaderï¿½a No Recepcionado')\" onMouseOut=\"nm_apaga_hint()\"><img src='../img/rm_no.png' alt='Recibo No Recepcionado'></a>";
+				if($est_recibo_mercaderias == "R")	$linkMerca = "<a href=\"view_xml_resp.php?c=" . trim($_SESSION["_COD_EMP_USU_SESS"]) . "&f=" . $folio_dte . "&t=" . $tipo_docu . "&o=RM\" target='_blank' onMouseover=\"nm_mostra_hint(this, event, 'Recibo de Mercaderï¿½a OK')\" onMouseOut=\"nm_apaga_hint()\"><img src='../img/rm_ok.png' alt='Recibo Mercaderï¿½a OK'></a>";
 
 				$linkAcuse = "<a href=\"javascript:alert('Acuse de Recibo No Recepcionado');\" onMouseover=\"nm_mostra_hint(this, event, 'Acuse de Recibo No Recepcionado')\" onMouseOut=\"nm_apaga_hint()\"><img src='../img/ar_no.png' alt='Acuse de Recibo No Recepcionado'></a>";
 				if($est_rec_doc == "R")	
@@ -903,41 +867,39 @@ function Reenviar(nFolioDte,nTipDoc) {
 
                                         $linkTrack = "<a href=\"javascript:track_documento('" . $folio_dte . "','" . $tipo_docu . "','" . $mont_tot_dte . "','" . trim($_SESSION["_COD_EMP_USU_SESS"]) . "');\" onMouseover=\"nm_mostra_hint(this, event, 'Track DTE')\" onMouseOut=\"nm_apaga_hint()\"><img src='../img/track.png' height='17' alt='Track'></a>"; 
 
-	?>
+		?>
 
-				<tr class="<?php echo $sClassRow; ?>">
-				<?php 
-					if(($est_xdte < 5 || $est_xdte == 77)) // and $tipo_docu != 39 && $tipo_docu != 41)
-						echo "<td><input type=\"checkbox\" name=\"del[]\" value=\"" . $folio_dte . "|" . $tipo_docu . "\"></td>";
-					else
-						echo "<td>&nbsp;</td>";
-				?>
-					<td>
-						<table class="datagrid">
-							<tr>
-								<td><?php echo $linkPDF; ?></td>
-								<td><?php echo $linkCedible; ?></td>
-								<td><a href="view_xml.php?nFolioDte=<?php echo $folio_dte; ?>&nTipoDocu=<?php echo $tipo_docu; ?>" target="_blank"><img src='../img/sys__NM__xml.jpeg' alt='XML'></a></td>
-								<td><?php echo $linkTrack; ?></td>
-							</tr>
-						</table>				
-					</td>
-					<td><?php echo $rs_empr; ?></td>
-					<td><?php echo poneTipo($tipo_docu); ?></td>
-					<td align="right"><?php echo number_format($folio_dte,0,',','.'); ?></td>
-					<td><?php echo poneEstado($est_xdte); ?></td>
-					<td><?php echo $fec_emi_dte; ?></td>
-					<td><?php echo $fec_carg; ?></td>
-					<td align="right"><?php echo number_format($mnt_exen_dte,0,',','.'); ?></td>
-					<td align="right"><?php echo number_format($mntneto_dte,0,',','.'); ?></td>
-					<td align="right"><?php echo number_format($iva_dte,0,',','.'); ?></td>
-					<td align="right"><?php echo number_format($mont_tot_dte,0,',','.'); ?></td>
-					<td><?php echo $rut_rec_dte; ?></td>
-					<td><?php echo $nom_rec_dte; ?></td>
-					<td><?php echo $dir_rec_dte; ?></td>
-					<td><?php echo $com_rec_dte; ?></td>
-				</tr>
-	<?php
+						<tr class="<?php echo $sClassRow; ?>">
+						<?php 
+							if(($est_xdte < 5 || $est_xdte == 77))
+								echo "<td class=\"text-center\"><input type=\"checkbox\" class=\"form-check-input\" name=\"del[]\" value=\"" . $folio_dte . "|" . $tipo_docu . "\"></td>";
+							else
+								echo "<td class=\"text-center\">&nbsp;</td>";
+						?>
+							<td>
+								<div class="action-links">
+									<?php echo $linkPDF; ?>
+									<?php echo $linkCedible; ?>
+									<a href="view_xml.php?nFolioDte=<?php echo $folio_dte; ?>&nTipoDocu=<?php echo $tipo_docu; ?>" target="_blank"><img src="../img/sys__NM__xml.jpeg" alt="XML"></a>
+									<?php echo $linkTrack; ?>
+								</div>
+							</td>
+							<td><?php echo h($rs_empr); ?></td>
+							<td><?php echo h(poneTipo($tipo_docu)); ?></td>
+							<td class="text-end"><?php echo number_format($folio_dte,0,',','.'); ?></td>
+							<td><span class="status-pill"><?php echo h(poneEstado($est_xdte)); ?></span></td>
+							<td><?php echo h($fec_emi_dte); ?></td>
+							<td><?php echo h($fec_carg); ?></td>
+							<td class="text-end"><?php echo number_format($mnt_exen_dte,0,',','.'); ?></td>
+							<td class="text-end"><?php echo number_format($mntneto_dte,0,',','.'); ?></td>
+							<td class="text-end"><?php echo number_format($iva_dte,0,',','.'); ?></td>
+							<td class="text-end"><?php echo number_format($mont_tot_dte,0,',','.'); ?></td>
+							<td><?php echo h($rut_rec_dte); ?></td>
+							<td><?php echo h($nom_rec_dte); ?></td>
+							<td><?php echo h($dir_rec_dte); ?></td>
+							<td><?php echo h($com_rec_dte); ?></td>
+						</tr>
+		<?php
 
 				if($sClassRow == "alt")
 					$sClassRow = "";
@@ -947,82 +909,74 @@ function Reenviar(nFolioDte,nTipDoc) {
 			}
 		}
 		else{
-?>
-			<tr><td colspan="16"><h2>No hay resultados para su busqueda</h2></td></tr>
-<?php
+	?>
+						<tr>
+							<td colspan="16">
+								<div class="empty-state">
+									<i class="bi bi-inbox"></i>
+									<strong>No hay resultados para su busqueda</strong>
+									<div class="mt-2">Ajuste los filtros y vuelva a listar.</div>
+								</div>
+							</td>
+						</tr>
+	<?php
 		}
-?>
-		</tbody>
+	?>
+						</tbody>
+					</table>
+				</div>
 
-		<tfoot>
-			<tr>
-				<td colspan="16">
-					<div id="paging">
-						<ul>
-<?php 
-	//calculo el total de páginas
-	$total_paginas = ceil($totalFilas / $TAMANO_PAGINA);
-
-	$paginasLista = $total_paginas;
-if($paginasLista > 20)
-	$paginasLista = 20;
-
-	$qrstring .= "&orden=" . $orden;
-	$qrstring .= "&orni=" . $descAsc;
-
-
-	$inicio =  floor($pagina / $paginasLista);
-	if(floor($pagina / $paginasLista) == ($pagina / $paginasLista))
-		$inicio = $inicio * $paginasLista - $paginasLista + 1;
-	else
-		$inicio = $inicio * $paginasLista + 1;
-
-	
-
-if ($paginasLista > 1) { 
-   if ($pagina > 20)
-      echo '<li><span><a href="'.$url.'?pagina='.($inicio-1). $qrstring.'">Previous</a></span></a>';
-      for ($i=$inicio;$i<=($paginasLista + $inicio - 1);$i++) {
-         if ($pagina == $i)
-            //si muestro el índice de la página actual, no coloco enlace
-            echo $pagina;
-         else
-            //si el índice no corresponde con la página mostrada actualmente,
-            //coloco el enlace para ir a esa página
-            echo '  <li><span><a href="'.$url.'?pagina='.$i.$qrstring.'">'.$i.'</a></span></a>  ';
-      }
-      if ($total_paginas > $paginasLista)
-         echo '<li><span><a href="'.$url.'?pagina='.($i).$qrstring.'">Next</span></a></li>';
-}
-?>
-
-<!--							<li><a href="#"><span>Previous</span></a></li>
-							<li><a href="#" class="active"><span>1</span></a></li>
-							<li><a href="#"><span>2</span></a></li>
-							<li><a href="#"><span>3</span></a></li>
-							<li><a href="#"><span>4</span></a></li>
-							<li><a href="#"><span>5</span></a></li>
-							<li><a href="#"><span>6</span></a></li>
-							<li><a href="#"><span>7</span></a></li>
-							<li><a href="#"><span>8</span></a></li>
-							<li><a href="#"><span>9</span></a></li>
-							<li><a href="#"><span>10</span></a></li>
-							<li><a href="#"><span>Next</span></a></li> -->
-						</ul>
+				<div class="results-footer">
+					<div class="text-muted small">
+	<?php if($totalFilas > 0){ ?>
+		Pagina <?php echo (int)$pagina; ?> de <?php echo (int)ceil($totalFilas / $TAMANO_PAGINA); ?> &middot; <?php echo (int)$totalFilas; ?> registros encontrados.
+	<?php }else{ ?>
+		Sin registros para los filtros actuales.
+	<?php } ?>
 					</div>
-				</td>
-			</tr>
-		</tfoot>
+					<div class="paging">
+	<?php 
+		//calculo el total de pï¿½ginas
+		$total_paginas = ceil($totalFilas / $TAMANO_PAGINA);
 
-	</table>
+		$paginasLista = $total_paginas;
+	if($paginasLista > 20)
+		$paginasLista = 20;
 
-</form>
-<br><br><br>
-<?php
+		$qrstring .= "&orden=" . $orden;
+		$qrstring .= "&orni=" . $descAsc;
+
+	if ($paginasLista > 0) {
+		$inicio =  floor($pagina / $paginasLista);
+		if(floor($pagina / $paginasLista) == ($pagina / $paginasLista))
+			$inicio = $inicio * $paginasLista - $paginasLista + 1;
+		else
+			$inicio = $inicio * $paginasLista + 1;
 	}
-?>
 
+	if ($paginasLista > 1) { 
+	   if ($pagina > 20)
+	      echo '<a href="noenviado.php?pagina='.($inicio-1). $qrstring.'">Previous</a>';
+	      for ($i=$inicio;$i<=($paginasLista + $inicio - 1);$i++) {
+	         if ($pagina == $i)
+	            echo '<span class="current">'.$pagina.'</span>';
+	         else
+	            echo '<a href="noenviado.php?pagina='.$i.$qrstring.'">'.$i.'</a>';
+	      }
+	      if ($total_paginas > $paginasLista)
+	         echo '<a href="noenviado.php?pagina='.($i).$qrstring.'">Next</a>';
+	}
+	?>
+					</div>
+				</div>
 
+			</form>
+		</div>
+		<br><br>
+	<?php
+		}
+	?>
 
- </body>
-</html>
+	</div>
+	 </body>
+	</html>

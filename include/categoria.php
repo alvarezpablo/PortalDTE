@@ -177,7 +177,7 @@ if(trim($_SESSION["_COD_EMP_USU_SESS"]) == "85"){
 // CATEGORIA
 if($_SESSION["_GPUERTO_"] == "1" || trim($_SESSION["_COD_ROL_SESS"]) == "1"){
   $_ARRAY_MENU["RAIZ"]["ID"][$i] = "grupo_puerto";
-  $_ARRAY_MENU["RAIZ"]["TITULO"][$i] = "Carga DTE";
+  $_ARRAY_MENU["RAIZ"]["TITULO"][$i] = "Grupo Puerto";
 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ID"][$j] = "cargadte";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["CLASS"][$j] = "node";

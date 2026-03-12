@@ -1,107 +1,86 @@
-<?php 
-  include("../include/config.php");  
-  include("../include/ver_aut.php");      
-//  include("../include/ver_aut_adm.php");        
-  include("../include/ver_emp_adm.php");
+<?php
+	include("../include/config.php");
+	include("../include/ver_aut.php");
+//	include("../include/ver_aut_adm.php");
+	include("../include/ver_emp_adm.php");
+	include("../include/db_lib.php");
+	include("../include/tables.php");
 
-  include("../include/db_lib.php"); 
-  include("../include/tables.php");   
+	$sTipo = isset($_GET["sTipo"]) ? trim((string)$_GET["sTipo"]) : "";
 
-  $sTipo = trim($_GET["sTipo"]);
+	if (!function_exists('h')) {
+		function h($value) {
+			return htmlspecialchars((string)$value, ENT_QUOTES, 'ISO-8859-1');
+		}
+	}
+
+	$returnUrl = $_LINK_BASE . "libros/list_libro.php?sTipo=" . rawurlencode($sTipo);
 ?>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
 <html>
- 
- <head>
-  <link rel="shortcut icon" href="/favicon.ico">
-  <title>OpenB</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <base href="<?php echo $_LINK_BASE; ?>" />
-  <script language="javascript" type="text/javascript" src="javascript/common.js"></script>
-  <script language="javascript" type="text/javascript" src="javascript/msg.js"></script>    
-  
-  <link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/general.css">
-  <link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/main/custom.css">
-  <link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/main/layout.css">
-  <link rel="stylesheet" type="text/nonsense" href="skins/<?php echo $_SKINS; ?>/css/misc.css">
-
-
-<script type="text/javascript">
-<!--
-
-
-function _body_onload()
-{
- loff();
- SetContext('cl_ed');
-  
-}
-
-function _body_onunload()
-{
- lon();
- 
-}
-
-//-->
-  </script>
- </head>
-
- <body onLoad="_body_onload();" onUnload="_body_onunload();" id="mainCP" class="visibilityAdminMode">
- 
- <a href="#" name="top" id="top"></a>
- <table border="0" cellspacing="0" cellpadding="0" id="loaderContainer" onClick="return false;"><tr><td id="loaderContainerWH"><div id="loader"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><p><img src="skins/<?php echo $_SKINS; ?>/icons/loading.gif" height="32" width="32" alt=""/><strong>Por favor espere.<br>Cargando ...</strong></p></td></tr></table></div></td></tr></table>
-
- <table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td id="screenWH">
- <div class="pathbar"><a href="javascript:void(0);" onClick="location.href='<?php echo $_LINK_BASE; ?>libros/list_genera.php';">Factura Pendiente</a> &gt; </div>
- <div class="screenTitle">
-  <table width="100%" cellspacing="0">
-  <tr>
-   <td>Resultado de Eliminar Libro : </td>
-   <td class="uplevel"><div class="commonButton" id="bid-up-level" title="Subir nivel"><button name="bname_up_level">Subir nivel</button><span>Subir nivel</span></div></td>
-  </tr>
-  </table>
- </div>
- <div id="screenSubTitle"></div>
- <div id="screenTabs">
-  <div id="tabs">
-   
-  </div>
-
- </div>
- <div class="screenBody" id="">
-  
-
-
- <div class="formArea">
-  <fieldset>
-   <legend>Resultado de Eliminar Libro </legend>
-    <table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td align="center">
-<br> <h3>Libro Eliminado</h3>
-<br><br>
-     <div class="commonButton" id="bid-ok" title="Aceptar" onClick="location.href='<?php echo $_LINK_BASE; ?>libros/list_libro.php?sTipo=<?php echo $sTipo;  ?>';" onMouseOver="" onMouseOut=""><button name="bname_ok">Aceptar</button><span>Aceptar</span></div>
- <br>    <br> <br>
-    </td></tr></table>
-  </fieldset>
-
- </div>
- 
- <div class="formArea">
-  <table width="100%" class="buttons" cellspacing="0" cellpadding="0"><tr>
-   <td class="main" width="0"></td>
-  </tr></table>
-
-
- </div>
-
-</form>
-
- </div>
-	</td></tr></table>
+	<head>
+		<link rel="shortcut icon" href="/favicon.ico">
+		<title>OpenB</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<base href="<?php echo h($_LINK_BASE); ?>" />
+		<script language="javascript" type="text/javascript" src="javascript/common.js"></script>
+		<script language="javascript" type="text/javascript" src="javascript/msg.js"></script>
+		<link rel="stylesheet" type="text/css" href="skins/<?php echo h($_SKINS); ?>/css/general.css">
+		<link rel="stylesheet" type="text/css" href="skins/<?php echo h($_SKINS); ?>/css/main/custom.css">
+		<link rel="stylesheet" type="text/css" href="skins/<?php echo h($_SKINS); ?>/css/main/layout.css">
+		<link rel="stylesheet" type="text/nonsense" href="skins/<?php echo h($_SKINS); ?>/css/misc.css">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+		<style type="text/css">
+			body{background:#eef2f7;color:#1f2937;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}
+			.page-shell{max-width:920px;margin:0 auto;padding:1rem;}
+			.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;background:linear-gradient(135deg,#001f3f 0%,#0b5ed7 100%);color:#fff;border-radius:18px;padding:1rem 1.15rem;box-shadow:0 18px 40px rgba(15,23,42,.16);margin-bottom:1rem;}
+			.topbar-eyebrow{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;opacity:.82;margin-bottom:.2rem;}
+			.topbar-title{margin:0;font-size:1.35rem;font-weight:700;line-height:1.15;}
+			.topbar-meta{font-size:.92rem;opacity:.9;margin-top:.35rem;}
+			.topbar-chip{display:inline-flex;align-items:center;padding:.35rem .7rem;border-radius:999px;background:rgba(255,255,255,.16);font-size:.8rem;font-weight:600;}
+			.panel{background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:18px;box-shadow:0 16px 36px rgba(15,23,42,.08);overflow:hidden;}
+			.panel-body{padding:1.4rem;}
+			.success-card{border:1px solid #dbe3ee;border-radius:16px;background:#f8fafc;padding:1.5rem;text-align:center;}
+			.success-icon{width:64px;height:64px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#dbeafe;color:#0b5ed7;font-size:1.7rem;font-weight:700;margin-bottom:1rem;}
+			.success-title{font-size:1.1rem;font-weight:700;color:#0f172a;margin-bottom:.35rem;}
+			.success-text{color:#64748b;margin-bottom:1rem;}
+			.form-actions{display:flex;justify-content:center;gap:.65rem;flex-wrap:wrap;}
+			@media (max-width: 991px){.topbar{flex-direction:column;}}
+		</style>
+		<script type="text/javascript">
+		<!--
+		function _body_onload(){ loff(); SetContext('cl_ed'); }
+		function _body_onunload(){ lon(); }
+		//-->
+		</script>
+	</head>
+	<body onLoad="_body_onload();" onUnload="_body_onunload();" id="mainCP" class="visibilityAdminMode">
+		<a href="#" name="top" id="top"></a>
+		<table border="0" cellspacing="0" cellpadding="0" id="loaderContainer" onClick="return false;"><tr><td id="loaderContainerWH"><div id="loader"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><p><img src="skins/<?php echo h($_SKINS); ?>/icons/loading.gif" height="32" width="32" alt=""/><strong>Por favor espere.<br>Cargando ...</strong></p></td></tr></table></div></td></tr></table>
+		<div class="page-shell">
+			<div class="topbar">
+				<div>
+					<div class="topbar-eyebrow">Libros</div>
+					<h1 class="topbar-title">Resultado de eliminacion</h1>
+					<div class="topbar-meta">La eliminacion del libro fue procesada y el flujo conserva el retorno al listado filtrado por tipo.</div>
+				</div>
+				<span class="topbar-chip"><?php echo ($sTipo != "") ? h($sTipo) : 'Listado'; ?></span>
+			</div>
+			<div class="panel">
+				<div class="panel-body">
+					<div class="success-card">
+						<div class="success-icon">&#10003;</div>
+						<div class="success-title">Libro eliminado</div>
+						<div class="success-text">Puede volver al listado del modulo para continuar administrando libros cargados.</div>
+						<div class="form-actions">
+							<a href="<?php echo h($returnUrl); ?>" class="btn btn-primary">Aceptar</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</body>
-
 	<script type="text/javascript">
 		try {
 			lsetup();

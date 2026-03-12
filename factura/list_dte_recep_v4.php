@@ -194,6 +194,18 @@
 		$fech_update_sii = $fech_update_sii3;
 	else
 		$fech_update_sii = $fech_update_sii1;
+
+	$hayBusqueda = !empty($_GET);
+	$filtrosResumen = array();
+	if($tipo != "") $filtrosResumen[] = "Tipo: " . poneTipo($tipo);
+	if($folio != "") $filtrosResumen[] = "Folio: " . $folio;
+	if($rutFiltro != "") $filtrosResumen[] = "Rut emisor: " . $rutFiltro;
+	if($fecha1 != "" || $fecha2 != "") $filtrosResumen[] = "Emisi&oacute;n: " . ($fecha1 != "" ? $fecha1 : $fecha2) . " a " . ($fecha2 != "" ? $fecha2 : $fecha1);
+	if($fechac1 != "" || $fechac2 != "") $filtrosResumen[] = "Recepci&oacute;n: " . ($fechac1 != "" ? $fechac1 : $fechac2) . " a " . ($fechac2 != "" ? $fechac2 : $fechac1);
+	if($hayBusqueda && !($AAR == "1" && $SAR == "1")) $filtrosResumen[] = "Acuse: filtro personalizado";
+	if($hayBusqueda && !($AAC == "1" && $RAC == "1" && $SAC == "1")) $filtrosResumen[] = "Respuesta comercial: filtro personalizado";
+	if($hayBusqueda && !($CRM == "1" && $RRM == "1" && $SRM == "1")) $filtrosResumen[] = "Recibo mercader&iacute;a: filtro personalizado";
+	$cantidadFiltros = count($filtrosResumen);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -209,41 +221,72 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
         :root {
-            --primary-color: #0b5ed7;
+	            --primary-color: #0b5ed7;
             --primary-dark: #001f3f;
             --secondary-color: #6c757d;
             --surface-color: #ffffff;
             --border-color: #dbe3ef;
             --muted-color: #6b7280;
+	            color-scheme: light;
         }
-        body { background-color: #eef3f8; }
-        .page-shell { max-width: 100%; margin: 0 auto; }
-        .card {
+	        body { background-color: #f4f7fb; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #16324f; }
+	        .page-shell { max-width: 1600px; margin: 0 auto; padding: 24px 16px 32px; }
+	        .topbar,
+	        .panel {
+	            background: #fff;
+	            border: 1px solid #dbe7f3;
+	            border-radius: 16px;
+	            box-shadow: 0 10px 30px rgba(0, 31, 63, 0.08);
+	        }
+	        .topbar {
+	            padding: 22px 24px;
+	            margin-bottom: 20px;
+	        }
+	        .topbar-title {
+	            color: var(--primary-dark);
+	            font-size: 1.35rem;
+	            font-weight: 700;
+	            margin: 0;
+	        }
+	        .topbar-meta,
+	        .panel-note { color: #5b7088; }
+	        .topbar-chip {
+	            display: inline-flex;
+	            align-items: center;
+	            gap: 8px;
+	            border-radius: 999px;
+	            padding: 6px 12px;
+	            font-size: 0.88rem;
+	            font-weight: 600;
+	            background: #eef4fb;
+	            color: var(--primary-color);
+	        }
+	        .panel {
             border: 1px solid var(--border-color);
-            border-radius: 0.65rem;
-            box-shadow: 0 0.125rem 0.25rem rgba(15, 23, 42, .05);
+	            border-radius: 16px;
+	            box-shadow: 0 10px 30px rgba(0, 31, 63, 0.08);
             overflow: hidden;
         }
-        .card + .card { margin-top: 0.9rem; }
-        .card-header {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
-            color: white;
-            font-weight: 600;
-            padding: 0.65rem 0.9rem;
-            border-bottom: 0;
+	        .panel + .panel { margin-top: 0.9rem; }
+	        .panel-header {
+	            background: linear-gradient(180deg, #f8fbff 0%, #f1f6fc 100%);
+	            color: var(--primary-dark);
+	            font-weight: 600;
+	            padding: 16px 20px;
+	            border-bottom: 1px solid #e4edf6;
         }
-        .card-header-title {
+	        .panel-header-title {
             display: flex;
             align-items: center;
             gap: 0.45rem;
             line-height: 1.1;
         }
-        .card-body { padding: 0.9rem; }
-        .card-body.compact-body { padding: 0.85rem; }
-        .card-footer {
-            background-color: #f8fafc;
+	        .panel-body { padding: 18px 20px; }
+	        .panel-body.compact-body { padding: 18px 20px; }
+	        .panel-footer {
+	            background-color: #fff;
             border-top: 1px solid var(--border-color);
-            padding: 0.7rem 0.9rem;
+	            padding: 14px 20px;
         }
         .table-container { max-height: 60vh; overflow-y: auto; }
         .table { margin-bottom: 0; }
@@ -316,18 +359,37 @@
             padding: 0.7rem 0.8rem;
             height: 100%;
         }
+	        .filter-summary {
+	            background: #f8fafc;
+	            border: 1px dashed #cbd5e1;
+	            border-radius: 14px;
+	            padding: 0.9rem 1rem;
+	        }
+	        .filter-chip {
+	            display: inline-flex;
+	            align-items: center;
+	            gap: 0.35rem;
+	            padding: 0.35rem 0.75rem;
+	            background: #fff;
+	            border: 1px solid #dbe7f3;
+	            border-radius: 999px;
+	            font-size: 0.8rem;
+	            color: #334155;
+	            margin: 0.25rem 0.35rem 0 0;
+	        }
+	        .filter-chip i { color: var(--primary-color); }
         .results-meta {
             display: flex;
             align-items: center;
             gap: 0.6rem;
             flex-wrap: wrap;
-            color: rgba(255,255,255,.9);
+	            color: #5b7088;
             font-size: 0.8rem;
         }
         .results-meta .badge {
-            background-color: rgba(255,255,255,.18) !important;
-            color: #fff;
-            border: 1px solid rgba(255,255,255,.24);
+	            background-color: #eef4fb !important;
+	            color: var(--primary-color);
+	            border: 1px solid #d7e6fb;
             font-weight: 600;
         }
         .ops-cell { min-width: 138px; }
@@ -361,6 +423,13 @@
             font-size: 0.82rem;
             color: #64748b;
         }
+	        .pagination-wrap {
+	            display: flex;
+	            justify-content: space-between;
+	            align-items: center;
+	            gap: 1rem;
+	            flex-wrap: wrap;
+	        }
         .loading-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0,0,0,0.5); z-index: 9999; display: none;
@@ -371,14 +440,20 @@
         a.sort-link { color: white; text-decoration: none; }
         a.sort-link:hover { color: #dbeafe; }
         @media (max-width: 991px) {
-            body { padding: 0.8rem !important; }
-            .card-body { padding: 0.8rem; }
+	            .panel-body { padding: 16px; }
             .results-meta { margin-top: 0.35rem; }
-            .card-footer .d-flex { gap: 0.6rem; }
+	            .panel-footer .d-flex { gap: 0.6rem; }
+	        }
+	        @media (max-width: 767px) {
+	            .page-shell { padding: 16px 12px 24px; }
+	            .topbar,
+	            .panel-header,
+	            .panel-body,
+	            .panel-footer { padding-left: 14px; padding-right: 14px; }
         }
     </style>
 </head>
-<body class="p-3">
+<body>
 
 <div class="page-shell">
 
@@ -479,15 +554,31 @@
     </div>
 </div>
 
+<div class="topbar">
+	<div class="d-flex flex-column flex-xl-row justify-content-between align-items-xl-center gap-3">
+		<div>
+			<p class="topbar-meta mb-2"><i class="bi bi-inbox me-2"></i>Recepci&oacute;n documental activa</p>
+			<h1 class="topbar-title">DTE Recibidos</h1>
+			<p class="panel-note mb-0">Consulte documentos recibidos, responda al SII, exporte a Excel y actualice el registro de compras sin alterar la operatoria actual del m&oacute;dulo.</p>
+		</div>
+		<div class="d-flex flex-wrap gap-2 justify-content-xl-end">
+			<span class="topbar-chip"><i class="bi bi-funnel"></i><?php echo $hayBusqueda ? ($cantidadFiltros . ' filtros activos') : 'B&uacute;squeda inicial'; ?></span>
+			<span class="topbar-chip"><i class="bi bi-cloud-download"></i><?php echo $fech_update_sii != '' ? 'SII: ' . h($fech_update_sii) : 'Sin actualizaci&oacute;n registrada'; ?></span>
+			<span class="topbar-chip"><i class="bi bi-file-earmark-excel"></i>Excel hasta 10.000 registros</span>
+		</div>
+	</div>
+</div>
+
 <!-- Formulario de B&uacute;squeda -->
-<div class="card mb-4">
-    <div class="card-header">
-        <div class="card-header-title">
-            <i class="bi bi-search"></i>
-            <span>B&uacute;squeda de DTE Recibidos</span>
-        </div>
-    </div>
-    <div class="card-body compact-body">
+<div class="panel mb-4">
+	    <div class="panel-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
+	        <div>
+	            <div class="panel-header-title"><i class="bi bi-search"></i><span>B&uacute;squeda de DTE Recibidos</span></div>
+	            <div class="panel-note mt-1">Combine filtros por tipo, fechas y emisor; los botones de actualizaci&oacute;n, no recibidos y respuesta SII se mantienen intactos.</div>
+	        </div>
+	        <span class="topbar-chip"><i class="bi bi-lightning-charge"></i>Acciones y respuestas preservadas</span>
+	    </div>
+	    <div class="panel-body compact-body">
 	        <form name="_BUSCA" id="_BUSCA" method="get" action="list_dte_recep_v4.php" onsubmit="return valida();">
             <div class="row g-2 align-items-end">
                 <!-- Tipo DTE -->
@@ -618,6 +709,27 @@
             </script>
             <?php } ?>
 
+	            <div class="row mt-3">
+	                <div class="col-12">
+	                    <div class="filter-summary">
+	                        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
+	                            <div>
+	                                <strong class="d-block">Resumen de filtros</strong>
+	                                <span class="page-summary"><?php echo $hayBusqueda ? 'La consulta respeta las acciones actuales del proceso.' : 'Configure los criterios para consultar el registro de compras.'; ?></span>
+	                            </div>
+	                            <span class="topbar-chip"><i class="bi bi-list-check"></i><?php echo $cantidadFiltros > 0 ? $cantidadFiltros . ' criterios activos' : 'Sin filtros adicionales'; ?></span>
+	                        </div>
+	                        <?php if($cantidadFiltros > 0): ?>
+	                            <div class="mt-2">
+	                                <?php foreach($filtrosResumen as $filtroResumen): ?>
+	                                    <span class="filter-chip"><i class="bi bi-check2-circle"></i><?php echo $filtroResumen; ?></span>
+	                                <?php endforeach; ?>
+	                            </div>
+	                        <?php endif; ?>
+	                    </div>
+	                </div>
+	            </div>
+
             <div class="row mt-3">
                 <div class="col-12">
                     <div class="compact-actions">
@@ -641,15 +753,15 @@
 
 <!-- Tabla de Resultados -->
 <?php if($_GET){ ?>
-<div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <span class="card-header-title"><i class="bi bi-table"></i> <span>Resultados</span></span>
+<div class="panel">
+	    <div class="panel-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
+	        <span class="panel-header-title"><i class="bi bi-table"></i> <span>Resultados</span></span>
         <div class="results-meta">
             <span class="badge rounded-pill">40 por p&aacute;gina</span>
             <span>Vista compacta</span>
         </div>
     </div>
-    <div class="card-body p-0">
+	    <div class="panel-body p-0">
         <div class="table-container">
             <table class="table table-striped table-hover table-bordered table-sm mb-0">
                 <thead>
@@ -884,8 +996,8 @@
         else
             $inicio_pag = $inicio_pag * $paginasLista + 1;
     ?>
-    <div class="card-footer">
-        <div class="d-flex justify-content-between align-items-center flex-wrap">
+	    <div class="panel-footer">
+	        <div class="pagination-wrap">
 		            <span class="page-summary">Mostrando p&aacute;gina <?php echo h($pagina); ?> de <?php echo h($total_paginas); ?> (<?php echo h($totalFilas); ?> registros)</span>
             <nav>
                 <ul class="pagination pagination-sm mb-0">

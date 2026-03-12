@@ -1,207 +1,201 @@
 <?php
 
-  include("../include/config.php");
-$_NO_MSG=true;
-  include("../include/db_lib.php");
-  include("../include/tables.php");
+include("../include/config.php");
+$_NO_MSG = true;
+include("../include/db_lib.php");
+include("../include/tables.php");
+include("../include/ver_aut.php");
+include("../include/ver_emp_adm.php");
 
-        include("../include/ver_aut.php");
-    include("../include/ver_emp_adm.php");
+$conn = conn();
+$nFolioDte = isset($_GET["nFolioDte"]) ? (string) $_GET["nFolioDte"] : "";
+$nTipoDocu = isset($_GET["nTipoDocu"]) ? (string) $_GET["nTipoDocu"] : "";
 
-?>
-
-<!doctype html>
-<html lang="en">
- <head>
-  <meta charset="UTF-8">
-  <meta name="Generator" content="EditPlus®">
-  <meta name="Author" content="">
-  <meta name="Keywords" content="">
-  <meta name="Description" content="">
-  <title>TrackDTE</title>
- <style>
- .datagrid table { border-collapse: collapse; text-align: left; width: 100%;} 
- .datagrid {font: normal 12px/150% Arial, Helvetica, sans-serif; background: #fff; overflow: hidden; border: 1px solid #006699; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }
- .datagrid table td, .datagrid table th { padding: 3px 10px; }
- .datagrid table thead th {background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; color:#FFFFFF; font-size: 15px; font-weight: bold; border-left: 1px solid #0070A8; } 
- .datagrid table thead th:first-child { border: none; }
- .datagrid table tbody td { color: #00557F; border-left: 1px solid #E1EEF4;font-size: 12px;font-weight: normal; }
- .datagrid table tbody .alt td { background: #E1EEf4; color: #00557F; }
- .datagrid table tbody td:first-child { border-left: none; }
- .datagrid table tbody tr:last-child td { border-bottom: none; }
- .datagrid table tfoot td div { border-top: 1px solid #006699;background: #E1EEf4;} 
- .datagrid table tfoot td { padding: 0; font-size: 12px } 
- .datagrid table tfoot td div{ padding: 2px; }
- .datagrid table tfoot td ul { margin: 0; padding:0; list-style: none; text-align: left; }
- .datagrid table tfoot  li { display: inline; }
- .datagrid table tfoot li a { text-decoration: none; display: inline-block;  padding: 2px 8px; margin: 1px;color: #FFFFFF;border: 1px solid #006699;-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; }
- .datagrid table tfoot ul.active, .datagrid table tfoot ul a:hover { text-decoration: none;border-color: #00557F; color: #FFFFFF; background: none; background-color:#006699;}div.dhtmlx_window_active, div.dhx_modal_cover_dv { position: fixed !important; } 
-
- .container {
-	width: 30em;
-	overflow-x: auto;
-	white-space: nowrap;
-	border-collapse: collapse; text-align: left; width: 100%;
-	font: normal 12px/150% Arial, Helvetica, sans-serif; background: #fff; overflow: hidden; border: 1px solid #006699; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; 
-}
- .container td, .container th { padding: 3px 10px; }
- .container thead th {background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; color:#FFFFFF; font-size: 12px; font-weight: bold; border-left: 1px solid #0070A8; } 
- .container thead th:first-child { border: none; }
- .container tbody td { color: #00557F; border-left: 1px solid #E1EEF4;font-size: 10px;font-weight: normal; }
- .alink {background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; color:#FFFFFF; font-size: 12px; font-weight: bold; border-left: 1px solid #0070A8; } 
- .container tbody .alt td { background: #E1EEf4; color: #00557F; }
- .container tbody td:first-child { border-left: none; }
- .container tbody tr:last-child td { border-bottom: none; }
- .container tfoot td div { border-top: 1px solid #006699;background: #E1EEf4;} 
- .container tfoot td { padding: 0; font-size: 12px } 
- .container tfoot td div{ padding: 2px; }
- .container tfoot td ul { margin: 0; padding:0; list-style: none; text-align: left; }
- .container tfoot  li { display: inline; }
- .container tfoot li a { text-decoration: none; display: inline-block;  padding: 2px 8px; margin: 1px;color: #FFFFFF;border: 1px solid #006699;-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; }
- .container tfoot ul.active, .container tfoot ul a:hover { text-decoration: none;border-color: #00557F; color: #FFFFFF; background: none; background-color:#006699;}div.dhtmlx_window_active, div.dhx_modal_cover_dv { position: fixed !important; } 
-
-
-.myButton {
-	-moz-box-shadow:inset 0px 1px 0px 0px #dcecfb;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #dcecfb;
-	box-shadow:inset 0px 1px 0px 0px #dcecfb;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #bddbfa), color-stop(1, #80b5ea));
-	background:-moz-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
-	background:-webkit-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
-	background:-o-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
-	background:-ms-linear-gradient(top, #bddbfa 5%, #80b5ea 100%);
-	background:linear-gradient(to bottom, #bddbfa 5%, #80b5ea 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#bddbfa', endColorstr='#80b5ea',GradientType=0);
-	background-color:#bddbfa;
-	-moz-border-radius:6px;
-	-webkit-border-radius:6px;
-	border-radius:6px;
-	border:1px solid #84bbf3;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:6px 24px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #528ecc;
-}
-.myButton:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #80b5ea), color-stop(1, #bddbfa));
-	background:-moz-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
-	background:-webkit-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
-	background:-o-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
-	background:-ms-linear-gradient(top, #80b5ea 5%, #bddbfa 100%);
-	background:linear-gradient(to bottom, #80b5ea 5%, #bddbfa 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#80b5ea', endColorstr='#bddbfa',GradientType=0);
-	background-color:#80b5ea;
-}
-.myButton:active {
-	position:relative;
-	top:1px;
+if (!function_exists('h')) {
+	function h($value) {
+		return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+	}
 }
 
-.fondo{
-	background-color: #FBFCFC; 
-	background-image: url("../skins/aqua/images/main_bg.gif"); 
-	background-repeat: repeat-y;
-}
+$movimientos = array();
+$sql = "SELECT tipo_docu, folio_dte, to_char(ts,'dd-mm-yyyy hh:MI') as ts2 ,est_dte, msg_track_dte FROM trackdte WHERE tipo_docu = '" . str_replace("'","''", $nTipoDocu) . "' AND folio_dte = '" . str_replace("'","''", $nFolioDte) . "' and codi_empr = '" . trim($_SESSION["_COD_EMP_USU_SESS"]) . "' order by ts asc";
+$result = rCursor($conn, $sql);
 
-  </style>
- </head>
- <body class="fondo">
-<?php
+while (!$result->EOF) {
+	$tipo_docu = trim($result->fields["tipo_docu"]);
+	$est_dte = trim($result->fields["est_dte"]);
+	$ts = trim($result->fields["ts2"]);
+	$msg_track_dte = trim($result->fields["msg_track_dte"]);
+	$descextra = "";
+	$numboleta = "";
 
-
-  $conn = conn();
-  $nFolioDte = $_GET["nFolioDte"];
-  $nTipoDocu = $_GET["nTipoDocu"];
-
-  // Enviaremos un xml
-
-	$sql = "SELECT tipo_docu, folio_dte, to_char(ts,'dd-mm-yyyy hh:MI') as ts2 ,est_dte, msg_track_dte FROM trackdte WHERE tipo_docu = '" . str_replace("'","''",$nTipoDocu) . "' AND folio_dte = '" . str_replace("'","''",$nFolioDte) . "' and codi_empr = '". trim($_SESSION["_COD_EMP_USU_SESS"]) . "' order by ts asc";
-	$result = rCursor($conn, $sql);
-        $clase = "alt";
-	$entra = false;
-	echo "<h2><center>Movimientos de Tipo DTE: $nTipoDocu. Folio: $nFolioDte</center></h2><br>";
-	
-	echo "<table class='container'><thead><tr><th>Fecha</th><th>Glosa</th></tr>\n  </thead> <tbody>";
-	while (!$result->EOF) {
-		$entra = true;
-		$tipo_docu = trim($result->fields["tipo_docu"]);
-		$folio_dte =  trim($result->fields["folio_dte"]);
-		$est_dte =  trim($result->fields["est_dte"]);
-		$ts =  trim($result->fields["ts2"]);
-		$msg_track_dte =  trim($result->fields["msg_track_dte"]);
-
-		if(($tipo_docu == "39" || $tipo_docu == "41") and ($est_dte == "64" || $est_dte == "77")){
-//if(($tipo_docu == "39" || $tipo_docu == "41") ){
-			$sql = "SELECT msg_xdte, num_envioboleta FROM xmldte WHERE tipo_docu = '" . str_replace("'","''",$nTipoDocu) . "' AND folio_dte = '" . str_replace("'","''",$nFolioDte) . "' and codi_empr = '". trim($_SESSION["_COD_EMP_USU_SESS"]) . "'";
-			$result2 = rCursor($conn, $sql);
-			if(!$result2->EOF) {
-                		$descextra = str_replace("\n","<br>",trim($result2->fields["msg_xdte"]));
-				$numboleta = str_replace("\n","<br>",trim($result2->fields["num_envioboleta"]));  
-			}
-			if(trim(str_replace("<br>","",$descextra)) == "" && $numboleta != ""){
-				$sql = "SELECT msg_sii FROM xmlenvioboleta WHERE num_xed = '" . $numboleta. "'";
-				$result3 = rCursor($conn, $sql); 
-                        	if(!$result3->EOF) {
-                	                $msgsii = trim($result3->fields["msg_sii"]);
-			//		echo $msgsii;
-	                        }
-			}
-
-			echo "<tr class='$alt'><td>$ts</td><td>$msg_track_dte<br>$descextra</td></tr>\n";
+	if (($tipo_docu == "39" || $tipo_docu == "41") && ($est_dte == "64" || $est_dte == "77")) {
+		$sql = "SELECT msg_xdte, num_envioboleta FROM xmldte WHERE tipo_docu = '" . str_replace("'","''", $nTipoDocu) . "' AND folio_dte = '" . str_replace("'","''", $nFolioDte) . "' and codi_empr = '" . trim($_SESSION["_COD_EMP_USU_SESS"]) . "'";
+		$result2 = rCursor($conn, $sql);
+		if (!$result2->EOF) {
+			$descextra = str_replace("\n", "<br>", trim($result2->fields["msg_xdte"]));
+			$numboleta = str_replace("\n", "<br>", trim($result2->fields["num_envioboleta"]));
 		}
-		else	
-			echo "<tr class='$alt'><td>$ts</td><td>$msg_track_dte</td></tr>\n";
 
-		if($alt == "")
-			$alt = "alt";
-		else
-			$alt = "";
-
-		$result->MoveNext();
+		if (trim(str_replace("<br>", "", $descextra)) == "" && $numboleta != "") {
+			$sql = "SELECT msg_sii FROM xmlenvioboleta WHERE num_xed = '" . $numboleta . "'";
+			$result3 = rCursor($conn, $sql);
+			if (!$result3->EOF) {
+				$msgsii = trim($result3->fields["msg_sii"]);
+			}
+		}
 	}
 
-	if($entra == false){
-		$tipo_docu=$nTipoDocu;
-                if(($tipo_docu == "39" || $tipo_docu == "41") ){
-                        $sql = "SELECT msg_xdte, num_envioboleta FROM xmldte WHERE tipo_docu = '" . str_replace("'","''",$nTipoDocu) . "' AND folio_dte = '" . str_replace("'","''",$nFolioDte) . "' and codi_empr = '". trim($_SESSION["_COD_EMP_USU_SESS"]) . "'";
-                        $result2 = rCursor($conn, $sql);
-                        if(!$result2->EOF) {
-                                $descextra = str_replace("\n","<br>",trim($result2->fields["msg_xdte"]));
-                                $numboleta = str_replace("\n","<br>",trim($result2->fields["num_envioboleta"]));
-                        }
-                        if(trim($numboleta) != ""){
-                                $sql = "SELECT msg_sii FROM xmlenvioboleta WHERE num_xed = '" . $numboleta. "'";
-                                $result3 = rCursor($conn, $sql);
-                                if(!$result3->EOF) {
-                                        $msgsii = trim($result3->fields["msg_sii"]);
-					$data = json_decode($msgsii, true);  // true convierte el JSON a un array asociativo
-					$estado = $data['estado'];
-					
-					if($estado == "RSC"){
-						$msg_track_dte = $data['detalle_rep_rech'][0]["descripcion"];
-						$descextra =  $data['detalle_rep_rech'][0]['error'][0]['descripcion'];
-					}
-					if($estado == "EPR"){
-						
-					}						
-
-                        //              echo $msgsii;
-                                }
-                        }
-
-                        echo "<tr class='$alt'><td>$ts</td><td>$msg_track_dte<br>$descextra</td></tr>\n";
-                }   
+	$detalle = $msg_track_dte;
+	if (trim($descextra) != "") {
+		$detalle .= "<br>" . $descextra;
 	}
 
+	$movimientos[] = array(
+		"fecha" => $ts,
+		"detalle" => $detalle
+	);
 
-	echo "</tbody></table>";
+	$result->MoveNext();
+}
+
+if (count($movimientos) == 0 && ($nTipoDocu == "39" || $nTipoDocu == "41")) {
+	$msg_track_dte = "";
+	$descextra = "";
+	$numboleta = "";
+	$ts = "";
+	$sql = "SELECT msg_xdte, num_envioboleta FROM xmldte WHERE tipo_docu = '" . str_replace("'","''", $nTipoDocu) . "' AND folio_dte = '" . str_replace("'","''", $nFolioDte) . "' and codi_empr = '" . trim($_SESSION["_COD_EMP_USU_SESS"]) . "'";
+	$result2 = rCursor($conn, $sql);
+	if (!$result2->EOF) {
+		$descextra = str_replace("\n", "<br>", trim($result2->fields["msg_xdte"]));
+		$numboleta = str_replace("\n", "<br>", trim($result2->fields["num_envioboleta"]));
+	}
+
+	if (trim($numboleta) != "") {
+		$sql = "SELECT msg_sii FROM xmlenvioboleta WHERE num_xed = '" . $numboleta . "'";
+		$result3 = rCursor($conn, $sql);
+		if (!$result3->EOF) {
+			$msgsii = trim($result3->fields["msg_sii"]);
+			$data = json_decode($msgsii, true);
+			$estado = isset($data['estado']) ? $data['estado'] : "";
+
+			if ($estado == "RSC") {
+				$msg_track_dte = isset($data['detalle_rep_rech'][0]["descripcion"]) ? $data['detalle_rep_rech'][0]["descripcion"] : "";
+				$descextra = isset($data['detalle_rep_rech'][0]['error'][0]['descripcion']) ? $data['detalle_rep_rech'][0]['error'][0]['descripcion'] : $descextra;
+			}
+		}
+	}
+
+	if (trim($msg_track_dte) != "" || trim(str_replace("<br>", "", $descextra)) != "") {
+		$detalle = $msg_track_dte;
+		if (trim($descextra) != "") {
+			$detalle .= ($detalle != "" ? "<br>" : "") . $descextra;
+		}
+
+		$movimientos[] = array(
+			"fecha" => $ts,
+			"detalle" => $detalle
+		);
+	}
+}
+
+$hayMovimientos = count($movimientos) > 0;
 ?>
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Track DTE</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+		<style>
+			body{margin:0;background:#eef2f7;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:#1f2937}
+			.page-shell{max-width:920px;margin:0 auto;padding:16px}
+			.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+			.topbar-eyebrow{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#0b5ed7;margin-bottom:4px}
+			.topbar-title{margin:0;font-size:26px;font-weight:700;color:#001f3f}
+			.topbar-meta{margin-top:6px;font-size:13px;color:#64748b;max-width:680px}
+			.topbar-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+			.topbar-chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid #cfe0f5;border-radius:999px;background:#f8fbff;color:#0b5ed7;font-size:12px;font-weight:700}
+			.panel{border:1px solid rgba(15,23,42,.08);border-radius:20px;box-shadow:0 16px 40px rgba(15,23,42,.08);overflow:hidden;background:#fff}
+			.panel-header{padding:16px 20px;background:linear-gradient(135deg,#001f3f 0%,#0b5ed7 100%);color:#fff}
+			.panel-title{font-size:18px;font-weight:700}
+			.panel-subtitle{margin-top:4px;font-size:13px;opacity:.92}
+			.panel-body{padding:20px}
+			.panel-note{background:#f8fbff;border:1px solid #d8e4f0;border-radius:16px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:#334155}
+			.table thead th{background:#001f3f;color:#fff;border-color:#001f3f;white-space:nowrap}
+			.table tbody td{vertical-align:top}
+			.track-date{white-space:nowrap;font-weight:600;color:#0f172a}
+			.track-detail{font-size:13px;line-height:1.5;color:#334155}
+			.empty-state{padding:32px 16px;text-align:center;color:#64748b}
+			.empty-state i{font-size:32px;color:#94a3b8}
+			.actions-row{display:flex;justify-content:flex-end;gap:12px;flex-wrap:wrap;margin-top:18px}
+			@media (max-width:768px){.page-shell{padding:12px}.topbar-title{font-size:22px}.panel-body{padding:16px}}
+		</style>
+	</head>
+	<body>
+		<div class="page-shell">
+			<div class="topbar">
+				<div>
+					<div class="topbar-eyebrow">DTE emitidos</div>
+					<h1 class="topbar-title">Seguimiento del documento</h1>
+					<div class="topbar-meta">Se conserva la consulta original a <strong>trackdte</strong> y, cuando corresponde, las validaciones sobre <strong>xmldte</strong> y <strong>xmlenvioboleta</strong> dentro del mismo popup.</div>
+				</div>
+				<div class="topbar-chips">
+					<div class="topbar-chip"><i class="bi bi-file-earmark-text"></i> Tipo <?php echo h($nTipoDocu); ?></div>
+					<div class="topbar-chip"><i class="bi bi-hash"></i> Folio <?php echo h($nFolioDte); ?></div>
+				</div>
+			</div>
 
+			<div class="card panel">
+				<div class="panel-header">
+					<div class="panel-title"><i class="bi bi-diagram-3 me-2"></i>Movimientos registrados</div>
+					<div class="panel-subtitle">Popup de trazabilidad del DTE consultado.</div>
+				</div>
+				<div class="card-body panel-body">
+					<div class="panel-note">
+						Se mantienen intactos los par&aacute;metros <strong>nFolioDte</strong> y <strong>nTipoDocu</strong>, junto con el criterio original de b&uacute;squeda y despliegue del track.
+					</div>
 
- </body>
+					<div class="table-responsive">
+						<table class="table table-hover align-middle mb-0">
+							<thead>
+								<tr>
+									<th style="width: 180px;">Fecha</th>
+									<th>Glosa</th>
+								</tr>
+							</thead>
+							<tbody>
+							<?php if ($hayMovimientos): ?>
+								<?php foreach ($movimientos as $movimiento): ?>
+									<tr>
+										<td class="track-date"><?php echo h($movimiento['fecha']); ?></td>
+										<td class="track-detail"><?php echo $movimiento['detalle']; ?></td>
+									</tr>
+								<?php endforeach; ?>
+							<?php else: ?>
+								<tr>
+									<td colspan="2">
+										<div class="empty-state">
+											<i class="bi bi-inbox"></i>
+											<div class="mt-3 fw-semibold">No hay movimientos para mostrar</div>
+											<div class="small">El documento consultado no devolvi&oacute; trazas visibles para esta empresa.</div>
+										</div>
+									</td>
+								</tr>
+							<?php endif; ?>
+							</tbody>
+						</table>
+					</div>
+
+					<div class="actions-row">
+						<button type="button" class="btn btn-outline-secondary" onclick="window.close();">
+							<i class="bi bi-x-circle me-2"></i>Cerrar
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>

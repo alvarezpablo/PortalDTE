@@ -1,187 +1,27 @@
-<?php 
-	include("../include/config.php");  
-  include("../include/ver_aut.php");      
-  include("../include/ver_emp_adm.php");        
-	include("../include/db_lib.php"); 
-	include("../include/tables.php"); 
-  
-  $conn = conn();
-  $sTipo = $_GET["sTipo"];  
-  $sLinkActual = "libros/list_libro.php?sTipo=" . $sTipo;  
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<?php
+include("../include/config.php");
+include("../include/ver_aut.php");
+include("../include/ver_emp_adm.php");
+include("../include/db_lib.php");
+include("../include/tables.php");
 
-<html>
-	<head>
-		<link rel="shortcut icon" href="/favicon.ico">
-		<title>OpenB</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-		<base href="<?php echo $_LINK_BASE; ?>" />
-
-		<script language="javascript" type="text/javascript" src="javascript/common.js"></script>
-		<link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/general.css">
-		<link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/main/custom.css">
-		<link rel="stylesheet" type="text/css" href="skins/<?php echo $_SKINS; ?>/css/main/layout.css">
-		<link rel="stylesheet" type="text/nonsense" href="skins/<?php echo $_SKINS; ?>/css/misc.css">
-
-
-		<script type="text/javascript">
-<!--
-function _body_onload()
-{
-	SetContext('clients');
-	setActiveButtonByName('clients');
-	loff();
-	
+function h($value){ return htmlspecialchars((string)$value, ENT_QUOTES, 'ISO-8859-1'); }
+function estadoLibro($estado){
+	switch((string)$estado){
+		case "0": return "Cargado";
+		case "1": return "Enviado a SII";
+		case "3": return "Aceptado SII";
+		case "5": return "Rechazado SII";
+		case "8": return "Rechazado SII";
+		case "13": return "Aceptado con Reparos";
+		default: return "Sin estado";
+	}
 }
 
-function _body_onunload()
-{
-	lon();
-	
-}
-
-
-var opt_no_frames = false;
-var opt_integrated_mode = false;
-setActiveButtonByName("clients");
-
-
-   function chListBoxSearch(){
-      var F = document._FSEARCH;
-      for(i=0; i < F._COLUM_SEARCH.length; i++){
-        if(F._COLUM_SEARCH.options[i].value == "<?php echo $_COLUM_SEARCH; ?>")
-          F._COLUM_SEARCH.options[i].selected = true;
-      }
-    }
-    
-    function chSelDelEmp(){
-      var F = document._FDEL;
-    
-      for(i=0; i < F.elements.length; i++){
-        if(F.elements[i].name == "del[]"){
-            if(F.elements[i].checked == true)
-              return true;
-          
-        }
-      }
-      return false;
-    }
-    
-    function chDelEmp(){
-      if(chSelDelEmp() == true){
-        if(confirm(_MSG_DEL_EMP))
-          document._FDEL.submit();
-      }
-      else
-        alert(_MSG_SEL_EMP_DEL);
-    }
-    
-    function chDchALL(){
-      var F = document._FDEL;
-      var obj = F.clientslistSelectAll;
-      
-      if(obj.checked == true){
-        for(i=0; i < F.elements.length; i++){
-           if(F.elements[i].name == "del[]")
-              F.elements[i].checked = true;                                 
-        }
-      }
-      else{
-        for(i=0; i < F.elements.length; i++){
-           if(F.elements[i].name == "del[]")
-              F.elements[i].checked = false;                                 
-        }
-      }
-    }
-
-    function delLibro(sTipo, nCodClcv){
-		if(confirm("Eliminar Libro"))
-    		location.href="libros/del_libro.php?sTipo=" + sTipo + "&nCodClcv=" + nCodClcv;		
-    }
-
-//-->
-		</script>
-	</head>
-	<body onLoad="_body_onload();" onUnload="_body_onunload();" id="mainCP" class="visibilityAdminMode">
-	
-	<a href="#" name="top" id="top"></a>
-	<table border="0" cellspacing="0" cellpadding="0" id="loaderContainer" onClick="return false;"><tr><td id="loaderContainerWH"><div id="loader"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><p><img src="skins/<?php echo $_SKINS; ?>/icons/loading.gif" height="32" width="32" alt=""/><strong>Por favor espere.<br>Cargando ...</strong></p></td></tr></table></div></td></tr></table>
-
-	<a href="#" name="top" id="top"></a>
-
-	<?php sTituloCabecera("Libro de $sTipo"); ?>
-	<?php // sAgregaHerramienta("screenClientList", "Herramientas", $aBotonEmpHerramienta); ?>
-
-	<div class="screenBody">
-		<div class="listArea">
-			<fieldset>
-				<legend>Libro de <?php echo $sTipo; ?></legend>
-				<table width="100%" cellspacing="0" cellpadding="0" border="0">
-					<tr>
-						<td>
-							<table width="100%" cellspacing="0" class="buttons">
-								<td class="main">
-									<div>
-<!--                    <form name="_FSEARCH" method="get" action="<?php echo $_LINK_BASE . $sLinkActual; ?>">
-                    <INPUT type="hidden" name="_EST_DTE" value="<?php echo $_EST_DTE; ?>">
-                    <select name="_COLUM_SEARCH">
-                      <option value="D.folio_dte">Folio Dte</option>
-                      <option value="D.fec_emi_dte">Fecha Emisi&oacute;n</option>                      
-                      <option value="D.fec_venc_dte">Fecha Vencimiento</option>                    
-                      <option value="D.nom_rec_dte">Razon Social Receptor</option>                    
-                      <option value="D.giro_rec_dte">Giro Receptor</option>                    
-                    </select>
-                    <script> chListBoxSearch(); </script>
-                    
-										<input type="text" name="_STRING_SEARCH" id="searchInput" value="<?php echo $_STRING_SEARCH; ?>" size="20" maxlength="245">
-										<div class="commonButton" id="bid-search" title="Buscar"  name="bid-search">
-											<button name="bname_search" onclick="document._FSEARCH.submit();">Buscar</button><span>Buscar</span>
-										</div>
--->
-<!--										<div class="commonButton" id="bid-show-all" title="Mostrar todo" name="bid-show-all">
-											<button name="bname_show_all">Mostrar todo</button><span>Mostrar todo</span>
-										</div> -->
-<!--                    </form> -->
-									</div>
-								</td>
-
-                <td class="misc">
-
-				<?php	if($_EST_DTE == "0" || $_EST_DTE == "1" || $_EST_DTE == "3") { ?>
-				<!--					<div>
-										<div class="commonButton">&nbsp;</div>
-
-										<div class="commonButton" id="bid-remove-selected" title="Eliminar seleccion"  name="bid-remove-selected">
-											<button name="bname_remove_selected" onclick="chDelEmp();">Eliminar seleccion</button><span>Eliminar seleccion</span>
-										</div>
-									</div> -->
-				<?php  } ?>
-								</td>
-							</table>
-              
-            <form name="_FDEL" method="post" action="empresa/pro_emp.php">
-              <input type="hidden" name="sAccion" value="E">
-							<table width="100%" cellspacing="0" class="list">
-<?php 
-/* Correcion sobre eliminacion de libros segun SII
- * 17-01-2009 
-  $sql = "  SELECT 
-				clcv_correl, 
-				clcv_rut_emisor,
-				clcv_dv_emisor,
-				clcv_per_trib,
-				clcv_tip_lib,
-				clcv_tip_env
-			FROM
-				lcv
-			WHERE
-				clcv_tip_oper = '" . str_replace("'","''",$sTipo) . "' AND
-				codi_empr = '" . trim($_SESSION["_COD_EMP_USU_SESS"]) . "'
-			ORDER BY clcv_per_trib DESC ";
-        */
-  $sql = "  SELECT 
+$conn = conn();
+$sTipo = isset($_GET["sTipo"]) ? (string)$_GET["sTipo"] : "";
+$sLinkActual = "libros/list_libro.php?sTipo=" . $sTipo;
+$sql = "  SELECT 
 				L.clcv_correl, 
 				L.clcv_rut_emisor,
 				L.clcv_dv_emisor,
@@ -189,7 +29,7 @@ setActiveButtonByName("clients");
 				L.clcv_tip_lib,
 				L.clcv_tip_env,
 				LX.est_lcx,
-				'<a href=\"libros/view_xml.php?nClcvcorrel=' || LX.clcv_correl || '\">Ver</a>' as xml,	
+				'<a href=\"libros/view_xml.php?nClcvcorrel=' || LX.clcv_correl || '\">Ver</a>' as xml,
 				LX.trackid
 			FROM
 				lcv L,
@@ -199,125 +39,139 @@ setActiveButtonByName("clients");
 				L.codi_empr = '" . trim($_SESSION["_COD_EMP_USU_SESS"]) . "' AND
 				L.clcv_correl = LX.clcv_correl
 			ORDER BY L.clcv_per_trib DESC ";
-        
-        if($_ORDER_BY_COLUM == "D.folio_dte"){
-           $sClassFol = "class='sort'";
-           $sImgFol = "<img src='" . $_IMG_BY_ORDER . "'>";          
-        }
-        else{
-          if($_ORDER_BY_COLUM == "D.fec_emi_dte"){
-            $sClassFED = "class='sort'";
-            $sImgFED = "<img src='" . $_IMG_BY_ORDER . "'>";          
-          }
-          else{
-            if($_ORDER_BY_COLUM == "D.fec_venc_dte"){
-              $sClassFVC = "class='sort'";
-              $sImgFVC = "<img src='" . $_IMG_BY_ORDER . "'>";          
-            }
-            else{
-              if($_ORDER_BY_COLUM == "D.giro_rec_dte"){
-                $sClassGR = "class='sort'";
-                $sImgGR = "<img src='" . $_IMG_BY_ORDER . "'>";          
-              }
-              else{
-                if($_ORDER_BY_COLUM == "DT.desc_tipo_docu"){
-                  $sClassTD = "class='sort'";
-                  $sImgTD = "<img src='" . $_IMG_BY_ORDER . "'>";          
-                }
-                else{
-                  $sClassFol = "class='sort'";
-                  $sImgFol = "<img src='" . $_IMG_BY_ORDER . "'>";                     
-                }
-              }
-            }
-          }
-        }
-        
-?>			              
-                <tr>
-			<th>Estado</th>
-			<th>Trackid</th>
-		                  <th>Periodo</th>									
-				  <th>Tipo Libro</th>									
-				  <th>Tipo Envio</th>									
-				  <th>Detalle</th>				
-			<th>XML</th>
-				  <th>X</th>
-				</tr>
-                
-  
-                
-<?php 
-/***********************************************************/
-        
-        $result = $conn->selectLimit($sql, $_NUM_ROW_LIST, $_NUM_ROW_LIST * $_NUM_PAG_ACT);        
-        $sPaginaResult = sPagina($conn, $sql, $sLinkActual);        // string de paginacion
-        
-        $sClassRow = "evenrowbg";                                   // clase de la hoja de estilo 
-        
-        while (!$result->EOF) {
-          $nCodClcv = trim($result->fields["clcv_correl"]);
-		  $sPerTrib = trim($result->fields["clcv_per_trib"]);
-          $sTipLib = trim($result->fields["clcv_tip_lib"]);
-          $sTipEnv = trim($result->fields["clcv_tip_env"]);
-          $nEstLcx = trim($result->fields["est_lcx"]);                
 
-	$xml = trim($result->fields["xml"]);
-	$trackid = trim($result->fields["trackid"]);
+$result = $conn->selectLimit($sql, $_NUM_ROW_LIST, $_NUM_ROW_LIST * $_NUM_PAG_ACT);
+$sPaginaResult = sPagina($conn, $sql, $sLinkActual);
+$libros = array();
 
-	if($nEstLcx == "0")
-		$estLibro = "Cargado";
-        if($nEstLcx == "1") 
-                $estLibro = "Enviado a SII";
-        if($nEstLcx == "3") 
-                $estLibro = "Aceptado SII";
-        if($nEstLcx == "5")
-                $estLibro = "Rechazado SII";
-        if($nEstLcx == "8") 
-                $estLibro = "Rechazado SII";
-        if($nEstLcx == "13")
-                $estLibro = "Aceptado con Reparos";
+while(!$result->EOF){
+	$nCodClcv = trim($result->fields["clcv_correl"]);
+	$nEstLcx = trim($result->fields["est_lcx"]);
+	$libros[] = array(
+		"correl" => $nCodClcv,
+		"periodo" => trim($result->fields["clcv_per_trib"]),
+		"tipo_libro" => trim($result->fields["clcv_tip_lib"]),
+		"tipo_envio" => trim($result->fields["clcv_tip_env"]),
+		"estado_codigo" => $nEstLcx,
+		"estado_texto" => estadoLibro($nEstLcx),
+		"xml" => trim($result->fields["xml"]),
+		"trackid" => trim($result->fields["trackid"]),
+		"permite_eliminar" => ($nEstLcx == 8 || $nEstLcx == 0 || $nEstLcx == 13 || $nEstLcx == 5)
+	);
+	$result->MoveNext();
+}
+?>
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<link rel="shortcut icon" href="/favicon.ico">
+		<title>Libros - Portal DTE</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<base href="<?php echo h($_LINK_BASE); ?>" />
+		<script type="text/javascript" src="javascript/common.js"></script>
+		<link rel="stylesheet" type="text/css" href="skins/<?php echo h($_SKINS); ?>/css/general.css">
+		<link rel="stylesheet" type="text/css" href="skins/<?php echo h($_SKINS); ?>/css/main/custom.css">
+		<link rel="stylesheet" type="text/css" href="skins/<?php echo h($_SKINS); ?>/css/main/layout.css">
+		<link rel="stylesheet" type="text/nonsense" href="skins/<?php echo h($_SKINS); ?>/css/misc.css">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+		<style>
+			body{background:#eef2f7;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:#1f2937}.page-shell{max-width:1280px;margin:0 auto;padding:1rem}.topbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}.panel{border:1px solid rgba(15,23,42,.06);border-radius:18px;box-shadow:0 14px 32px rgba(15,23,42,.08);overflow:hidden}.panel-header{background:linear-gradient(135deg,#001f3f 0%,#0b5ed7 100%);color:#fff;padding:1rem 1.25rem}.panel-note{background:#f8fbff;border:1px solid #d7e3f0;border-radius:14px;padding:.95rem 1rem}.table thead th{background:#001f3f;color:#fff;white-space:nowrap}.table tbody td{vertical-align:middle}.table tbody tr:hover{background:#f8fbff}.status-pill{display:inline-flex;align-items:center;padding:.35rem .75rem;border-radius:999px;font-size:.8rem;font-weight:600;background:#e7f1ff;color:#0b5ed7}.paging{display:flex;gap:.45rem;flex-wrap:wrap;align-items:center}.paging a,.paging span{display:inline-flex;align-items:center;justify-content:center;min-width:2rem;height:2rem;border:1px solid #d0d7e2;border-radius:999px;padding:0 .7rem;background:#fff;color:#0f172a;text-decoration:none;font-size:.85rem}.paging a:hover{background:#eff6ff;border-color:#93c5fd}.empty-state{padding:4rem 1rem;text-align:center;color:#6b7280}.empty-state i{font-size:3rem}#loaderContainer{position:fixed;inset:0;background:rgba(15,23,42,.3);z-index:1050}#loaderContainerWH{vertical-align:middle;text-align:center}#loader{display:inline-block;background:#fff;border-radius:14px;padding:1rem 1.25rem;box-shadow:0 12px 28px rgba(15,23,42,.18)}
+		</style>
+		<script type="text/javascript">
+		function _body_onload(){ try{ SetContext('clients'); setActiveButtonByName('clients'); }catch(e){} try{ loff(); }catch(e){} }
+		function _body_onunload(){ try{ lon(); }catch(e){} }
+		var opt_no_frames = false, opt_integrated_mode = false;
+		function delLibro(url){ if(confirm('Eliminar Libro')) location.href = url; return false; }
+		</script>
+	</head>
+	<body onload="_body_onload();" onunload="_body_onunload();" id="mainCP" class="visibilityAdminMode">
+		<a href="#" name="top" id="top"></a>
+		<table border="0" cellspacing="0" cellpadding="0" id="loaderContainer" onclick="return false;"><tr><td id="loaderContainerWH"><div id="loader"><p class="mb-0"><img src="skins/<?php echo h($_SKINS); ?>/icons/loading.gif" height="32" width="32" alt="" class="me-2"/><strong>Por favor espere.<br>Cargando ...</strong></p></div></td></tr></table>
 
-?>																												
-			<tr class="<?php echo $sClassRow; ?>">
-				<td><?php echo $estLibro; ?></td>
-				<td><?php echo $trackid; ?></td>
-				<td><?php echo $sPerTrib; ?></td>
-				<td><?php echo $sTipLib; ?></td>
-				<td><?php echo $sTipEnv; ?></td>
-				<td><a href="libros/det_libro.php?sTipo=<?php echo $sTipo; ?>&nCodClcv=<?php echo $nCodClcv; ?>">Ver</a></td>
-<td><?php echo $xml; ?></td>
+		<div class="page-shell">
+			<div class="topbar">
+				<div>
+					<div class="small text-secondary">Libros &gt; Listado</div>
+					<h1 class="h3 mb-0">Libro de <?php echo h($sTipo); ?></h1>
+				</div>
+				<div class="d-flex gap-2 flex-wrap">
+					<span class="badge rounded-pill text-bg-light text-primary-emphasis">Paginaci&oacute;n original preservada</span>
+					<a href="main.php" class="btn btn-outline-secondary"><i class="bi bi-house-door me-2"></i>Inicio</a>
+				</div>
+			</div>
 
-<?php	if($nEstLcx == 8 || $nEstLcx == 0 || $nEstLcx == 13 || $nEstLcx == 5){		?>
-				<td><a href="javascript:delLibro('<?php echo $sTipo; ?>',<?php echo $nCodClcv; ?>);">Eliminar</a></td>
-				
-<?php 	}else{ ?>
-				<td>&nbsp;</td>
-<?php   } ?>
-			</tr>
-
-<?php
-          if($sClassRow == "oddrowbg")
-            $sClassRow = "evenrowbg";
-          else
-            $sClassRow = "oddrowbg";
-            
-          $result->MoveNext();
-        } 
-        
-/**********************************************************/
-?>		                
-                              
-                
- 							</table>
-							<div class="paging"><?php echo $sPaginaResult; ?></div>
-						</td>
-					</tr>
-					<tr><td><b>Nota: Solo se pueden borrar los libros con error</b></td></tr>
-				</table>
-			</fieldset>
+			<div class="card panel">
+				<div class="panel-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
+					<div>
+						<div class="fw-semibold"><i class="bi bi-journal-text me-2"></i>Listado de libros electr&oacute;nicos</div>
+						<div class="small mt-1">Se mantiene la consulta original sobre <strong>lcv</strong> y <strong>lcvxml</strong>, junto con los accesos a detalle, XML y eliminaci&oacute;n.</div>
+					</div>
+					<span class="badge rounded-pill text-bg-light text-primary-emphasis"><?php echo count($libros); ?> registro(s) en la p&aacute;gina</span>
+				</div>
+				<div class="card-body p-4">
+					<div class="panel-note mb-4">
+						<div class="fw-semibold mb-1"><i class="bi bi-info-circle me-2"></i>Nota operativa</div>
+						<div class="text-secondary small">Solo se pueden borrar los libros con error, manteniendo el mismo flujo hacia <code>libros/del_libro.php</code>.</div>
+					</div>
+					<div class="table-responsive">
+						<table class="table table-hover align-middle mb-0">
+							<thead>
+								<tr>
+									<th>Estado</th>
+									<th>Trackid</th>
+									<th>Periodo</th>
+									<th>Tipo Libro</th>
+									<th>Tipo Env&iacute;o</th>
+									<th>Detalle</th>
+									<th>XML</th>
+									<th>Acci&oacute;n</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php if(count($libros) > 0): ?>
+									<?php foreach($libros as $libro): ?>
+										<?php
+										$detailUrl = 'libros/det_libro.php?sTipo=' . rawurlencode($sTipo) . '&nCodClcv=' . rawurlencode($libro['correl']);
+										$deleteUrl = 'libros/del_libro.php?sTipo=' . rawurlencode($sTipo) . '&nCodClcv=' . rawurlencode($libro['correl']);
+										?>
+										<tr>
+											<td><span class="status-pill"><?php echo h($libro['estado_texto']); ?></span></td>
+											<td><?php echo h($libro['trackid']); ?></td>
+											<td><?php echo h($libro['periodo']); ?></td>
+											<td><?php echo h($libro['tipo_libro']); ?></td>
+											<td><?php echo h($libro['tipo_envio']); ?></td>
+											<td><a href="<?php echo h($detailUrl); ?>" class="btn btn-outline-primary btn-sm"><i class="bi bi-eye me-1"></i>Ver</a></td>
+											<td><?php echo $libro['xml']; ?></td>
+											<td><?php if($libro['permite_eliminar']): ?><a href="#" class="btn btn-outline-danger btn-sm" onclick="return delLibro('<?php echo h($deleteUrl); ?>');"><i class="bi bi-trash me-1"></i>Eliminar</a><?php else: ?><span class="text-muted small">No disponible</span><?php endif; ?></td>
+										</tr>
+									<?php endforeach; ?>
+								<?php else: ?>
+									<tr>
+										<td colspan="8">
+											<div class="empty-state">
+												<i class="bi bi-journal-x"></i>
+												<h5 class="mt-3">No hay libros para mostrar</h5>
+												<p class="mb-0">Pruebe con otro tipo de libro o revise si existen registros asociados a la empresa actual.</p>
+											</div>
+										</td>
+									</tr>
+								<?php endif; ?>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<?php if(trim($sPaginaResult) != ""): ?>
+				<div class="card-footer bg-white">
+					<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+						<span class="text-muted small">La navegaci&oacute;n sigue usando la paginaci&oacute;n legacy del m&oacute;dulo.</span>
+						<div class="paging"><?php echo $sPaginaResult; ?></div>
+					</div>
+				</div>
+				<?php endif; ?>
+			</div>
 		</div>
-	</div>
- 	
- </body>
+		<script type="text/javascript">try{ lsetup(); }catch(e){}</script>
+	</body>
 </html>

@@ -45,6 +45,82 @@ exit();*/
 		//return "envio realizado...";
 	}
 
+	function renderGpuertoPageStart($eyebrow, $title, $meta, $panelTitle, $panelSubtitle, $chipText, $chipIcon = 'bi bi-box-seam') {
+		echo <<<HTML
+<!doctype html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Grupo Puerto</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+	<style>
+		body{margin:0;background:#eef2f7;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:#1f2937}
+		.page-shell{max-width:1120px;margin:0 auto;padding:16px}
+		.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+		.topbar-eyebrow{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#0b5ed7;margin-bottom:4px}
+		.topbar-title{margin:0;font-size:28px;font-weight:700;color:#001f3f}
+		.topbar-meta{margin-top:6px;max-width:760px;font-size:13px;color:#64748b}
+		.topbar-chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid #cfe0f5;border-radius:999px;background:#f8fbff;color:#0b5ed7;font-size:12px;font-weight:700}
+		.panel{border:1px solid rgba(15,23,42,.08);border-radius:20px;box-shadow:0 16px 40px rgba(15,23,42,.08);overflow:hidden;background:#fff}
+		.panel-header{padding:16px 20px;background:linear-gradient(135deg,#001f3f 0%,#0b5ed7 100%);color:#fff}
+		.panel-title{font-size:18px;font-weight:700}
+		.panel-subtitle{margin-top:4px;font-size:13px;opacity:.92}
+		.panel-body{padding:20px}
+		.panel-note{background:#f8fbff;border:1px solid #d8e4f0;border-radius:16px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:#334155}
+		.upload-grid{display:flex;flex-wrap:wrap;gap:16px;align-items:end}
+		.upload-field{flex:1 1 320px}
+		.file-label{display:block;margin-bottom:6px;font-size:13px;font-weight:700;color:#334155}
+		.file-input{display:block;width:100%;padding:9px 12px;border:1px solid #cbd5e1;border-radius:12px;background:#fff;color:#0f172a}
+		.helper-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+		.helper-link{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid #d8e4f0;border-radius:999px;background:#fff;color:#0b5ed7;text-decoration:none;font-size:13px;font-weight:600}
+		.helper-link:hover{background:#eff6ff;color:#0a58ca}
+		.results-wrap{overflow-x:auto}
+		.results-table{width:100%;border-collapse:collapse;background:#fff}
+		.results-table th,.results-table td{padding:12px 14px;border:1px solid #d8e4f0;font-size:13px;vertical-align:top}
+		.results-table th{background:#001f3f;color:#fff;font-weight:700}
+		.results-table a{color:#0b5ed7;font-weight:700;text-decoration:none}
+		.results-table a:hover{text-decoration:underline}
+		.form-actions{display:flex;justify-content:flex-end;gap:12px;flex-wrap:wrap;margin-top:18px}
+		@media (max-width: 768px){
+			.page-shell{padding:12px}
+			.topbar-title{font-size:24px}
+			.panel-body{padding:16px}
+			.form-actions .btn{width:100%}
+		}
+	</style>
+</head>
+<body>
+	<div class="page-shell">
+		<div class="topbar">
+			<div>
+				<div class="topbar-eyebrow">{$eyebrow}</div>
+				<h1 class="topbar-title">{$title}</h1>
+				<div class="topbar-meta">{$meta}</div>
+			</div>
+			<div class="topbar-chip"><i class="{$chipIcon}"></i> {$chipText}</div>
+		</div>
+
+		<div class="card panel">
+			<div class="panel-header">
+				<div class="panel-title">{$panelTitle}</div>
+				<div class="panel-subtitle">{$panelSubtitle}</div>
+			</div>
+			<div class="card-body panel-body">
+HTML;
+	}
+
+	function renderGpuertoPageEnd() {
+		echo <<<HTML
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+HTML;
+	}
+
   // PhpSpreadsheet (reemplaza PHPExcel obsoleto)
   require_once dirname(__DIR__) . '/vendor/autoload.php';
   use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -74,6 +150,15 @@ $fileName = $file['name'];
 $fileError = $file['error'];
 
 if($fileError==0 && $file != "") {
+		renderGpuertoPageStart(
+			'Carga masiva Laudus',
+			'Grupo Puerto',
+			'Se conserva intacto el flujo legacy de lectura del Excel, generacion DTE, integracion con Laudus y registro en OpenDTE.',
+			'<i class="bi bi-file-earmark-spreadsheet me-2"></i>Resultado del procesamiento',
+			'Se muestran las respuestas actuales del proceso junto con el PDF y la respuesta Laudus del flujo existente.',
+			'Proceso en ejecucion',
+			'bi bi-cloud-arrow-up'
+		);
 	$inputFileName = $fileTmp;
 //	date_default_timezone_set('PRC');
 	//  Read excel file 
@@ -82,7 +167,9 @@ if($fileError==0 && $file != "") {
 	    $objReader = IOFactory::createReader($inputFileType);
 		$objPHPExcel = $objReader->load($inputFileName);
 	} catch(Exception $e) {
-		echo $e->getMessage();
+			echo "<div class='alert alert-danger mb-0'>" . $e->getMessage() . "</div>";
+			echo "<div class='form-actions'><a href='gpuerto.php' class='btn btn-outline-secondary'><i class='bi bi-arrow-left-circle me-2'></i>Volver</a></div>";
+			renderGpuertoPageEnd();
 		exit;
 	}
 	//  Determine what to read sheet, What is? sheet, see excel In the lower right corner 
@@ -103,7 +190,8 @@ if($fileError==0 && $file != "") {
 	$numLineaRef = 1;
 	$iniDTEAnt = "";
 
-	echo "<br><br><h3>Iniciando Proceso Archivo...</h3><table border=1><tr><th>Respuesta</th><th>PDF</th><th>Resp.Laudus</th></tr>";
+		echo "<div class='panel-note'><strong>Iniciando proceso del archivo.</strong> El modulo mantiene el procesamiento original del Excel, la emision DTE y la integracion con Laudus sin alterar contratos ni endpoints.</div>";
+		echo "<div class='results-wrap'><table class='results-table'><tr><th>Respuesta</th><th>PDF</th><th>Resp. Laudus</th></tr>";
 
 	for ($row = 1; $row <= $highestRow; $row++) {
 //		$rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, NULL, TRUE, FALSE);
@@ -539,7 +627,10 @@ if($fileError==0 && $file != "") {
 		$conn->failTrans(); // rollback
 	}
 
-	echo "</table><br><h3>Fin Proceso del Archivo</h3>";
+		echo "</table></div>";
+		echo "<div class='panel-note mt-3 mb-0'><strong>Fin del proceso del archivo.</strong> Puede volver al formulario para ejecutar una nueva carga con el mismo flujo operativo del modulo.</div>";
+		echo "<div class='form-actions'><a href='gpuerto.php' class='btn btn-outline-secondary'><i class='bi bi-arrow-left-circle me-2'></i>Cargar otro archivo</a></div>";
+		renderGpuertoPageEnd();
 
 	//  Return to the front end after success 
 //	echo "OK";
@@ -872,45 +963,46 @@ catch (Exception $e) {
   }
 
 if($file=="") {
-?>
-<!doctype html>
-<html lang="en">
- <head>
-  <meta charset="UTF-8">
-  <meta name="Generator" content="EditPlus�">
-  <meta name="Author" content="">
-  <meta name="Keywords" content="">
-  <meta name="Description" content="">
-  <title>Grupo Puerto</title>
-  <script>
-	function desac(){
-		document._FFORM.b.disabled = true;
-	}
-  </script>
+		renderGpuertoPageStart(
+			'Carga masiva Laudus',
+			'Grupo Puerto',
+			'Cargue el archivo Excel usando el mismo endpoint, el mismo nombre de campo y el mismo comportamiento del formulario legacy.',
+			'<i class="bi bi-cloud-arrow-up me-2"></i>Subida de archivo',
+			'Se conserva el envio hacia gpuerto.php con el campo sFileCaf y el bloqueo del boton al enviar.',
+			'Grupo Puerto',
+			'bi bi-building'
+		);
+	?>
+	<script>
+		function desac(){
+			document._FFORM.b.disabled = true;
+		}
+	</script>
 
- </head>
- <body>
- <br>
-  <table>
-  <tr>
-	<td>
-	<h2>Seleccionar Excel</h2>
-	  <br><br>
+	<div class="panel-note">
+		Seleccione el archivo de carga y ejecute el proceso con la misma logica actual. Los documentos de apoyo siguen disponibles para revisar el formato esperado.
+	</div>
+
 	<form name="_FFORM" enctype="multipart/form-data" action="gpuerto.php" method="post" onsubmit="desac();">
 		<input type="hidden" name="MAX_FILE_SIZE" value="504857600">
-		<input type="file" name="sFileCaf" id="sFileCaf" value="" size="25" maxlength="1000">
-		<input type="submit" name="b">
+		<div class="upload-grid">
+			<div class="upload-field">
+				<label class="file-label" for="sFileCaf">Archivo Excel</label>
+				<input type="file" name="sFileCaf" id="sFileCaf" value="" size="25" maxlength="1000" class="file-input">
+			</div>
+			<div class="form-actions mt-0">
+				<input type="submit" name="b" class="btn btn-primary" value="Procesar archivo">
+			</div>
+		</div>
 	</form>
-<br><br>
-<a href="doc/formato.xls" target="_blank">Definici&oacute;n de Formato</a><br><br>
-<a href="doc/ejemplo2.xlsx" target="_blank">Archivo de Ejemplo</a><br><br>
-	</td>
-	  </tr>
-	  </table>
- </body>
-</html>
-<?php
-		
+
+	<div class="helper-links">
+		<a href="doc/formato.xls" target="_blank" class="helper-link"><i class="bi bi-file-earmark-text"></i>Definicion de formato</a>
+		<a href="doc/ejemplo2.xlsx" target="_blank" class="helper-link"><i class="bi bi-file-earmark-spreadsheet"></i>Archivo de ejemplo</a>
+	</div>
+	<?php
+		renderGpuertoPageEnd();
+			
 }	
 ?>
 
