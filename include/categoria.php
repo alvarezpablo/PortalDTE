@@ -166,7 +166,7 @@ if(trim($_SESSION["_COD_EMP_USU_SESS"]) == "85"){
     $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ID"][$j] = "consultacaf";
     $_ARRAY_MENU["RAIZ"]["NODO"][$i]["CLASS"][$j] = "node";
     $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ICONO"][$j] = "skins/" . $_SKINS . "/images/btn_show_bg.gif";
-    $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "caf/disp_caf.php";
+	    $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "caf/disp_caf_v2.php";
     $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TARGET"][$j] = "workFrame";
     $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Consulta Caf";
   
