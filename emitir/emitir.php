@@ -625,7 +625,7 @@ return false;
 	
 	if (numerico(form.folio.value.trim(),"",1) == false){
 		form.folio.focus();
-		alert("Ingrese folio N�merico del DTE...");
+			alert("Ingrese folio N\u00fam\u00e9rico del DTE...");
 		return false;
 	}
 <?php }	?>
@@ -714,7 +714,7 @@ return false;
 	}
 
 	if(form.tipodocto_ref1.options[form.tipodocto_ref1.selectedIndex].value == "2" && parseFloat(eval("form.total_t.value")) > 0){
-		alert("Los Documentos de Correcci�n de Texto, administrativas, debe ser Emitida por un Monto Total de 0...");
+			alert("Los Documentos de Correcci\u00f3n de Texto, administrativas, debe ser Emitida por un Monto Total de 0...");
 		form.tipodocto_ref1.focus();
 		return false;		
 	}
@@ -842,8 +842,8 @@ function traeCliente(){
 	}
 
 	if(rutClie != "" && rutClie != rutClieOld){
-		if (rut(rutClie,"Formato de RUT Incorrecto, ingresar sin punto y con gui�n") == false){
-	//		alert("Formato de RUT Incorrecto, ingresar sin punto y con gui�n.");
+			if (rut(rutClie,"Formato de RUT Incorrecto, ingresar sin punto y con gui\u00f3n") == false){
+		//		alert("Formato de RUT Incorrecto, ingresar sin punto y con gui\u00f3n.");
 			document.getElementById('rut_cliente').value = "";
 		}
 		else{
@@ -854,15 +854,15 @@ function traeCliente(){
 
 			// Realizar la solicitud POST utilizando fetch
 			fetch('<?php echo $_LINK_BASE; ?>emitir/ws_clie.php', {
-				method: 'POST', // M�todo HTTP
+					method: 'POST', // Metodo HTTP
 				headers: {
-					'Content-Type': 'application/json' // Indica que se env�an datos JSON
+						'Content-Type': 'application/json' // Indica que se envian datos JSON
 				},
 				body: JSON.stringify(data) // Convierte el objeto de datos a JSON
 			})
 			.then(response => response.json()) // Procesar la respuesta como JSON
 			.then(data => {
-				// Aqu� accedes a los datos del JSON
+					// Aqui accedes a los datos del JSON
 				if (data.status === 'error') {
 		//            console.error('Error:', data.message);
 					if(rutClie != rutClieOld && rutClieOld != ""){
@@ -873,8 +873,8 @@ function traeCliente(){
 						document.getElementById('ciudad').value = "";
 						document.getElementById('comuna').value = "";
 					}
-				} else {
-		  //          console.log('�xito:', data);
+					} else {
+		  //          console.log('exito:', data);
 					  document.getElementById('codigo_cliente').value = data.data.cod_clie;
 					  document.getElementById('razon_social').value = data.data.raz_social;
 					  document.getElementById('giro').value = data.data.giro_clie;
@@ -1093,20 +1093,27 @@ function traeCliente(){
 		gap:12px;
 		flex-wrap:wrap;
 	}
-	.boton{
+		.form-actions .boton{
 		border:1px solid #0b5ed7;
 		border-radius:999px;
-		padding:10px 18px;
+			min-width:132px;
+			height:40px;
+			padding:0 18px;
 		background:#0b5ed7;
 		color:#fff;
 		font-size:13px;
 		font-weight:700;
+			line-height:1;
+			display:inline-flex;
+			align-items:center;
+			justify-content:center;
+			white-space:nowrap;
 		cursor:pointer;
 	}
-	.boton:hover{
+		.form-actions .boton:hover{
 		background:#0a58ca;
 	}
-	.boton-secundario{
+		.form-actions .boton-secundario{
 		background:#fff;
 		color:#0b5ed7;
 	}
@@ -1159,7 +1166,7 @@ exit();
 		<div>
 				<div class="topbar-eyebrow">Emisi&oacute;n de DTE</div>
 			<h1 class="topbar-title"><?php echo tipoDTE($nTipo); ?></h1>
-				<div class="topbar-meta">Complete los datos del documento, del cliente, de los items y de las referencias usando el mismo flujo legacy de generaci&oacute;n y previsualizaci&oacute;n.</div>
+				<div class="topbar-meta">Complete los datos del documento, del cliente, de los &iacute;tems y de las referencias para generar y previsualizar su DTE.</div>
 		</div>
 		<div class="topbar-chip"><i class="bi bi-hash"></i> Tipo <?php echo $nTipo; ?></div>
 	</div>
@@ -1167,7 +1174,6 @@ exit();
 	<div class="card panel">
 		<div class="panel-header">
 			<div class="panel-title"><i class="bi bi-file-earmark-text me-2"></i><?php echo tipoDTE($nTipo); ?></div>
-			<div class="panel-subtitle">Vista compacta para emitir documentos sin alterar validaciones, acciones, hooks JavaScript ni firma XML.</div>
 		</div>
 		<div class="card-body panel-body">
 			<div class="section-card">
@@ -1181,7 +1187,7 @@ exit();
 <?php 	}	?>
 
 <tr>
-<td class='cab_campo' width="15%">&nbsp;Fecha Emision&nbsp;</td>
+<td class='cab_campo' width="15%">&nbsp;Fecha Emisi&oacute;n&nbsp;</td>
 <td class="texto" width="85%">&nbsp;<input type="text" name="fecha_factura" class="campo" size="12" maxlength="10" value="" readonly>&nbsp;<img vspace="0" src="img/calendario.gif" border="0" onClick="Javascript:consultar('calendario.php?codigo=fecha_factura',300,176);" style="cursor:hand;"  alt="[Cargar fecha desde calendario]">&nbsp;<label class="nota">*</label></td>
 </tr>
 
@@ -1217,8 +1223,8 @@ exit();
 <?php } ?>
 
 <tr>
-<td class='cab_campo' width="15%">&nbsp;Condicion de venta&nbsp;</td>
-<td class="texto" width="85%">&nbsp;<input type="text" name="termpagoglosa" class="campo" size="50" maxlength="100" value="" placeholder="Describa glosa de condiciones de venta ej: pago en 45 dias"></td>
+<td class='cab_campo' width="15%">&nbsp;Condici&oacute;n de venta&nbsp;</td>
+<td class="texto" width="85%">&nbsp;<input type="text" name="termpagoglosa" class="campo" size="50" maxlength="100" value="" placeholder="Describa glosa de condiciones de venta ej: pago en 45 d&iacute;as"></td>
 </tr>
 <!--inicio datos cliente-->
 <tr>
@@ -1229,13 +1235,13 @@ exit();
 </td>
 </tr>
 <tr>
-<td class='cab_campo'>&nbsp;Rut Cliente (ej: 123456789-0)&nbsp;</td>
+<td class='cab_campo'>&nbsp;RUT Cliente (ej: 123456789-0)&nbsp;</td>
 <td class="texto">&nbsp;<input type="text" id="rut_cliente" name="rut_cliente" class="campo" size="12" maxlength="10" value="<?php echo $rut_cliente; ?>" onblur="traeCliente();" onfocus="document.getElementById('rut_cliente_old').value=this.value;">
 						<input type="hidden" id="rut_cliente_old" name="rut_cliente_old" size="10" value="">
 </td>
 </tr>
 <tr>
-<td class='cab_campo' height="20">&nbsp;Razon Social&nbsp;<input type="hidden" id="codigo_cliente" name="codigo_cliente" size="10" value="<?php echo $codigo_cliente; ?>"></td>
+<td class='cab_campo' height="20">&nbsp;Raz&oacute;n Social&nbsp;<input type="hidden" id="codigo_cliente" name="codigo_cliente" size="10" value="<?php echo $codigo_cliente; ?>"></td>
 <td class="texto">&nbsp;<input type="text" id="razon_social" name="razon_social" value="<?php echo $razon_social; ?>" class="campo" size="50" disabled></td>
 </tr>
 <tr>
@@ -1243,7 +1249,7 @@ exit();
 <td class="texto">&nbsp;<input type="text" id="giro" name="giro" value="<?php echo $giro; ?>" class="campo" size="50" disabled></td>
 </tr>
 <tr>
-<td class='cab_campo' height="20">&nbsp;Direccion - Comuna - Ciudad</td>
+<td class='cab_campo' height="20">&nbsp;Direcci&oacute;n - Comuna - Ciudad</td>
 <td class="texto">&nbsp;<input type="text" id="direccion" name="direccion" value="<?php echo $direccion; ?>" class="campo" size="50" disabled>
 <input type="texto" id="comuna" name="comuna" value="<?php echo $comuna; ?>" disabled>
 <input type="texto" id="ciudad" name="ciudad" value="<?php echo $ciudad; ?>" disabled>
@@ -1261,12 +1267,12 @@ exit();
 				<div class="table-wrap">
 					<table class="legacy-items-table" width="96%" align="center" cellspacing="5">
 <tr>
-<td class='cab_campo' height="20" align='left' colspan='7'><b>Factura Afecta - Datos de Items</b></td>
+<td class='cab_campo' height="20" align='left' colspan='7'><b>Factura Afecta - Datos de &Iacute;tems</b></td>
 </tr>
 <tr>
 <td width="5%" align='center' class='cab_campo' valign="middle"><b>#</b></td>
-<td width="15%" align='center' class='cab_campo' valign="middle"><b>Tipo - C�digo</b></td>
-<td width="20%" align='center' class='cab_campo' valign="middle"><b>Item - Descripcion</b></td>
+<td width="15%" align='center' class='cab_campo' valign="middle"><b>Tipo - C&oacute;digo</b></td>
+<td width="20%" align='center' class='cab_campo' valign="middle"><b>Item - Descripci&oacute;n</b></td>
 <td width="10%" align='center' class='cab_campo' valign="middle"><b>Cantidad</b></td>
 <td width="10%" align='center' class='cab_campo' valign="middle"><b>Valor Unit.</b></td>
 <!--<td width="10%" align='center' class='cab_campo' valign="middle"><b>% <br>Descuento<br>Recargo</b></td>
@@ -1324,13 +1330,13 @@ if ($a%2==0)$bgcolor="#ffffff"; else $bgcolor='#f3f3f3';
 	<input type='text' id='tpocodigo_<?php echo $a;?>' name='tpocodigo_<?php echo $a;?>' value='' class='campo' size='7' maxlength='10' disabled>-<input type='text' id='vlrcodigo_<?php echo $a;?>' name='vlrcodigo_<?php echo $a;?>' value='' class='campo' size='10' maxlength='35' disabled></td>
 
 <td class='texto' align='left' nowrap="nowrap">
-	<input type='text' id='producto_<?php echo $a;?>' name='producto_<?php echo $a;?>' placeholder='C&oacute;digo del item <?php echo $a; ?>' onkeydown="Javascript:quita_item('<?php echo $a;?>');" onkeyup="Javascript:quita_item('<?php echo $a;?>');" value='<?php eval("echo \$producto_".$a.";");?>' class='campo' size='40' maxlength='35' onblur="habdesitem(<?php echo $a;?>);">&nbsp;
+		<input type='text' id='producto_<?php echo $a;?>' name='producto_<?php echo $a;?>' placeholder='C&oacute;digo del &iacute;tem <?php echo $a; ?>' onkeydown="Javascript:quita_item('<?php echo $a;?>');" onkeyup="Javascript:quita_item('<?php echo $a;?>');" value='<?php eval("echo \$producto_".$a.";");?>' class='campo' size='40' maxlength='35' onblur="habdesitem(<?php echo $a;?>);">&nbsp;
 	
 	<input type='hidden' name='codigo_oculto_<?php echo $a;?>' value='<?php eval("echo \$codigo_oculto_".$a.";");?>' readonly>
 	
 	<br><div style="font-size:2px">&nbsp;</div>
 	
-	<textarea id='desc_producto_<?php echo $a;?>' name='desc_producto_<?php echo $a;?>' value='' class='campo' rows="3" cols="40" maxlength='500' placeholder='Descripcion opcional <?php echo $a; ?>' disabled></textarea>
+		<textarea id='desc_producto_<?php echo $a;?>' name='desc_producto_<?php echo $a;?>' value='' class='campo' rows="3" cols="40" maxlength='500' placeholder='Descripci&oacute;n opcional <?php echo $a; ?>' disabled></textarea>
 	<input type='hidden' name='codigo_oculto2_<?php echo $a;?>' value='<?php eval("echo \$codigo_oculto2_".$a.";");?>' readonly> 
 </td>
 
@@ -1387,8 +1393,8 @@ if ($a%2==0)$bgcolor="#ffffff"; else $bgcolor='#f3f3f3';
 					<table class="legacy-ref-table" width="96%" align="center" cellspacing="5">
 <tr><td height="20" colspan="6" class="cab_campo">Referencia</td></tr>
 <tr>
-<td height="20" class="cab_campo" align="center">N�.</td>
-<td height="20" class="cab_campo" align="center">Tipo Docto.</td>
+<td height="20" class="cab_campo" align="center">N&uacute;.</td>
+<td height="20" class="cab_campo" align="center">Tipo Documento</td>
 
 <?php if($nTipo == "61" || $nTipo == "56"){	?>
 	<td height="20" class="cab_campo" align="center">Motivo.</td>
@@ -1396,7 +1402,7 @@ if ($a%2==0)$bgcolor="#ffffff"; else $bgcolor='#f3f3f3';
 
 <td height="20" class="cab_campo" align="center">Fecha</td>
 <td height="20" class="cab_campo" align="center">Folio</td>
-<td height="20" class="cab_campo" align="center">Razon Referencia</td>
+<td height="20" class="cab_campo" align="center">Raz&oacute;n de referencia</td>
 </tr>
 
 <?php if($nTipo == "61" || $nTipo == "56"){	?>
