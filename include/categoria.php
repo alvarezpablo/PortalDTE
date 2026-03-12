@@ -244,7 +244,7 @@ if(trim($_SESSION["_EMITE_WEB_"]) == "1" || trim($_SESSION["_COD_ROL_SESS"]) == 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ICONO"][$j] = "skins/" . $_SKINS . "/images/btn_manage_bg.gif";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "emitir/emitir.php?t=33";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TARGET"][$j] = "workFrame";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Factura Electr�nica";
+  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Factura Electr&oacute;nica";
   $j++;   // inclementa j
 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ID"][$j] = "dte34";
@@ -252,7 +252,7 @@ if(trim($_SESSION["_EMITE_WEB_"]) == "1" || trim($_SESSION["_COD_ROL_SESS"]) == 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ICONO"][$j] = "skins/" . $_SKINS . "/images/btn_manage_bg.gif";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "emitir/emitir.php?t=34";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TARGET"][$j] = "workFrame";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Factura No Afecta o Exenta Electr�nica";
+  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Factura No Afecta o Exenta Electr&oacute;nica";
   $j++;   // inclementa j
 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ID"][$j] = "dte39";
@@ -260,7 +260,7 @@ if(trim($_SESSION["_EMITE_WEB_"]) == "1" || trim($_SESSION["_COD_ROL_SESS"]) == 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ICONO"][$j] = "skins/" . $_SKINS . "/images/btn_manage_bg.gif";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "emitir/emitir.php?t=39";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TARGET"][$j] = "workFrame";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Boleta Electr�nica";
+  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Boleta Electr&oacute;nica";
   $j++;   // inclementa j
 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ID"][$j] = "dte41";
@@ -268,7 +268,7 @@ if(trim($_SESSION["_EMITE_WEB_"]) == "1" || trim($_SESSION["_COD_ROL_SESS"]) == 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ICONO"][$j] = "skins/" . $_SKINS . "/images/btn_manage_bg.gif";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "emitir/emitir.php?t=41";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TARGET"][$j] = "workFrame";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Boleta Exenta Electr�nica";
+  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Boleta Exenta Electr&oacute;nica";
   $j++;   // inclementa j
 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ID"][$j] = "dte56";
@@ -276,7 +276,7 @@ if(trim($_SESSION["_EMITE_WEB_"]) == "1" || trim($_SESSION["_COD_ROL_SESS"]) == 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ICONO"][$j] = "skins/" . $_SKINS . "/images/btn_manage_bg.gif";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "emitir/emitir.php?t=56";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TARGET"][$j] = "workFrame";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Nota de D�bito Electr�nica";
+  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Nota de D&eacute;bito Electr&oacute;nica";
   $j++;   // inclementa j
 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ID"][$j] = "dte61";
@@ -284,7 +284,7 @@ if(trim($_SESSION["_EMITE_WEB_"]) == "1" || trim($_SESSION["_COD_ROL_SESS"]) == 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ICONO"][$j] = "skins/" . $_SKINS . "/images/btn_manage_bg.gif";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "emitir/emitir.php?t=61";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TARGET"][$j] = "workFrame";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Nota de Cr�dito Electr�nica";
+  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Nota de Cr&eacute;dito Electr&oacute;nica";
   $j++;   // inclementa j
 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ID"][$j] = "dte5-2";
@@ -292,7 +292,7 @@ if(trim($_SESSION["_EMITE_WEB_"]) == "1" || trim($_SESSION["_COD_ROL_SESS"]) == 
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ICONO"][$j] = "skins/" . $_SKINS . "/images/btn_manage_bg.gif";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "emitir/emitir.php?t=52";
   $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TARGET"][$j] = "workFrame";
-  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Gu�a de Despacho Electr�nica";
+  $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Gu&iacute;a de Despacho Electr&oacute;nica";
   $j++;   // inclementa j
 
   $i++;

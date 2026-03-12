@@ -25,20 +25,20 @@
 	}
 
 	function tipoDTE($nTipo){
-		if($nTipo == "33") $nTipo = "Factura Electr�nica";
-		if($nTipo == "34") $nTipo = "Factura No Afecta o Exenta Electr�nica";
-		if($nTipo == "39") $nTipo = "Boleta Electr�nica";
-		if($nTipo == "41") $nTipo = "Boleta Exenta Electr�nica";
-		if($nTipo == "43") $nTipo = "Liquidaci�n Factura Electr�nica";
-		if($nTipo == "46") $nTipo = "Factura de Compra Electr�nica";
-		if($nTipo == "52") $nTipo = "Gu�a de Despacho Electr�nica";
-		if($nTipo == "56") $nTipo = "Nota de D�bito Electr�nica";
-		if($nTipo == "61") $nTipo = "Nota de Cr�dito Electr�nica";
+		if($nTipo == "33") $nTipo = "Factura Electr&oacute;nica";
+		if($nTipo == "34") $nTipo = "Factura No Afecta o Exenta Electr&oacute;nica";
+		if($nTipo == "39") $nTipo = "Boleta Electr&oacute;nica";
+		if($nTipo == "41") $nTipo = "Boleta Exenta Electr&oacute;nica";
+		if($nTipo == "43") $nTipo = "Liquidaci&oacute;n Factura Electr&oacute;nica";
+		if($nTipo == "46") $nTipo = "Factura de Compra Electr&oacute;nica";
+		if($nTipo == "52") $nTipo = "Gu&iacute;a de Despacho Electr&oacute;nica";
+		if($nTipo == "56") $nTipo = "Nota de D&eacute;bito Electr&oacute;nica";
+		if($nTipo == "61") $nTipo = "Nota de Cr&eacute;dito Electr&oacute;nica";
 
 		return $nTipo;
-//		if($nTipo == "110") $nTipo = "Factura Electr�nica";
-//		if($nTipo == "111") $nTipo = "Factura Electr�nica";
-//		if($nTipo == "112") $nTipo = "Factura Electr�nica";
+	//		if($nTipo == "110") $nTipo = "Factura Electr&oacute;nica";
+	//		if($nTipo == "111") $nTipo = "Factura Electr&oacute;nica";
+	//		if($nTipo == "112") $nTipo = "Factura Electr&oacute;nica";
 	}
 
 
@@ -1157,9 +1157,9 @@ exit();
 <div class="page-shell">
 	<div class="topbar">
 		<div>
-			<div class="topbar-eyebrow">Emision de DTE</div>
+				<div class="topbar-eyebrow">Emisi&oacute;n de DTE</div>
 			<h1 class="topbar-title"><?php echo tipoDTE($nTipo); ?></h1>
-			<div class="topbar-meta">Complete los datos del documento, del cliente, de los items y de las referencias usando el mismo flujo legacy de generacion y previsualizacion.</div>
+				<div class="topbar-meta">Complete los datos del documento, del cliente, de los items y de las referencias usando el mismo flujo legacy de generaci&oacute;n y previsualizaci&oacute;n.</div>
 		</div>
 		<div class="topbar-chip"><i class="bi bi-hash"></i> Tipo <?php echo $nTipo; ?></div>
 	</div>
@@ -1405,18 +1405,18 @@ if ($a%2==0)$bgcolor="#ffffff"; else $bgcolor='#f3f3f3';
 
 
 <?php if($nTipo == "61"){	?>
-	<option value="33">Factura Afecta Electr�nica</option>
-	<option value="34">Factura Exenta Electr�nica</option>
-	<option value="39">Boleta Afecta Electr�nica</option>
-	<option value="41">Boleta Exenta Electr�nica</option>
-	<option value="56">Nota de D�bito Electr�nica</option>
+		<option value="33">Factura Afecta Electr&oacute;nica</option>
+		<option value="34">Factura Exenta Electr&oacute;nica</option>
+		<option value="39">Boleta Afecta Electr&oacute;nica</option>
+		<option value="41">Boleta Exenta Electr&oacute;nica</option>
+		<option value="56">Nota de D&eacute;bito Electr&oacute;nica</option>
 <?php } ?>
 <?php if($nTipo == "56"){	?>
-	<option value="33">Factura Afecta Electr�nica</option>
-	<option value="34">Factura Exenta Electr�nica</option>
-	<option value="39">Boleta Afecta Electr�nica</option>
-	<option value="41">Boleta Exenta Electr�nica</option>
-	<option value="61">Nota Cr�dito Electr�nica</option>
+		<option value="33">Factura Afecta Electr&oacute;nica</option>
+		<option value="34">Factura Exenta Electr&oacute;nica</option>
+		<option value="39">Boleta Afecta Electr&oacute;nica</option>
+		<option value="41">Boleta Exenta Electr&oacute;nica</option>
+		<option value="61">Nota de Cr&eacute;dito Electr&oacute;nica</option>
 <?php } ?>
 
 </select></td>
@@ -1441,7 +1441,7 @@ else{
 <td valign="top" align="center"><select class="campo" name="docto_ref1"><option value="">::Seleccione::</option>
 
 <?php if($nTipo != "52"){	?>
-<option value="52">Guia de Despacho Electronica</option>
+	<option value="52">Gu&iacute;a de Despacho Electr&oacute;nica</option>
 <?php } ?>
 <option value="801">Orden de Compra</option>
 <option value="802">Nota de pedido</option>
@@ -1474,7 +1474,7 @@ else{
 <td valign="top" align="center"><select class="campo" name="docto_ref2"><option value="">::Seleccione::</option>
 
 <?php if($nTipo != "52"){	?>
-<option value="52">Guia de Despacho Electronica</option>
+	<option value="52">Gu&iacute;a de Despacho Electr&oacute;nica</option>
 <?php } ?>
 <option value="801">Orden de Compra</option>
 <option value="802">Nota de pedido</option>
@@ -1504,7 +1504,7 @@ else{
 <tr><td>3</td>
 <td valign="top" align="center"><select class="campo" name="docto_ref3"><option value="">::Seleccione::</option>
 <?php if($nTipo != "52"){	?>
-<option value="52">Guia de Despacho Electronica</option>
+	<option value="52">Gu&iacute;a de Despacho Electr&oacute;nica</option>
 <?php } ?>
 <option value="801">Orden de Compra</option>
 <option value="802">Nota de pedido</option>
@@ -1534,7 +1534,7 @@ else{
 <tr><td>4</td>
 <td valign="top" align="center"><select class="campo" name="docto_ref4"><option value="">::Seleccione::</option>
 <?php if($nTipo != "52"){	?>
-<option value="52">Guia de Despacho Electronica</option>
+	<option value="52">Gu&iacute;a de Despacho Electr&oacute;nica</option>
 <?php } ?>
 <option value="801">Orden de Compra</option>
 <option value="802">Nota de pedido</option>
@@ -1564,7 +1564,7 @@ else{
 <tr><td>5</td>
 <td valign="top" align="center"><select class="campo" name="docto_ref5"><option value="">::Seleccione::</option>
 <?php if($nTipo != "52"){	?>
-<option value="52">Guia de Despacho Electronica</option>
+	<option value="52">Gu&iacute;a de Despacho Electr&oacute;nica</option>
 <?php } ?>
 <option value="801">Orden de Compra</option>
 <option value="802">Nota de pedido</option>
@@ -1595,7 +1595,7 @@ else{
 <tr><td>6</td>
 <td valign="top" align="center"><select class="campo" name="docto_ref6"><option value="">::Seleccione::</option>
 <?php if($nTipo != "52"){	?>
-<option value="52">Guia de Despacho Electronica</option>
+	<option value="52">Gu&iacute;a de Despacho Electr&oacute;nica</option>
 <?php } ?>
 <option value="801">Orden de Compra</option>
 <option value="802">Nota de pedido</option>
@@ -1629,7 +1629,7 @@ else{
 	<tr><td><?php echo $iR; ?></td>
 	<td valign="top" align="center"><select class="campo" name="docto_ref<?php echo $iR; ?>"><option value="">::Seleccione::</option>
 	<?php if($nTipo != "52"){	?>
-	<option value="52">Guia de Despacho Electronica</option>
+		<option value="52">Gu&iacute;a de Despacho Electr&oacute;nica</option>
 	<?php } ?>
 	<option value="801">Orden de Compra</option>
 	<option value="802">Nota de pedido</option>
