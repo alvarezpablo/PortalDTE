@@ -464,7 +464,7 @@ if(trim($_SESSION["_COD_ROL_SESS"]) == "1"){
       $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ID"][$j] = "contribuyente";
       $_ARRAY_MENU["RAIZ"]["NODO"][$i]["CLASS"][$j] = "node";
       $_ARRAY_MENU["RAIZ"]["NODO"][$i]["ICONO"][$j] = "skins/" . $_SKINS . "/images/btn_mpc_bg.gif";
-      $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "mantencion/form_cont_elec.php";
+	      $_ARRAY_MENU["RAIZ"]["NODO"][$i]["LINK"][$j] = "mantencion/form_cont_elec_v2.php";
       $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TARGET"][$j] = "workFrame";
       $_ARRAY_MENU["RAIZ"]["NODO"][$i]["TEXT_LINK"][$j] = "Contribuyentes Electr&oacute;nicos";    
       $j++;   // inclementa j        
