@@ -104,7 +104,7 @@
           <div class="hero-icon"><i class="bi bi-key-fill"></i></div>
           <div>
             <h1 class="h3 mb-2">API Key de empresa</h1>
-            <p class="mb-0 opacity-75">Pantalla modernizada de forma conservadora manteniendo el flujo legacy hacia <strong>pro_uuid.php</strong>.</p>
+            <p class="mb-0 opacity-75">Revise o actualice la API Key de la empresa desde esta misma pantalla.</p>
           </div>
         </div>
       </div>
@@ -132,19 +132,18 @@
             <div class="col-lg-7">
               <label for="uuid" class="form-label fw-semibold">API Key</label>
               <input type="text" name="uuid" id="uuid" value="<?php echo h($sUuid); ?>" class="form-control" size="35">
-              <div class="form-text">La clave visible corresponde a la empresa actual. El flujo legacy actualiza o regenera el valor mediante <code>pro_uuid.php</code>.</div>
+              <div class="form-text">La clave visible corresponde a la empresa actual y puede actualizarse desde esta misma sección.</div>
             </div>
             <div class="col-lg-5">
               <div class="info-panel">
                 <div class="fw-semibold mb-2"><i class="bi bi-info-circle me-1"></i>Uso esperado</div>
-                <p class="small text-muted mb-2">Esta clave se utiliza en el parametro <code>apikey</code> para los webservices OpenDTE.</p>
-                <p class="small text-muted mb-0">Si desea actualizar el valor, utilice el boton <strong>Actualizar</strong> manteniendo el comportamiento existente.</p>
+                <p class="small text-muted mb-2">Use esta clave en el par&aacute;metro <code>apikey</code> de los servicios OpenDTE.</p>
+                <p class="small text-muted mb-0">Si necesita actualizarla, utilice el bot&oacute;n <strong>Actualizar</strong>.</p>
               </div>
             </div>
           </div>
 
           <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mt-4 pt-3 border-top">
-            <div class="small text-muted">Se preservan hooks, action, hidden fields y compatibilidad legacy.</div>
             <div class="d-flex flex-wrap gap-2">
               <button type="submit" class="btn btn-primary"><i class="bi bi-arrow-repeat me-1"></i>Actualizar</button>
               <a href="<?php echo h($_LINK_BASE . $returnHref); ?>" class="btn btn-outline-secondary"><i class="bi bi-x-circle me-1"></i>Cancelar</a>
