@@ -20,6 +20,7 @@
     
     $sMsgJs = isset($_GET["sMsgJs"]) ? trim($_GET["sMsgJs"]) : "";  
     $sLinkActual = "mantencion/form_cont_elec_v2.php";  
+	    $baseListUrl = $_LINK_BASE . $sLinkActual;
     $_NUM_ROW_LIST = 50;
     $conn = conn();
 
@@ -125,7 +126,7 @@
     </div>
     <div class="card-body">
         <!-- Formulario de busqueda -->
-        <form name="_FSEARCH" method="get" action="<?php echo $sLinkActual; ?>" class="mb-3">
+	        <form name="_FSEARCH" method="get" action="<?php echo h($baseListUrl); ?>" class="mb-3">
             <div class="row g-2">
                 <div class="col-md-3">
                     <select name="_COLUM_SEARCH" class="form-select form-select-sm">
@@ -142,7 +143,7 @@
                     <button type="submit" class="btn btn-primary btn-sm">
                         <i class="bi bi-search me-1"></i>Buscar
                     </button>
-                    <a href="<?php echo $sLinkActual; ?>" class="btn btn-outline-secondary btn-sm">
+	                    <a href="<?php echo h($baseListUrl); ?>" class="btn btn-outline-secondary btn-sm">
                         <i class="bi bi-arrow-counterclockwise me-1"></i>Limpiar
                     </a>
                 </div>
@@ -155,22 +156,22 @@
                 <thead>
                     <tr>
                         <th style="width:15%">
-                            <a href="<?php echo $sLinkActual; ?>?_ORDER_BY_COLUM=rut_contr&_NIVEL_BY_ORDER=<?php echo $orderDir; ?><?php echo $qrstring; ?>&_ORDER_CAMBIA=Y" class="sort-link">
+	                            <a href="<?php echo h($baseListUrl); ?>?_ORDER_BY_COLUM=rut_contr&_NIVEL_BY_ORDER=<?php echo $orderDir; ?><?php echo $qrstring; ?>&_ORDER_CAMBIA=Y" class="sort-link">
                                 Rut <?php echo $iconRut; ?>
                             </a>
                         </th>
                         <th style="width:35%">
-                            <a href="<?php echo $sLinkActual; ?>?_ORDER_BY_COLUM=rs_contr&_NIVEL_BY_ORDER=<?php echo $orderDir; ?><?php echo $qrstring; ?>&_ORDER_CAMBIA=Y" class="sort-link">
+	                            <a href="<?php echo h($baseListUrl); ?>?_ORDER_BY_COLUM=rs_contr&_NIVEL_BY_ORDER=<?php echo $orderDir; ?><?php echo $qrstring; ?>&_ORDER_CAMBIA=Y" class="sort-link">
                                 Raz&oacute;n Social <?php echo $iconRs; ?>
                             </a>
                         </th>
                         <th style="width:15%">
-                            <a href="<?php echo $sLinkActual; ?>?_ORDER_BY_COLUM=fecres_contr&_NIVEL_BY_ORDER=<?php echo $orderDir; ?><?php echo $qrstring; ?>&_ORDER_CAMBIA=Y" class="sort-link">
+	                            <a href="<?php echo h($baseListUrl); ?>?_ORDER_BY_COLUM=fecres_contr&_NIVEL_BY_ORDER=<?php echo $orderDir; ?><?php echo $qrstring; ?>&_ORDER_CAMBIA=Y" class="sort-link">
                                 Fecha <?php echo $iconFec; ?>
                             </a>
                         </th>
                         <th style="width:35%">
-                            <a href="<?php echo $sLinkActual; ?>?_ORDER_BY_COLUM=email_contr&_NIVEL_BY_ORDER=<?php echo $orderDir; ?><?php echo $qrstring; ?>&_ORDER_CAMBIA=Y" class="sort-link">
+	                            <a href="<?php echo h($baseListUrl); ?>?_ORDER_BY_COLUM=email_contr&_NIVEL_BY_ORDER=<?php echo $orderDir; ?><?php echo $qrstring; ?>&_ORDER_CAMBIA=Y" class="sort-link">
                                 Email <?php echo $iconEm; ?>
                             </a>
                         </th>
@@ -244,12 +245,12 @@
                 <ul class="pagination pagination-sm mb-0">
                     <?php if ($pagina > 1): ?>
                     <li class="page-item">
-                        <a class="page-link" href="<?php echo $sLinkActual; ?>?pagina=1&_ORDER_BY_COLUM=<?php echo $orderCol; ?>&_NIVEL_BY_ORDER=<?php echo $orderDir; ?><?php echo $qrstring; ?>">
+	                        <a class="page-link" href="<?php echo h($baseListUrl); ?>?pagina=1&_ORDER_BY_COLUM=<?php echo $orderCol; ?>&_NIVEL_BY_ORDER=<?php echo $orderDir; ?><?php echo $qrstring; ?>">
                             <i class="bi bi-chevron-double-left"></i>
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="<?php echo $sLinkActual; ?>?pagina=<?php echo $pagina-1; ?>&_ORDER_BY_COLUM=<?php echo $orderCol; ?>&_NIVEL_BY_ORDER=<?php echo $orderDir; ?><?php echo $qrstring; ?>">
+	                        <a class="page-link" href="<?php echo h($baseListUrl); ?>?pagina=<?php echo $pagina-1; ?>&_ORDER_BY_COLUM=<?php echo $orderCol; ?>&_NIVEL_BY_ORDER=<?php echo $orderDir; ?><?php echo $qrstring; ?>">
                             <i class="bi bi-chevron-left"></i>
                         </a>
                     </li>
@@ -261,12 +262,12 @@
 
                     <?php if ($pagina < $totalPaginas): ?>
                     <li class="page-item">
-                        <a class="page-link" href="<?php echo $sLinkActual; ?>?pagina=<?php echo $pagina+1; ?>&_ORDER_BY_COLUM=<?php echo $orderCol; ?>&_NIVEL_BY_ORDER=<?php echo $orderDir; ?><?php echo $qrstring; ?>">
+	                        <a class="page-link" href="<?php echo h($baseListUrl); ?>?pagina=<?php echo $pagina+1; ?>&_ORDER_BY_COLUM=<?php echo $orderCol; ?>&_NIVEL_BY_ORDER=<?php echo $orderDir; ?><?php echo $qrstring; ?>">
                             <i class="bi bi-chevron-right"></i>
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="<?php echo $sLinkActual; ?>?pagina=<?php echo $totalPaginas; ?>&_ORDER_BY_COLUM=<?php echo $orderCol; ?>&_NIVEL_BY_ORDER=<?php echo $orderDir; ?><?php echo $qrstring; ?>">
+	                        <a class="page-link" href="<?php echo h($baseListUrl); ?>?pagina=<?php echo $totalPaginas; ?>&_ORDER_BY_COLUM=<?php echo $orderCol; ?>&_NIVEL_BY_ORDER=<?php echo $orderDir; ?><?php echo $qrstring; ?>">
                             <i class="bi bi-chevron-double-right"></i>
                         </a>
                     </li>
