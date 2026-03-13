@@ -132,7 +132,7 @@
           <div class="hero-icon"><i class="bi bi-key"></i></div>
           <div>
             <h1 class="h3 mb-2">Licencia digital de empresa</h1>
-            <p class="mb-0 opacity-75">Carga conservadora de licencia, manteniendo el flujo legacy hacia <strong>pro_licencia.php</strong>.</p>
+            <p class="mb-0 opacity-75">Cargue la licencia digital de la empresa desde esta misma pantalla.</p>
           </div>
         </div>
       </div>
@@ -155,7 +155,6 @@
         <div class="card-header d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
           <div>
             <div class="fw-semibold"><i class="bi bi-shield-check me-2"></i>Formulario de licencia</div>
-            <div class="small mt-1">Se preservan <code>multipart/form-data</code>, hidden fields y el flujo original de carga de licencia.</div>
           </div>
           <span class="badge rounded-pill text-bg-light text-primary-emphasis">ISO-8859-1</span>
         </div>
